@@ -109,34 +109,11 @@ export function TrendingDetail({ items }: { items: TrendingItemType[] }) {
   );
 }
 
-export function TrendingTOC({ items }: { items: TrendingItemType[] }) {
+export function trendingTocItems(items: TrendingItemType[]) {
   const grouped = groupByCategory(items);
-  return (
-    <aside className="lg:pl-8 lg:border-l lg:border-rule-soft">
-      <div className="border-b border-rule pb-3 mb-4">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-accent font-semibold">
-          On this page
-        </p>
-      </div>
-      <ul className="space-y-2 text-sm">
-        {TRENDING_CATEGORY_ORDER.map((cat) => {
-          const list = grouped[cat];
-          if (list.length === 0) return null;
-          return (
-            <li key={cat}>
-              <a
-                href={`#${cat}`}
-                className="flex items-baseline justify-between text-ink hover:text-accent transition-colors py-1"
-              >
-                <span>{TRENDING_CATEGORY_LABELS[cat]}</span>
-                <span className="text-ink-faint tabular-nums text-xs">
-                  {list.length}
-                </span>
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    </aside>
-  );
+  return TRENDING_CATEGORY_ORDER.flatMap((cat) => {
+    const list = grouped[cat];
+    if (list.length === 0) return [];
+    return [{ id: cat, label: TRENDING_CATEGORY_LABELS[cat], count: list.length }];
+  });
 }

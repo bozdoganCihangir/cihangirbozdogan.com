@@ -1,7 +1,8 @@
 import news from "@/content/news.json";
 import type { NewsPayload } from "@/lib/types";
 import { PageShell } from "@/components/page-shell";
-import { TrendingDetail, TrendingTOC } from "@/components/trending-detail";
+import { TrendingDetail, trendingTocItems } from "@/components/trending-detail";
+import { OnThisPage } from "@/components/on-this-page";
 
 const data = news as NewsPayload;
 
@@ -13,10 +14,11 @@ export const metadata = {
 
 export default function TrendingPage() {
   const trending = data.trending ?? [];
+  const toc = trendingTocItems(trending);
 
   return (
     <PageShell
-      sidebar={<TrendingTOC items={trending} />}
+      sidebar={<OnThisPage items={toc} />}
       main={<TrendingDetail items={trending} />}
     />
   );

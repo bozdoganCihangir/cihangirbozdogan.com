@@ -1,9 +1,14 @@
 import type { Voice } from "@/lib/types";
+import { slugify } from "@/lib/slug";
 
 export function VoiceCard({ voice }: { voice: Voice }) {
   if (voice.posts.length === 0) return null;
+  const id = slugify(voice.author);
   return (
-    <article className="border-b border-rule-soft py-7 first:pt-0 last:border-b-0">
+    <article
+      id={id}
+      className="border-b border-rule-soft py-7 first:pt-0 last:border-b-0 scroll-mt-24"
+    >
       <header className="mb-4">
         <a
           href={voice.url}
