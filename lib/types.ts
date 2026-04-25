@@ -4,7 +4,6 @@ export type NewsItem = {
   summary: string;
   paragraph?: string;
   details: string;
-  source_meta?: string;
 };
 
 export type NewsSection = {
@@ -21,7 +20,6 @@ export type TrendingItem = {
   subcategory?: string;
   one_liner: string;
   paragraph: string;
-  signal: string;
   url: string;
 };
 

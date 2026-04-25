@@ -19,13 +19,8 @@ export function TrendingItem({ item }: { item: TrendingItemType }) {
           {String(item.rank).padStart(2, "0")}
         </span>
         <span className="flex-1 min-w-0">
-          <span className="flex items-baseline justify-between gap-3">
-            <span className="font-serif font-semibold text-[15px] leading-tight text-ink group-hover:text-accent transition-colors truncate">
-              {item.name}
-            </span>
-            <span className="text-[10px] tabular-nums uppercase tracking-wider text-accent font-semibold shrink-0">
-              {item.signal}
-            </span>
+          <span className="block font-serif font-semibold text-[15px] leading-tight text-ink group-hover:text-accent transition-colors truncate">
+            {item.name}
           </span>
           {item.subcategory && (
             <span className="block mt-0.5 text-[10px] uppercase tracking-[0.18em] text-ink-faint">

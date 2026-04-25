@@ -117,12 +117,6 @@ For each item that survives scoring:
 - `subcategory`: short label like `"runtime"`, `"vector-db"`, `"agent-framework"`, `"observability"`, `"code-llm"`, `"embedding"`, `"managed-service"`, `"talk"`, `"long-form"`. 1–3 words.
 - `one_liner`: **12–18 words**. What it is, no marketing voice. Example: `"Fast JS runtime, drop-in Node alternative with built-in bundler, transpiler, and package manager."`
 - `paragraph`: **3–5 sentences**, plain English, why it's trending NOW. Concrete details (numbers, who's using it, what's new). No hype words. No links inline.
-- `signal`: short, scannable trend stat. **Keep ≤ 18 chars**. Examples:
-  - `"+8.4k★/wk"`
-  - `"OR rank #4"`
-  - `"+2.1M dl/wk"`
-  - `"PH #1 today"`
-  - `"+340 forks/wk"`
 - `url`: canonical link (project repo, model page, API homepage, blog post)
 
 ---
@@ -198,7 +192,6 @@ For each feed in `feeds[]`:
   - For non-discussion sources, short or empty
   - `Discussion: <url>` on its own line if different from `url`
   - Do NOT repeat content from `paragraph`
-- `source_meta`: short stat. `"412 pts · 187 comments · HN"`, `"r/LocalLLaMA · 3.2k upvotes"`, `"+2,141 stars today · TypeScript"`, `"Simon Willison · 4h ago"`
 
 ---
 
@@ -220,7 +213,6 @@ Schema (must match `lib/types.ts` exactly):
       "subcategory": "runtime",
       "one_liner": "Fast JS runtime, drop-in Node alternative with built-in bundler, transpiler, and package manager.",
       "paragraph": "...",
-      "signal": "+8.4k★/wk",
       "url": "https://bun.sh"
     }
   ],

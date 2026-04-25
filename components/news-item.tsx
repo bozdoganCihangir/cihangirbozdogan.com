@@ -26,11 +26,6 @@ export function NewsItem({ item, index }: { item: NewsItemType; index: number })
           <span className="block mt-1.5 text-[15px] text-ink-muted leading-relaxed">
             {item.summary}
           </span>
-          {item.source_meta && (
-            <span className="block mt-2 text-xs text-ink-faint tabular-nums uppercase tracking-wider">
-              {item.source_meta}
-            </span>
-          )}
         </span>
         <span
           className={`text-ink-faint text-xs pt-2 shrink-0 transition-transform ${
