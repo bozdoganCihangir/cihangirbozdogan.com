@@ -47,12 +47,84 @@ export type SourceConfig =
       feeds: RssFeed[];
     };
 
+export type TrendingSubcategoryFocus = {
+  /** Display label for the trending sub-section */
+  label: string;
+  /** How many items to surface in this sub-section */
+  count: number;
+  /** Topics / examples that count as in-scope for this sub-section */
+  scope: string[];
+};
+
+export type TrendingConfig = {
+  totalCap: number; // overall cap (e.g. 30)
+  windowDays: number; // velocity window (e.g. last 7 days)
+  subcategories: {
+    tool: TrendingSubcategoryFocus;
+    model: TrendingSubcategoryFocus;
+    api: TrendingSubcategoryFocus;
+    resource: TrendingSubcategoryFocus;
+  };
+  /** Sources the slash command should consult to populate trending */
+  sources: TrendingSourceConfig[];
+};
+
+export type TrendingSourceConfig =
+  | {
+      kind: "github_search";
+      id: string;
+      name: string;
+      /** GitHub Search query template — slash command substitutes ${date} for windowStart */
+      query: string;
+      maxItems: number;
+      notes?: string;
+    }
+  | {
+      kind: "huggingface";
+      id: string;
+      name: string;
+      /** HF API URL — e.g. https://huggingface.co/api/models?sort=trending&limit=50 */
+      endpoint: string;
+      maxItems: number;
+    }
+  | {
+      kind: "openrouter";
+      id: string;
+      name: string;
+      endpoint: string;
+      maxItems: number;
+      notes?: string;
+    }
+  | {
+      kind: "rss";
+      id: string;
+      name: string;
+      url: string;
+      maxItems: number;
+    }
+  | {
+      kind: "product_hunt";
+      id: string;
+      name: string;
+      url: string;
+      maxItems: number;
+    }
+  | {
+      kind: "web_search";
+      id: string;
+      name: string;
+      /** WebSearch query templates — slash command runs each and merges results */
+      queries: string[];
+      maxItems: number;
+    };
+
 export type CategoryConfig = {
   id: string;
   label: string;
   positiveTopics: string[];
   negativeFilters: string[];
   sources: SourceConfig[];
+  trending: TrendingConfig;
 };
 
 export const TECH_AI: CategoryConfig = {
@@ -125,6 +197,123 @@ export const TECH_AI: CategoryConfig = {
       ],
     },
   ],
+  trending: {
+    totalCap: 30,
+    windowDays: 7,
+    subcategories: {
+      tool: {
+        label: "Tools",
+        count: 12,
+        scope: [
+          "backend libraries / frameworks (Node, Python, Go, Rust)",
+          "infra & devops tooling (K8s, Terraform, Pulumi, observability, CI/CD)",
+          "databases, caches, queues, message brokers",
+          "agent frameworks, LLM orchestration libraries, eval tools, MCP servers",
+          "developer experience: build tools, runtimes, CLIs, code-quality, testing",
+        ],
+      },
+      model: {
+        label: "Models",
+        count: 8,
+        scope: [
+          "open-weight LLMs gaining adoption (Hugging Face trending, OpenRouter usage)",
+          "code models, embedding models, reranking models",
+          "small/local models people are actually deploying",
+          "frontier closed models with notable updates",
+        ],
+      },
+      api: {
+        label: "APIs & Services",
+        count: 7,
+        scope: [
+          "hosted dev-infra services (DBs, vector DBs, queues, observability SaaS)",
+          "AI infrastructure APIs (inference platforms, gateways, RAG services)",
+          "platform engineering / cloud-adjacent dev tools",
+          "newly-launched managed services with real adoption",
+        ],
+      },
+      resource: {
+        label: "Resources",
+        count: 3,
+        scope: [
+          "high-quality long-form blog posts going viral among engineers",
+          "talks / conference recordings",
+          "deep technical guides, books, courses",
+        ],
+      },
+    },
+    sources: [
+      {
+        kind: "github_search",
+        id: "gh-new-rising",
+        name: "GitHub — new repos with momentum",
+        query: "stars:>100 created:>${windowStart}",
+        maxItems: 50,
+        notes:
+          "Catches brand-new repos that have crossed 100★ within the velocity window. Sort by stars desc.",
+      },
+      {
+        kind: "github_search",
+        id: "gh-active-popular",
+        name: "GitHub — active popular repos",
+        query: "stars:>1000 pushed:>${windowStart}",
+        maxItems: 50,
+        notes:
+          "Established repos with recent activity. Use to dedupe vs the 'new' set and to ground signal.",
+      },
+      {
+        kind: "huggingface",
+        id: "hf-trending-models",
+        name: "Hugging Face — trending models",
+        endpoint: "https://huggingface.co/api/models?sort=trending&direction=-1&limit=40",
+        maxItems: 40,
+      },
+      {
+        kind: "huggingface",
+        id: "hf-top-downloads",
+        name: "Hugging Face — top recent downloads",
+        endpoint: "https://huggingface.co/api/models?sort=downloads&direction=-1&limit=30",
+        maxItems: 30,
+      },
+      {
+        kind: "openrouter",
+        id: "openrouter-rankings",
+        name: "OpenRouter — model usage rankings",
+        endpoint: "https://openrouter.ai/api/v1/models",
+        maxItems: 30,
+        notes:
+          "Public model list. For usage rankings, fetch https://openrouter.ai/rankings (HTML) and parse the leaderboard.",
+      },
+      {
+        kind: "rss",
+        id: "console-dev",
+        name: "console.dev — curated dev tools",
+        url: "https://console.dev/feed/",
+        maxItems: 15,
+      },
+      {
+        kind: "product_hunt",
+        id: "ph-dev-tools",
+        name: "Product Hunt — dev tools (this week)",
+        url: "https://www.producthunt.com/feed?category=developer-tools",
+        maxItems: 20,
+      },
+      {
+        kind: "web_search",
+        id: "web-search-launches",
+        name: "Web search — recent launches",
+        queries: [
+          "new developer tool launch this week",
+          "trending open source backend framework 2026",
+          "new infrastructure as code tool launched",
+          "viral engineering blog post this week",
+          "new vector database launch",
+          "trending agent framework github",
+        ],
+        maxItems: 20,
+      },
+    ],
+  },
 };
 
 export const CATEGORIES: Record<string, CategoryConfig> = {
