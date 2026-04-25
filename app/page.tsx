@@ -5,38 +5,12 @@ import { Trending } from "@/components/trending";
 
 const data = news as NewsPayload;
 
-function formatFetchedAt(iso: string): string {
-  if (!iso) return "";
-  try {
-    const d = new Date(iso);
-    return d.toLocaleString("en-GB", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  } catch {
-    return iso;
-  }
-}
-
 export default function Home() {
   const trending = data.trending ?? [];
   const newsEmpty = !data.fetched_at || data.sections.length === 0;
 
   return (
     <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-10 xl:px-14 py-8 sm:py-12 flex-1">
-      <header className="border-b border-rule pb-5 mb-8">
-        <p className="text-[11px] uppercase tracking-[0.22em] text-accent font-semibold">
-          {data.fetched_at ? formatFetchedAt(data.fetched_at) : "Today"}
-        </p>
-        <h1 className="font-serif text-4xl sm:text-5xl font-semibold tracking-tight text-ink mt-2">
-          Tech &amp; AI
-        </h1>
-      </header>
-
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(0,1fr)_440px] gap-10 lg:gap-14">
         {/* Trending — DOM-first so it renders on top on mobile; placed in right column on desktop */}
         <div className="lg:col-start-2 lg:row-start-1">
