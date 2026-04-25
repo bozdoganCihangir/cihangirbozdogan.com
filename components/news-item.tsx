@@ -5,6 +5,8 @@ import type { NewsItem as NewsItemType } from "@/lib/types";
 
 export function NewsItem({ item, index }: { item: NewsItemType; index: number }) {
   const [open, setOpen] = useState(false);
+  const hasParagraph = !!item.paragraph?.trim();
+  const hasDetails = !!item.details?.trim();
 
   return (
     <li className="border-b border-rule-soft last:border-b-0">
@@ -46,15 +48,29 @@ export function NewsItem({ item, index }: { item: NewsItemType; index: number })
         }`}
       >
         <div className="overflow-hidden">
-          <div className="pb-6 pl-12 pr-4">
-            <div className="text-[15px] text-ink leading-relaxed whitespace-pre-wrap font-serif">
-              {item.details}
-            </div>
+          <div className="pb-7 pl-12 pr-4 space-y-5">
+            {hasParagraph && (
+              <p className="font-serif text-[17px] text-ink leading-[1.65] whitespace-pre-wrap">
+                {item.paragraph}
+              </p>
+            )}
+
+            {hasDetails && (
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.22em] text-accent font-semibold mb-2">
+                  What people are saying
+                </p>
+                <div className="text-[15px] text-ink-muted leading-relaxed whitespace-pre-wrap">
+                  {item.details}
+                </div>
+              </div>
+            )}
+
             <a
               href={item.url}
               target="_blank"
               rel="noreferrer noopener"
-              className="inline-block mt-4 text-xs uppercase tracking-[0.18em] text-accent hover:text-accent-hover font-semibold"
+              className="inline-block text-xs uppercase tracking-[0.18em] text-accent hover:text-accent-hover font-semibold"
             >
               read source →
             </a>

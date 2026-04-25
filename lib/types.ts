@@ -2,6 +2,7 @@ export type NewsItem = {
   title: string;
   url: string;
   summary: string;
+  paragraph?: string;
   details: string;
   source_meta?: string;
 };

@@ -90,12 +90,19 @@ For every candidate, apply this judgement (you are the LLM filter — no externa
 
 - `title`: original title, cleaned. Strip "Show HN:" prefix if content is clear, otherwise keep.
 - `url`: canonical link (article/repo, NOT the HN/Reddit discussion). Note discussion URL inside `details`.
-- `summary`: **one tight sentence**, ~15–25 words. What it is + why it matters. No hype words.
-- `details`: 3–6 lines. Mix of:
-  - what it is in 1–2 lines
-  - why it matters / what's new
-  - **for HN & Reddit**: 2–3 line digest of top community reactions ("Top comment argues X. Most-upvoted reply pushes back with Y. Several engineers report using it for Z.") — this is the highest-value part for the user
-  - link to the discussion thread on its own line if different from `url`
+- `summary`: **one tight sentence**, ~15–25 words. What it is + why it matters. No hype words. (Shown in the collapsed list view.)
+- `paragraph`: **plain-English explainer paragraph, MAX 5 sentences.** This is the most important field for readability. Rules:
+  - Imagine the reader is a smart engineer who hasn't seen the article yet — explain it like a colleague would over coffee.
+  - Cover: what it is, what's actually new or notable, why it matters in practice. Concrete details (model name, numbers, framework) over hand-waving.
+  - **No jargon walls.** No buzzword stacks ("paradigm-shifting AI-powered cloud-native"). No marketing voice.
+  - **No quotes from comments here** — quotes belong in `details`.
+  - **No discussion links here** — those belong in `details`.
+  - 3–5 sentences. Stop at 5 even if you're tempted to add more.
+- `details`: community signal — what people are saying. Format:
+  - 2–3 lines digesting the top HN/Reddit comments ("Top comment argues X. Most-upvoted reply pushes back with Y. Several engineers report using it for Z.")
+  - For non-discussion sources (RSS, GitHub Trending) where there's no community thread: keep `details` short (1–2 lines of additional context) or omit entirely (empty string).
+  - Link to the discussion thread on its own line if different from `url`. Format: `Discussion: <url>`
+  - Do NOT repeat content from `paragraph` here.
 - `source_meta`: short stat string. Examples:
   - `"412 pts · 187 comments · HN"`
   - `"r/LocalLLaMA · 3.2k upvotes · 412 comments"`
