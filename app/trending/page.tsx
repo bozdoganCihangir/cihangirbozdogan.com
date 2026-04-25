@@ -1,15 +1,22 @@
+import type { Metadata } from "next";
 import news from "@/content/news.json";
 import type { NewsPayload } from "@/lib/types";
 import { PageShell } from "@/components/page-shell";
 import { TrendingDetail, trendingTocItems } from "@/components/trending-detail";
 import { OnThisPage } from "@/components/on-this-page";
+import { AUTHOR_NAME, SITE_URL } from "@/lib/seo";
 
 const data = news as NewsPayload;
 
-export const metadata = {
-  title: "Trending · my-news",
-  description:
-    "Tools, models, APIs and resources gaining traction this week — backend, infra, devops, AI.",
+export const metadata: Metadata = {
+  title: "Trending — Tools, Models & APIs This Week",
+  description: `Tools, models, APIs and resources gaining traction this week — backend, infra, devops, and AI — curated daily by ${AUTHOR_NAME}.`,
+  alternates: { canonical: "/trending" },
+  openGraph: {
+    url: `${SITE_URL}/trending`,
+    title: `Trending — ${AUTHOR_NAME}`,
+    description: `Tools, models, APIs and resources gaining traction this week, curated by ${AUTHOR_NAME}.`,
+  },
 };
 
 export default function TrendingPage() {
@@ -19,7 +26,14 @@ export default function TrendingPage() {
   return (
     <PageShell
       sidebar={<OnThisPage items={toc} />}
-      main={<TrendingDetail items={trending} />}
+      main={
+        <>
+          <h1 className="sr-only">
+            Trending Tools, Models & APIs — {AUTHOR_NAME}
+          </h1>
+          <TrendingDetail items={trending} />
+        </>
+      }
     />
   );
 }

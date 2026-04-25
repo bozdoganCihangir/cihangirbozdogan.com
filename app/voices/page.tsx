@@ -1,16 +1,23 @@
+import type { Metadata } from "next";
 import news from "@/content/news.json";
 import type { NewsPayload } from "@/lib/types";
 import { VoicesList } from "@/components/voices-list";
 import { PageShell } from "@/components/page-shell";
 import { OnThisPage } from "@/components/on-this-page";
 import { slugify } from "@/lib/slug";
+import { AUTHOR_NAME, SITE_URL } from "@/lib/seo";
 
 const data = news as NewsPayload;
 
-export const metadata = {
-  title: "Voices · my-news",
-  description:
-    "Latest posts from a curated roster of engineering and AI practitioner blogs.",
+export const metadata: Metadata = {
+  title: "Voices — Curated Engineering & AI Blogs",
+  description: `Latest posts from a curated roster of engineering and AI practitioner blogs, hand-picked by ${AUTHOR_NAME}.`,
+  alternates: { canonical: "/voices" },
+  openGraph: {
+    url: `${SITE_URL}/voices`,
+    title: `Voices — ${AUTHOR_NAME}`,
+    description: `Latest posts from a curated roster of engineering and AI practitioner blogs, picked by ${AUTHOR_NAME}.`,
+  },
 };
 
 export default function VoicesPage() {
@@ -25,7 +32,14 @@ export default function VoicesPage() {
   return (
     <PageShell
       sidebar={<OnThisPage items={toc} />}
-      main={<VoicesList voices={voices} />}
+      main={
+        <>
+          <h1 className="sr-only">
+            Voices — Curated Engineering & AI Blogs by {AUTHOR_NAME}
+          </h1>
+          <VoicesList voices={voices} />
+        </>
+      }
     />
   );
 }
