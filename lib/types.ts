@@ -23,10 +23,23 @@ export type TrendingItem = {
   url: string;
 };
 
+export type VoicePost = {
+  title: string;
+  url: string;
+  summary: string;
+};
+
+export type Voice = {
+  author: string;
+  url: string;
+  posts: VoicePost[];
+};
+
 export type NewsPayload = {
   fetched_at: string;
   category: string;
   trending?: TrendingItem[];
+  voices?: Voice[];
   sections: NewsSection[];
 };
 

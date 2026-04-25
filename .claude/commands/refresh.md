@@ -11,6 +11,7 @@ You are running the daily refresh for a personal zero-cost static site at `/User
 Fully overwrite `content/news.json` with:
 1. **Trending top 30** — tools, models, APIs, resources gaining traction this week (backend / infra / devops / AI infra focus)
 2. **News sections** — Hacker News, Reddit, GitHub Trending, Blogs & Newsletters
+3. **Voices** — latest posts (last 30 days, max 3 each) from a curated roster of practitioner blogs
 
 Then commit and push to `main` so Vercel auto-deploys.
 
@@ -192,6 +193,64 @@ For each feed in `feeds[]`:
   - For non-discussion sources, short or empty
   - `Discussion: <url>` on its own line if different from `url`
   - Do NOT repeat content from `paragraph`
+
+---
+
+# PART C — Voices
+
+A curated roster of trusted engineering / AI practitioner blogs. Per-author latest-posts feed, **independent of news churn**.
+
+Read `voices` from `lib/sources.ts` (`CategoryConfig.voices`). It defines:
+- `lookbackDays` (30) — drop posts older than this
+- `maxPostsPerAuthor` (3) — cap per author
+- `authors[]` — `{ name, homepage, feed, focus? }` entries
+
+## Per-author fetch
+
+For each author, in parallel:
+
+1. Fetch `feed` URL. Follow redirects (curl `-L`). Headers: `User-Agent: my-news-fetcher/1.0`, `Accept: application/rss+xml, application/atom+xml, application/xml`.
+2. Parse RSS or Atom. Try both — feeds vary:
+   - RSS: `<item>` with `<title>`, `<link>`, `<pubDate>`, `<description>` / `<content:encoded>`
+   - Atom: `<entry>` with `<title>`, `<link href>`, `<published>` or `<updated>`, `<summary>` / `<content>`
+3. For each entry, extract a date. Try in order: `pubDate`, `published`, `updated`, `dc:date`. If none present, **skip the entry** (not the whole author).
+4. Drop entries older than `lookbackDays` (compare against `now - lookbackDays`).
+5. Sort remaining entries by date desc, take top `maxPostsPerAuthor`.
+6. **If author has zero entries in window → omit the author entirely from output.** Do NOT include silent authors.
+7. For each kept entry, generate a `summary`:
+   - 1–2 sentences, plain English, easy to understand
+   - Cover what the post is about and why it's worth reading
+   - May lift the author's own framing if it's already clean — but rewrite jargon walls
+   - No marketing voice, no hype words, no "must read" filler
+   - 20–40 words
+
+## Per-entry shape
+
+Each kept entry becomes a `VoicePost`:
+```json
+{ "title": "Cleaned title (no HTML, entities decoded)", "url": "absolute URL", "summary": "1–2 sentence plain-English summary." }
+```
+
+Each author with at least one kept post becomes a `Voice`:
+```json
+{ "author": "Simon Willison", "url": "https://simonwillison.net", "posts": [ /* 1..3 VoicePost, newest first */ ] }
+```
+
+## Edge cases
+
+- **Relative `<link>` URLs** — resolve against feed `<channel><link>` or feed URL host
+- **HTML in titles** — strip tags, decode `&amp;` `&#39;` etc.
+- **Full-content vs excerpt feeds** — both are fine, the LLM summarizer handles both
+- **Substack feeds** — same as RSS, but pubDate is reliable
+- **Feed 404 / DNS / timeout** — catch, skip author, **report failure** in run summary. Do NOT fabricate posts to fill the gap
+- **Malformed XML** — try Atom selectors as fallback before giving up
+- **Duplicate posts across authors** (cross-posts) — keep both, scoped to author
+- **Same author posted >3 in window** — keep 3 most recent
+- **All authors silent (rare)** — emit `voices: []`. Page handles empty state.
+
+## Order
+
+Output `voices[]` in the **same order as `authors[]` in `lib/sources.ts`**. Do not re-sort by recency or post count — the roster order is intentional.
 
 ---
 

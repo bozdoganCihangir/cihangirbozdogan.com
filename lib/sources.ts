@@ -118,6 +118,25 @@ export type TrendingSourceConfig =
       maxItems: number;
     };
 
+export type VoiceAuthor = {
+  /** Display name, e.g. "Simon Willison" */
+  name: string;
+  /** Author's blog homepage URL */
+  homepage: string;
+  /** RSS / Atom feed URL */
+  feed: string;
+  /** Loose hint for our reference — not surfaced in UI */
+  focus?: "ai" | "backend" | "frontend" | "infra" | "devops" | "leadership";
+};
+
+export type VoicesConfig = {
+  /** Posts older than this are ignored entirely */
+  lookbackDays: number;
+  /** Maximum posts to keep per author */
+  maxPostsPerAuthor: number;
+  authors: VoiceAuthor[];
+};
+
 export type CategoryConfig = {
   id: string;
   label: string;
@@ -125,6 +144,7 @@ export type CategoryConfig = {
   negativeFilters: string[];
   sources: SourceConfig[];
   trending: TrendingConfig;
+  voices: VoicesConfig;
 };
 
 export const TECH_AI: CategoryConfig = {
@@ -312,6 +332,34 @@ export const TECH_AI: CategoryConfig = {
         ],
         maxItems: 20,
       },
+    ],
+  },
+  voices: {
+    lookbackDays: 30,
+    maxPostsPerAuthor: 3,
+    authors: [
+      { name: "Simon Willison",       homepage: "https://simonwillison.net",       feed: "https://simonwillison.net/atom/everything/",  focus: "ai" },
+      { name: "Gergely Orosz",        homepage: "https://www.pragmaticengineer.com", feed: "https://newsletter.pragmaticengineer.com/feed", focus: "leadership" },
+      { name: "Martin Fowler",        homepage: "https://martinfowler.com",        feed: "https://martinfowler.com/feed.atom",          focus: "backend" },
+      { name: "Julia Evans",          homepage: "https://jvns.ca",                 feed: "https://jvns.ca/atom.xml",                    focus: "infra" },
+      { name: "Arpit Bhayani",        homepage: "https://arpitbhayani.me",         feed: "https://arpitbhayani.me/feed.xml",            focus: "backend" },
+      { name: "Addy Osmani",          homepage: "https://addyosmani.com",          feed: "https://addyo.substack.com/feed",             focus: "frontend" },
+      { name: "Swizec Teller",        homepage: "https://swizec.com",              feed: "https://swizec.com/rss.xml",                  focus: "frontend" },
+      { name: "Kent C. Dodds",        homepage: "https://kentcdodds.com",          feed: "https://kentcdodds.com/blog/rss.xml",         focus: "frontend" },
+      { name: "Dan Luu",              homepage: "https://danluu.com",              feed: "https://danluu.com/atom.xml",                 focus: "infra" },
+      { name: "Will Larson",          homepage: "https://lethain.com",             feed: "https://lethain.com/feeds/",                  focus: "leadership" },
+      { name: "Mitchell Hashimoto",   homepage: "https://mitchellh.com",           feed: "https://mitchellh.com/feed.xml",              focus: "infra" },
+      { name: "Charity Majors",       homepage: "https://charity.wtf",             feed: "https://charity.wtf/feed/",                   focus: "devops" },
+      { name: "Bartosz Ciechanowski", homepage: "https://ciechanow.ski",           feed: "https://ciechanow.ski/atom.xml",              focus: "backend" },
+      { name: "Marc Brooker",         homepage: "https://brooker.co.za/blog",      feed: "https://brooker.co.za/blog/rss.xml",          focus: "infra" },
+      { name: "Eugene Yan",           homepage: "https://eugeneyan.com",           feed: "https://eugeneyan.com/rss/",                  focus: "ai" },
+      { name: "Chip Huyen",           homepage: "https://huyenchip.com",           feed: "https://huyenchip.com/feed.xml",              focus: "ai" },
+      { name: "Jay Alammar",          homepage: "https://jalammar.github.io",      feed: "https://jalammar.github.io/feed.xml",         focus: "ai" },
+      { name: "Josh Comeau",          homepage: "https://www.joshwcomeau.com",     feed: "https://www.joshwcomeau.com/rss.xml",         focus: "frontend" },
+      { name: "Lee Robinson",         homepage: "https://leerob.com",              feed: "https://leerob.com/rss",                      focus: "frontend" },
+      { name: "Brendan Gregg",        homepage: "https://www.brendangregg.com",    feed: "https://www.brendangregg.com/blog/rss.xml",   focus: "infra" },
+      { name: "Fly.io",               homepage: "https://fly.io/blog",             feed: "https://fly.io/blog/feed.xml",                focus: "infra" },
+      { name: "Cloudflare",           homepage: "https://blog.cloudflare.com",     feed: "https://blog.cloudflare.com/rss/",            focus: "infra" },
     ],
   },
 };
