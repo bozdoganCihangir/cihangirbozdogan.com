@@ -103,10 +103,6 @@ For every candidate, apply this judgement (you are the LLM filter — no externa
   - `"Simon Willison · 4h ago"`
   - `"The Batch · April 23"`
 
-# TL;DR
-
-After all sections, write a `tldr` of **5 bullets** capturing what mattered. Each ≤ 20 words, reference specific things (model name, repo, person), no hand-waving.
-
 # Output
 
 Write the final `NewsPayload` JSON to `content/news.json`, **fully overwriting** the existing file.
@@ -117,7 +113,6 @@ Schema (must match `lib/types.ts` exactly):
 {
   "fetched_at": "<ISO 8601 in UTC, e.g. 2026-04-25T08:03:00Z>",
   "category": "tech",
-  "tldr": ["...", "...", "...", "...", "..."],
   "sections": [
     { "name": "Hacker News",         "items": [...] },
     { "name": "Reddit",              "items": [...] },

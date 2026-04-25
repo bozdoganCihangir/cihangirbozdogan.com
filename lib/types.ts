@@ -14,6 +14,5 @@ export type NewsSection = {
 export type NewsPayload = {
   fetched_at: string;
   category: string;
-  tldr: string[];
   sections: NewsSection[];
 };

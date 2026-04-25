@@ -1,7 +1,6 @@
 import news from "@/content/news.json";
 import type { NewsPayload } from "@/lib/types";
 import { Section } from "@/components/section";
-import { Tldr } from "@/components/tldr";
 
 const data = news as NewsPayload;
 
@@ -25,7 +24,7 @@ function formatFetchedAt(iso: string): string {
 export default function Home() {
   const empty = !data.fetched_at || data.sections.length === 0;
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 sm:px-6 py-10 sm:py-14 flex-1">
+    <main className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-10 sm:py-14 flex-1">
       <header>
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">
           Tech &amp; AI
@@ -50,7 +49,6 @@ export default function Home() {
         </div>
       ) : (
         <>
-          <Tldr bullets={data.tldr} />
           {data.sections.map((s) => (
             <Section key={s.name} section={s} />
           ))}
