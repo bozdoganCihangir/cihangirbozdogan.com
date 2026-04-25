@@ -4,14 +4,14 @@ import { NewsItem } from "./news-item";
 export function Section({ section }: { section: NewsSection }) {
   if (section.items.length === 0) return null;
   return (
-    <section className="mt-10">
-      <h2 className="text-xs uppercase tracking-[0.18em] text-neutral-500 font-medium mb-3 px-4 sm:px-5">
+    <section className="mt-12">
+      <h2 className="text-[11px] uppercase tracking-[0.22em] text-accent font-semibold mb-4 pb-2 border-b border-rule-soft">
         {section.name}{" "}
-        <span className="text-neutral-700 normal-case tracking-normal">
+        <span className="text-ink-faint font-normal">
           · {section.items.length}
         </span>
       </h2>
-      <ul className="rounded-lg border border-neutral-800 bg-neutral-950">
+      <ul>
         {section.items.map((item, i) => (
           <NewsItem key={`${section.name}-${i}`} item={item} index={i} />
         ))}

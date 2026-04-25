@@ -7,31 +7,31 @@ export function NewsItem({ item, index }: { item: NewsItemType; index: number })
   const [open, setOpen] = useState(false);
 
   return (
-    <li className="border-b border-neutral-800 last:border-b-0">
+    <li className="border-b border-rule-soft last:border-b-0">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="w-full text-left py-4 px-4 sm:px-5 hover:bg-neutral-900/60 transition-colors flex gap-4 items-start group cursor-pointer"
+        className="w-full text-left py-5 hover:bg-paper-subtle transition-colors flex gap-5 items-start group cursor-pointer px-1"
       >
-        <span className="text-neutral-500 tabular-nums text-sm pt-0.5 shrink-0 w-6">
+        <span className="text-ink-faint tabular-nums text-xs pt-1.5 shrink-0 w-7 font-medium">
           {String(index + 1).padStart(2, "0")}
         </span>
         <span className="flex-1 min-w-0">
-          <span className="block text-base sm:text-[15px] font-medium text-neutral-100 group-hover:text-white">
+          <span className="block font-serif text-xl sm:text-[1.35rem] leading-snug font-semibold text-ink group-hover:text-accent transition-colors">
             {item.title}
           </span>
-          <span className="block mt-1 text-sm text-neutral-400 leading-relaxed">
+          <span className="block mt-1.5 text-[15px] text-ink-muted leading-relaxed">
             {item.summary}
           </span>
           {item.source_meta && (
-            <span className="block mt-1.5 text-xs text-neutral-500 tabular-nums">
+            <span className="block mt-2 text-xs text-ink-faint tabular-nums uppercase tracking-wider">
               {item.source_meta}
             </span>
           )}
         </span>
         <span
-          className={`text-neutral-500 text-xs pt-1 shrink-0 transition-transform ${
+          className={`text-ink-faint text-xs pt-2 shrink-0 transition-transform ${
             open ? "rotate-90" : ""
           }`}
           aria-hidden
@@ -46,17 +46,17 @@ export function NewsItem({ item, index }: { item: NewsItemType; index: number })
         }`}
       >
         <div className="overflow-hidden">
-          <div className="px-4 sm:px-5 pb-5 pl-14">
-            <div className="text-sm text-neutral-300 leading-relaxed whitespace-pre-wrap">
+          <div className="pb-6 pl-12 pr-4">
+            <div className="text-[15px] text-ink leading-relaxed whitespace-pre-wrap font-serif">
               {item.details}
             </div>
             <a
               href={item.url}
               target="_blank"
               rel="noreferrer noopener"
-              className="inline-block mt-3 text-xs text-blue-400 hover:text-blue-300 underline underline-offset-2"
+              className="inline-block mt-4 text-xs uppercase tracking-[0.18em] text-accent hover:text-accent-hover font-semibold"
             >
-              open source →
+              read source →
             </a>
           </div>
         </div>
