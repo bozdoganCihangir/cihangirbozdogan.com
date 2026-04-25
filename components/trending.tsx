@@ -29,7 +29,7 @@ export function Trending({ items }: { items: TrendingItemType[] }) {
   const total = items.length;
 
   return (
-    <aside className="lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:pl-8 lg:border-l lg:border-rule-soft">
+    <aside className="lg:pl-8 lg:border-l lg:border-rule-soft">
       <div className="border-b border-rule pb-3 mb-4">
         <p className="text-[10px] uppercase tracking-[0.22em] text-accent font-semibold">
           Top {total || 30} · This Week
