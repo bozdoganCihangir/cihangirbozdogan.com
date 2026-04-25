@@ -29,7 +29,7 @@ export function VoicesList({ voices }: { voices: Voice[] }) {
           From engineers worth following
         </h1>
         <p className="text-sm text-ink-faint mt-1">
-          Latest posts from a curated roster — backend, frontend, infra, devops, AI.
+          Latest posts from a curated roster — infra, devops, AI, backend.
         </p>
       </header>
       <div>

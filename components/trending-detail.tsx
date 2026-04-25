@@ -50,7 +50,7 @@ export function TrendingDetail({ items }: { items: TrendingItemType[] }) {
           Trending for engineers
         </h1>
         <p className="text-sm text-ink-faint mt-1">
-          Tools, models, APIs &amp; resources gaining traction · backend, infra, devops, AI.
+          Tools, models, APIs &amp; resources gaining traction · infra, AI, backend, devops.
         </p>
       </header>
 
