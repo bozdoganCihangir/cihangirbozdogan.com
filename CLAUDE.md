@@ -38,11 +38,16 @@ Top nav (`components/nav.tsx`) is sticky on every page. Layout shell is `compone
 
 ```
 app/
-  layout.tsx          # root shell + Nav
+  layout.tsx          # root shell + Nav + Metadata + JSON-LD (Person, WebSite)
   page.tsx            # /  (News)
   voices/page.tsx     # /voices
   trending/page.tsx   # /trending
   globals.css         # Tailwind + theme tokens
+  icon.tsx            # 32x32 favicon — branded "C" mark via next/og
+  apple-icon.tsx      # 180x180 Apple touch icon — same C mark
+  opengraph-image.tsx # 1200x630 OG/Twitter card via next/og
+  sitemap.ts          # /sitemap.xml — lastModified from news.fetched_at
+  robots.ts           # /robots.txt — allows Google + LLM crawlers
 components/
   nav.tsx             # top tab nav
   page-shell.tsx      # shared 2-column shell (main + sidebar)
@@ -58,6 +63,7 @@ content/
 lib/
   sources.ts          # feeds, caps, voices roster — SINGLE SOURCE OF TRUTH
   types.ts            # NewsPayload, NewsItem, TrendingItem, Voice, VoicePost
+  seo.ts              # site URL, name, tagline, description, keywords — SEO source of truth
 .claude/
   commands/refresh.md # the slash command that does all the work
 ```
@@ -78,6 +84,14 @@ pnpm lint             # ESLint
 - **Adding/removing a Voices author** → edit the `voices.authors[]` array in `lib/sources.ts`. The display order in the array is the display order on the page — keep it intentional.
 - **Changing display layout** → components only. The data shape lives in `lib/types.ts`; if you change the shape, update `/refresh` to match.
 - **Adding a category** (currently only `tech`) → add a new `CategoryConfig` in `lib/sources.ts`, then call `/refresh <category>`.
+
+## SEO
+
+- **Single source of truth**: `lib/seo.ts` (site URL, name, tagline, description, keywords, author location/title). Change the domain or tagline there — every page, OG image, sitemap, and JSON-LD picks it up.
+- Per-page `Metadata` lives in each route's `page.tsx` and uses the `%s · Cihangir Bozdogan` title template from `app/layout.tsx`.
+- `Person` + `WebSite` JSON-LD is injected in `app/layout.tsx`. To add `sameAs` (GitHub/LinkedIn/X), append URLs to the `personLd` object — this is the highest-leverage SEO signal for Google's Knowledge Graph.
+- Search Console verification: paste the token into the `verification.google` field in `app/layout.tsx` (currently commented out) and push.
+- Favicon and OG image are generated at build via `next/og`. Brand mark is a serif "C" in the FT-pink palette (`#990f3d` on `#fff1e5`).
 
 ## Style
 
