@@ -29,11 +29,6 @@ export default function Home() {
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">
           Tech &amp; AI
         </h1>
-        <p className="mt-1 text-sm text-neutral-500">
-          {data.fetched_at
-            ? formatFetchedAt(data.fetched_at)
-            : "No news yet. Run /fetch-news to populate."}
-        </p>
       </header>
 
       {empty ? (
