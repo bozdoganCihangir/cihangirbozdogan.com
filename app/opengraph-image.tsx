@@ -24,14 +24,41 @@ export default function OpengraphImage() {
         <div
           style={{
             display: "flex",
-            fontSize: 22,
-            letterSpacing: "0.28em",
-            textTransform: "uppercase",
-            color: "#990f3d",
-            fontWeight: 700,
+            alignItems: "center",
+            gap: 20,
           }}
         >
-          cihangirbozdogan.com
+          <div
+            style={{
+              width: 64,
+              height: 64,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "#990f3d",
+              color: "#fff1e5",
+              fontSize: 48,
+              fontWeight: 700,
+              fontFamily: "Georgia, serif",
+              letterSpacing: "-0.04em",
+              paddingBottom: 4,
+              borderRadius: 6,
+            }}
+          >
+            C
+          </div>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 22,
+              letterSpacing: "0.28em",
+              textTransform: "uppercase",
+              color: "#990f3d",
+              fontWeight: 700,
+            }}
+          >
+            cihangirbozdogan.com
+          </div>
         </div>
 
         <div
