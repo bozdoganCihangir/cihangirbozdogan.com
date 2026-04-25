@@ -44,9 +44,10 @@ Fetch all sources **in parallel** wherever possible. Each source has its own pol
 
 ## 1. Hacker News (`kind: "hn"`)
 - Endpoint: `https://hacker-news.firebaseio.com/v0`
-- Policy from config: `lookbackHours` (default 72), `minScore` (default 80), `maxItems` (default 40)
-- Fetch `/topstories.json`, then the first ~100 IDs in parallel via `/item/{id}.json`
+- Policy from config: `lookbackHours` (default 72), `minScore` (default 50), `maxItems` (default 40)
+- Fetch `/topstories.json`, take the first **200 IDs**, fetch each via `/item/{id}.json` in parallel batches
 - Keep items where `type == "story"`, `score >= minScore`, posted within `lookbackHours`
+- **Soft floor — if after filtering you have fewer than 20 items**, also fetch `/beststories.json` (first 200 IDs), merge by ID, and re-apply the same filters. Stop when you have 20 quality items or the pool is exhausted (whichever comes first). It is OK to ship fewer than 20 ONLY if the merged pool genuinely doesn't contain more relevant items.
 - For final-cut items, also fetch top 3–5 comments (`item.kids[]`) for the discussion digest
 
 ## 2. Reddit (`kind: "reddit"`)

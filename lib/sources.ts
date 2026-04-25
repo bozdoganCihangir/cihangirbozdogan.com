@@ -81,7 +81,7 @@ export const TECH_AI: CategoryConfig = {
       name: "Hacker News",
       endpoint: "https://hacker-news.firebaseio.com/v0",
       lookbackHours: 72,
-      minScore: 80,
+      minScore: 50,
       maxItems: 40,
     },
     {
