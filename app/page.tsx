@@ -27,7 +27,7 @@ export default function Home() {
   const newsEmpty = !data.fetched_at || data.sections.length === 0;
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex-1">
+    <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-10 xl:px-14 py-8 sm:py-12 flex-1">
       <header className="border-b border-rule pb-5 mb-8">
         <p className="text-[11px] uppercase tracking-[0.22em] text-accent font-semibold">
           {data.fetched_at ? formatFetchedAt(data.fetched_at) : "Today"}
@@ -37,7 +37,7 @@ export default function Home() {
         </h1>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_400px] gap-10 lg:gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(0,1fr)_440px] gap-10 lg:gap-14">
         {/* Trending — DOM-first so it renders on top on mobile; placed in right column on desktop */}
         <div className="lg:col-start-2 lg:row-start-1">
           <Trending items={trending} />
