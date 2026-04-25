@@ -57,9 +57,7 @@ export default function Home() {
         </>
       )}
 
-      <footer className="mt-16 pt-6 border-t border-neutral-900 text-xs text-neutral-600">
-        my-news · curated by Claude · zero-cost static site
-      </footer>
+      <footer className="mt-16 pt-6 border-t border-neutral-900 text-xs text-neutral-600"></footer>
     </main>
   );
 }
