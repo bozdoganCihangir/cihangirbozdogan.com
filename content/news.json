@@ -1,6 +1,308 @@
 {
-  "fetched_at": "2026-04-25T07:33:36Z",
+  "fetched_at": "2026-04-25T10:03:56Z",
   "category": "tech",
+  "trending": [
+    {
+      "rank": 1,
+      "name": "DeepEP",
+      "category": "tool",
+      "subcategory": "GPU kernels",
+      "one_liner": "Expert-parallel communication library for MoE inference, the comm layer behind DeepSeek V4's deployment stack.",
+      "paragraph": "DeepEP is the all-to-all dispatch and combine library DeepSeek uses to scale Mixture-of-Experts models across nodes. With V4 dropping this week and pushing 1M-token context onto 671B MoE weights, the repo is suddenly the reference implementation for anyone running frontier MoE in production. It complements DeepGEMM and the new bitwise batch-invariant kernels that ship with V4. Activity has spiked sharply since the V4 announcement on April 24.",
+      "signal": "+52★/day",
+      "url": "https://github.com/deepseek-ai/DeepEP"
+    },
+    {
+      "rank": 2,
+      "name": "DeepGEMM",
+      "category": "tool",
+      "subcategory": "GPU kernels",
+      "one_liner": "Clean and efficient FP8 GEMM kernels with fine-grained scaling, used inside DeepSeek's training and inference stack.",
+      "paragraph": "DeepGEMM provides the FP8 matmul primitives that let DeepSeek V4 hit its $1.74 / $3.48 per million-token pricing. Fine-grained per-block scaling sidesteps the usual FP8 accuracy collapse on large hidden dims. With V4 advertising bitwise batch-invariant kernels on top of these, infra teams are reading the source as a reference for cheap inference. It picked up another ~600 stars in the days around the release.",
+      "signal": "+605★/wk",
+      "url": "https://github.com/deepseek-ai/DeepGEMM"
+    },
+    {
+      "rank": 3,
+      "name": "FlashKDA",
+      "category": "tool",
+      "subcategory": "attention kernels",
+      "one_liner": "MoonshotAI's high-performance Kimi Delta Attention CUDA kernels, released alongside Kimi K2.6.",
+      "paragraph": "Kimi Delta Attention (KDA) is Moonshot's variant of linear attention used to keep Kimi K2.6 fast at 256k context. FlashKDA is the open kernel implementation, dropped this week as Kimi K2.6 hit Vercel's AI Gateway and OpenRouter at very aggressive pricing. It is one of two Chinese-lab attention kernels (alongside DeepSeek's NSA) that production teams are actually pulling into their inference stacks. Created April 20 and already past 390 stars.",
+      "signal": "+391★ in 5d",
+      "url": "https://github.com/MoonshotAI/FlashKDA"
+    },
+    {
+      "rank": 4,
+      "name": "typescript-go",
+      "category": "tool",
+      "subcategory": "compiler",
+      "one_liner": "Microsoft's native Go port of the TypeScript compiler — the staging repo for the 10x-faster tsc rewrite.",
+      "paragraph": "This is the public staging branch for tsc-go, the TypeScript team's Go reimplementation aimed at ~10x faster typechecks and project loads. Each release tightens parity with the JS compiler and brings the IDE language service closer to going native. Engineers watch it because TypeScript build times remain the single biggest dev-experience tax on large monorepos. Daily star velocity holds steady as new milestone PRs land.",
+      "signal": "+38★/day",
+      "url": "https://github.com/microsoft/typescript-go"
+    },
+    {
+      "rank": 5,
+      "name": "jj",
+      "category": "tool",
+      "subcategory": "version control",
+      "one_liner": "Git-compatible VCS with a simpler model — first-class anonymous branches, conflicts as data, automatic rebasing.",
+      "paragraph": "jj continues to slowly displace git for power users — anonymous branches, conflict-as-data, and an undo log change how branchy work feels in practice. The Rust rewrite is stable enough that several teams now use it as their daily driver against GitHub remotes. Tooling support landed this week in GitButler and Zed, which is why velocity ticked up. The jj-vs-git framing is also the topic of two of this week's lobste.rs front-page threads.",
+      "signal": "+41★/day",
+      "url": "https://github.com/jj-vcs/jj"
+    },
+    {
+      "rank": 6,
+      "name": "claude-context",
+      "category": "tool",
+      "subcategory": "MCP server",
+      "one_liner": "Code-search MCP server from Zilliz that lets Claude Code (and other agents) treat the whole repo as context.",
+      "paragraph": "claude-context indexes a codebase into Milvus and exposes it as an MCP server so Claude Code, Codex, and other harnesses can do semantic + lexical search across the repo without re-stuffing every file into the prompt. With agentic coding now the default workflow, repo-wide retrieval has become the missing primitive — this repo is the most-starred answer this week. Velocity tripled after Anthropic's Claude Code postmortem nudged users toward smarter context management.",
+      "signal": "+2.9k★/wk",
+      "url": "https://github.com/zilliztech/claude-context"
+    },
+    {
+      "rank": 7,
+      "name": "rtk",
+      "category": "tool",
+      "subcategory": "LLM proxy",
+      "one_liner": "CLI proxy that rewrites common dev commands to cut LLM token usage by 60–90%, single Rust binary, zero deps.",
+      "paragraph": "rtk sits between your shell or coding agent and the LLM API, deduping and compressing tool output before it ever reaches the model. The README claims 60–90% token savings on common patterns (grep, find, ls, cat, test runs). With Anthropic's quality post-mortem reminding everyone how expensive sloppy context is, rtk is hitting a nerve. It's pure Rust, distributes as one binary, and the daily-star count nearly hit 1k on Thursday.",
+      "signal": "+969★/day",
+      "url": "https://github.com/rtk-ai/rtk"
+    },
+    {
+      "rank": 8,
+      "name": "openai-agents-python",
+      "category": "tool",
+      "subcategory": "agent framework",
+      "one_liner": "OpenAI's official lightweight Python framework for building multi-agent workflows with Codex / GPT models.",
+      "paragraph": "The Codex 3.0 launch on Wednesday turned this from a sample repo into the recommended way to build production agent flows on OpenAI's stack. It models handoffs, tool calls, and tracing as primitives, with skills/plugins as first-class extension points. With GPT-5.5 and GPT-5.5 Pro now in the API, the framework is the path of least resistance to a working agent. Up 3,372 stars this week as the Codex docs went live.",
+      "signal": "+3.4k★/wk",
+      "url": "https://github.com/openai/openai-agents-python"
+    },
+    {
+      "rank": 9,
+      "name": "honker",
+      "category": "tool",
+      "subcategory": "database",
+      "one_liner": "Postgres NOTIFY / LISTEN semantics on top of SQLite — pub/sub for the embedded-DB crowd.",
+      "paragraph": "Show HN hit 297 points: honker layers durable, ordered NOTIFY/LISTEN onto SQLite using a small Rust core and a writer-side fanout. For developers who want LISTEN/NOTIFY ergonomics without running Postgres — local-first apps, edge runtimes, sidecars — this fills a real gap. The author cleanly explains the WAL-aware design in the README, which is why it's getting picked up across HN, Reddit, and lobste.rs in the same week.",
+      "signal": "HN #18 · 297pts",
+      "url": "https://github.com/russellromney/honker"
+    },
+    {
+      "rank": 10,
+      "name": "Sail",
+      "category": "tool",
+      "subcategory": "data engine",
+      "one_liner": "Drop-in Apache Spark replacement written in Rust, unifying batch, streaming, and AI compute on one engine.",
+      "paragraph": "Sail aims to be the engine you keep when you outgrow Spark's JVM overhead but don't want to rewrite all your PySpark. It speaks the Spark SQL and DataFrame APIs while running natively in Rust on Datafusion-style internals. The 1.0 milestone landed this month and the docs now cover streaming and Python UDF parity, which is why infra teams are giving it a real look. Steady ~130 stars/day all week.",
+      "signal": "+133★/day",
+      "url": "https://github.com/lakehq/sail"
+    },
+    {
+      "rank": 11,
+      "name": "Spinel",
+      "category": "tool",
+      "subcategory": "compiler",
+      "one_liner": "Ruby AOT native compiler from Yukihiro Matsumoto — Ruby code compiled straight to native binaries.",
+      "paragraph": "Matz's new Spinel project compiles Ruby ahead-of-time to native machine code, targeting startup-sensitive deployments where MRI's interpreter loop is the bottleneck. It's early but the design choices (no MRI compatibility on day one, focus on a Ruby-the-language subset) are getting strong reactions on HN. With Rails apps still dominating fintech and e-commerce backends, an AOT path matters. 325 points on HN, 87 comments.",
+      "signal": "HN #18 · 325pts",
+      "url": "https://github.com/matz/spinel"
+    },
+    {
+      "rank": 12,
+      "name": "ml-intern",
+      "category": "tool",
+      "subcategory": "agent",
+      "one_liner": "Hugging Face's open-source ML-engineer agent that reads papers, trains models, and ships ML code end to end.",
+      "paragraph": "ml-intern is HF's bid at an autonomous research engineer: feed it a paper or a benchmark, and it sets up the env, writes the training script, runs experiments, and posts a writeup. It builds on the same agent-skills standard adopted by Codex and Claude Code, so its skills are reusable across harnesses. Daily-star count hit 2,985 the day it launched — clearly the highest-momentum HF release in months.",
+      "signal": "+3.0k★/day",
+      "url": "https://github.com/huggingface/ml-intern"
+    },
+    {
+      "rank": 1,
+      "name": "DeepSeek V4 Pro",
+      "category": "model",
+      "subcategory": "frontier MoE",
+      "one_liner": "DeepSeek's new flagship MoE: 1M-token context, batch-invariant deterministic kernels, $1.74 / $3.48 per Mtok.",
+      "paragraph": "V4 Pro is the Tuesday surprise that pulled the rug from under GPT-5.5's launch the next day. It ships with bitwise-deterministic batch-invariant kernels (a first at this scale) and a 1M-token context the HF blog argues actually works for agents, not just headlines. Pricing undercuts Claude Opus 4.7 by ~30x on input. The model card and detailed thinking-mode docs are unusually clean — top HN comment is literally 'why can't OpenAI write docs this good'.",
+      "signal": "HF trend #1",
+      "url": "https://api-docs.deepseek.com/news/news260424"
+    },
+    {
+      "rank": 2,
+      "name": "DeepSeek V4 Flash",
+      "category": "model",
+      "subcategory": "fast MoE",
+      "one_liner": "V4 Pro's smaller sibling — same 1M context, $0.14 / $0.28 per Mtok, designed as a Haiku replacement.",
+      "paragraph": "V4 Flash hits the price band where Anthropic's Haiku and Google's Gemini Flash live, but with the same architecture and context window as V4 Pro. Early Reddit threads in r/LocalLLaMA report it 'absolutely kills' on tool-use accuracy in code-change evals. It's the cost story that matters: at 14¢/M input it's effectively free for batch agentic workloads, which will pressure every closed Flash/Haiku tier. Available via the DeepSeek API and on Vercel AI Gateway as of April 23.",
+      "signal": "$0.14/M in",
+      "url": "https://api-docs.deepseek.com/news/news260424"
+    },
+    {
+      "rank": 3,
+      "name": "GPT-5.5",
+      "category": "model",
+      "subcategory": "frontier closed",
+      "one_liner": "OpenAI's mid-week answer to V4 — 1.05M context, $5 / $30 per Mtok, with a 'Pro' tier at $30 / $180.",
+      "paragraph": "GPT-5.5 is OpenAI's first real model bump of 2026, lifting context to 1.05M tokens and pushing reasoning quality past 5.4 on most internal evals. The launch was paired with a Codex 3.0 platform overhaul (skills, plugins, better automations) that reframes Codex as the recommended way to build agents on OpenAI. Roll-out is gradual through the day per OpenAI staff comments on HN. Notably, GPT-5.5 hits 82% on CyberGym — comparable to Anthropic's gated Mythos.",
+      "signal": "HN #3 · 1545pts",
+      "url": "https://openai.com/index/introducing-gpt-5-5"
+    },
+    {
+      "rank": 4,
+      "name": "GPT-5.5 Pro",
+      "category": "model",
+      "subcategory": "frontier reasoning",
+      "one_liner": "Higher-effort GPT-5.5 tier on the OpenAI API with deeper reasoning, $30 / $180 per Mtok at 1.05M context.",
+      "paragraph": "Pro is the same base model but configured to spend more reasoning tokens by default. OpenAI is positioning it head-to-head against Claude Opus 4.7 for agentic coding and verification-heavy workflows. Early signal on r/LocalLLaMA and HN is that it makes fewer mistakes than GPT-5.4 even at default effort. The pricing puts it 6x more expensive than the standard tier, which is roughly what Anthropic's Opus-vs-Sonnet gap looks like.",
+      "signal": "$30/M in",
+      "url": "https://developers.openai.com/api/docs/changelog"
+    },
+    {
+      "rank": 5,
+      "name": "Qwen3.6-27B",
+      "category": "model",
+      "subcategory": "code-LLM",
+      "one_liner": "Alibaba's flagship-level coding model in a 27B dense package — runs on a single 32GB Mac.",
+      "paragraph": "Qwen3.6-27B punched above its weight on the day it dropped: 977 points on HN, multiple posts on r/LocalLLaMA reporting it 'beats Sonnet 4.6 on feature planning'. Simon Willison ran the GGUF on an M5 Pro at ~25 tok/s with only ~20GB resident, which puts real frontier coding ability on a 32GB consumer machine for the first time. Gemma 4 raised the local floor; Qwen3.6 just raised it again.",
+      "signal": "HN #5 · 977pts",
+      "url": "https://qwen.ai/blog?id=qwen3.6-27b"
+    },
+    {
+      "rank": 6,
+      "name": "Qwen3.6-35B-A3B",
+      "category": "model",
+      "subcategory": "MoE",
+      "one_liner": "35B-parameter MoE with only 3B active — the locally-deployable Qwen3.6 sweet spot.",
+      "paragraph": "The A3B (3B active) version is what most LocalLLaMA users are actually running. Unsloth GGUFs are over 1.4M downloads, and a Reddit thread digs into KV-cache quantization showing surprisingly clean q8/q4 behavior. With 3B active params it runs comfortably on 24GB cards and even competently on 16GB at heavy quants. Together with the dense 27B, this is the lineup keeping local inference relevant against DeepSeek V4 Flash.",
+      "signal": "+1.5M dl/wk",
+      "url": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B"
+    },
+    {
+      "rank": 7,
+      "name": "Kimi K2.6",
+      "category": "model",
+      "subcategory": "long-context",
+      "one_liner": "MoonshotAI's K2.6 — image-text-to-text, 256k context, ~$0.75 / $4.66 per Mtok via OpenRouter.",
+      "paragraph": "Kimi K2.6 quietly went live on Vercel AI Gateway and OpenRouter on April 20. It's MoE with image-text-to-text input, well-priced for long-context document and code work. The accompanying FlashKDA kernel release lets self-hosters run it efficiently on H100s. Among the wave of Chinese-lab releases this month, K2.6 is the one most teams seem to be evaluating as a Sonnet 4.6 alternative for vision-heavy pipelines.",
+      "signal": "OR added 4/20",
+      "url": "https://huggingface.co/moonshotai/Kimi-K2.6"
+    },
+    {
+      "rank": 8,
+      "name": "Gemma 4 31B",
+      "category": "model",
+      "subcategory": "open-weight",
+      "one_liner": "Google's largest Gemma 4 size — image-text-to-text, ~5.7M downloads, the current go-to for fine-tunes.",
+      "paragraph": "The 31B image-text-to-text variant has become the Gemma 4 size most teams ship to production. Hugging Face downloads cleared 5.7M and the surrounding ecosystem (uncensored merges, JANG cracks, NVIDIA Jetson Orin demos) is what you'd expect from a healthy open-weight base. The HF blog this week shows the VLA variant running on a Jetson Orin Nano Super, which is the kind of edge story that keeps Gemma 4 sticky vs. Qwen3.6.",
+      "signal": "5.8M dl",
+      "url": "https://huggingface.co/google/gemma-4-31B-it"
+    },
+    {
+      "rank": 1,
+      "name": "Vercel AI Gateway",
+      "category": "api",
+      "subcategory": "model gateway",
+      "one_liner": "Unified API for hosted models — added GPT-5.5, DeepSeek V4, Kimi K2.6, Gemma 4, GPT Image 2 this week.",
+      "paragraph": "The Gateway shipped four model adds in five days: Kimi K2.6 (Apr 20), GPT Image 2 (Apr 21), DeepSeek V4 (Apr 23), GPT-5.5 (Apr 24). For teams routing across providers it's now the lowest-friction way to A/B GPT-5.5 against V4 Pro on the same workload, with zero data retention by default. The gateway is the single API surface where this week's model wave converges, and it's also the path Anthropic-skeptical teams are taking after the Claude Code postmortem.",
+      "signal": "4 models added",
+      "url": "https://vercel.com/changelog/gpt-5.5-on-ai-gateway"
+    },
+    {
+      "rank": 2,
+      "name": "OpenAI Codex 3.0",
+      "category": "api",
+      "subcategory": "agent platform",
+      "one_liner": "Major Codex revamp shipped with GPT-5.5: skills, plugins, automations, and a new pricing model.",
+      "paragraph": "Codex 3.0 is OpenAI's response to the Claude Code / Cursor ecosystem and the rise of skills as a portable agent contract. It introduces first-class skills, plugins, and 'Automations' (scheduled, event-driven runs), all backed by GPT-5.5. The Product Hunt launch hit #1 yesterday. The most contentious part is the pricing — local message limits between 5.3 / 5.4 / 5.5 are tighter than before, which is the dominant complaint on HN.",
+      "signal": "PH #1",
+      "url": "https://openai.com/academy/what-is-codex"
+    },
+    {
+      "rank": 3,
+      "name": "DeepSeek API (V4)",
+      "category": "api",
+      "subcategory": "inference API",
+      "one_liner": "DeepSeek's first-party API now serves V4 Pro and Flash at industry-low prices, with thinking-mode docs.",
+      "paragraph": "The DeepSeek API was already cheap; V4 makes it absurd. $0.14/M input on Flash and $1.74/M on Pro, both at 1M context. The thinking-mode documentation is being praised on HN as cleaner than OpenAI's or Google's equivalents. Capacity is the main risk — DeepSeek noted Pro throughput is constrained until Ascend 950 hardware is fully deployed. For batch agentic and offline analytics workloads, this is now the price floor everyone benchmarks against.",
+      "signal": "$1.74/M in",
+      "url": "https://api-docs.deepseek.com/news/news260424"
+    },
+    {
+      "rank": 4,
+      "name": "Anthropic Claude API",
+      "category": "api",
+      "subcategory": "inference API",
+      "one_liner": "Claude Opus 4.7 added on OpenRouter; Anthropic posted a public postmortem on Claude Code quality issues.",
+      "paragraph": "Anthropic spent the week on damage control. Their April 23 postmortem admits an idle-session-cleanup bug ran every turn instead of once between March 26 and April 10, plus a separate effort-level mismatch. Opus 4.7 also rolled out on OpenRouter at $5 / $25 per Mtok. The reaction on HN, Reddit, and Simon's blog is mixed — credit for transparency, but heavy skepticism that this fully explains the perceived quality drop. Google is reportedly preparing a $40B investment alongside the news.",
+      "signal": "HN #6 · 922pts",
+      "url": "https://www.anthropic.com/engineering/april-23-postmortem"
+    },
+    {
+      "rank": 5,
+      "name": "TorchTPU",
+      "category": "api",
+      "subcategory": "ML infra",
+      "one_liner": "Run vanilla PyTorch natively on TPUs at Google scale — no XLA recompile, no JAX rewrite.",
+      "paragraph": "Google's developer blog announced TorchTPU on April 23: a path to deploy unmodified PyTorch eager and torch.compile workloads onto TPUs without going through XLA tracing. For research teams that have wanted TPU economics without rewriting in JAX, this is the door. The HN thread (192 pts, technical) noted parity gaps remain on dynamic shapes and custom kernels but called the announcement 'the right shape'. Google Cloud TPU economics are 30–50% better than equivalent H100s for many MoE configs.",
+      "signal": "HN #35 · 192pts",
+      "url": "https://developers.googleblog.com/torchtpu-running-pytorch-natively-on-tpus-at-google-scale/"
+    },
+    {
+      "rank": 6,
+      "name": "Hookdeck Outpost",
+      "category": "api",
+      "subcategory": "webhooks",
+      "one_liner": "Self-hostable webhook gateway — durable delivery, retries, replay, observability, OSS Apache-2.0.",
+      "paragraph": "Outpost is Hookdeck's open-source spinout: the same in-product reliability layer (durable queue, automatic retries, signing, replay, fan-out) but self-hostable. For teams uncomfortable putting payment- or auth-grade webhooks through a SaaS, this is now a real alternative. Launched on Product Hunt this week and getting strong reception from the platform-engineering crowd. Backed by S3 + Postgres or Kafka.",
+      "signal": "PH launch",
+      "url": "https://www.producthunt.com/products/hookdeck-outpost"
+    },
+    {
+      "rank": 7,
+      "name": "OpenRouter",
+      "category": "api",
+      "subcategory": "model gateway",
+      "one_liner": "Multi-provider LLM gateway — added DeepSeek V4, GPT-5.5/Pro, Kimi K2.6, Hy3 preview this week.",
+      "paragraph": "OpenRouter remains the most up-to-date single-API surface for new models. This week alone it added DeepSeek V4 Pro and Flash, GPT-5.5 / GPT-5.5 Pro, Kimi K2.6, Tencent Hy3 preview, Xiaomi MiMo V2.5, and InclusionAI Ling-2.6 — including free tiers for Hy3 preview and Ling-2.6 flash. For teams exploring beyond the big four labs, this is the cheapest way to evaluate Chinese-lab and lab-2 frontier models without spinning up infra.",
+      "signal": "7+ models/wk",
+      "url": "https://openrouter.ai/api/v1/models"
+    },
+    {
+      "rank": 1,
+      "name": "I am building a cloud",
+      "category": "resource",
+      "subcategory": "long-form",
+      "one_liner": "Tailscale cofounder David Crawshaw on why mainstream cloud is the wrong shape for modern workloads.",
+      "paragraph": "Crawshaw makes a structural argument: today's clouds price you on time, not on work, while shipping defaults (3,000 IOPS!) that lag laptops by orders of magnitude. He frames K8s as 'high-quality lipstick on a pig' and sketches what a buy-the-hardware, carve-into-microVMs model looks like at scale. 1,091 points and 557 comments on HN — the discussion includes self-hosters citing Hetzner + Firecracker setups doing exactly what he describes today.",
+      "signal": "HN #4 · 1091pts",
+      "url": "https://crawshaw.io/blog/building-a-cloud"
+    },
+    {
+      "rank": 2,
+      "name": "Karpathy Skills (CLAUDE.md)",
+      "category": "resource",
+      "subcategory": "agent prompts",
+      "one_liner": "A single CLAUDE.md derived from Andrej Karpathy's observations on LLM coding pitfalls — most-starred repo of the week.",
+      "paragraph": "forrestchang/andrej-karpathy-skills is a curated CLAUDE.md / AGENTS.md that codifies Karpathy's running commentary about how LLMs sabotage coding tasks (drive-by refactors, sycophancy, missing verification loops). It became the fastest-growing repo on GitHub trending this week with 29,435 new stars. Whether or not you agree with every rule, the file has become a de-facto reference for senior-engineer behavior in agent harnesses. Pair it with TheRealSeanDonahoe/agents-md for the long form.",
+      "signal": "+29k★/wk",
+      "url": "https://github.com/forrestchang/andrej-karpathy-skills"
+    },
+    {
+      "rank": 3,
+      "name": "GPT-5.5 Prompting Guide",
+      "category": "resource",
+      "subcategory": "long-form",
+      "one_liner": "Simon Willison's annotated walk-through of OpenAI's GPT-5.5 prompting guide — what's actually new.",
+      "paragraph": "Simon publishes the most carefully-tested first-look on every frontier model release, and this one focuses on what GPT-5.5 changes in practice for prompt design — verbosity controls, the new automations API, the reasoning-effort knob, and where the docs are still misleading. He pairs it with hands-on llm-cli output and side-by-side runs against DeepSeek V4 and Qwen3.6-27B. The companion 'DeepSeek V4 — almost on the frontier, a fraction of the price' post is the canonical short writeup on V4.",
+      "signal": "simonw, Apr 25",
+      "url": "https://simonwillison.net/2026/Apr/25/gpt-5-5-prompting-guide/"
+    }
+  ],
   "sections": [
     {
       "name": "Hacker News",
@@ -8,100 +310,82 @@
         {
           "title": "DeepSeek V4",
           "url": "https://api-docs.deepseek.com/news/news260424",
-          "summary": "DeepSeek V4 lands near-frontier performance with bitwise-deterministic kernels, a 384K output budget, and pricing that undercuts the US labs.",
-          "details": "DeepSeek's tech report leans hard on engineering details: end-to-end batch-invariant deterministic kernels with minimal overhead, a million-token context, and aggressive efficiency claims.\nTop comment from a research mathematician calls its math reasoning a clear step up; another commenter highlights how the API docs describe thinking mode without the marketing fog OpenAI/Google docs ship with.\nA third top reply notes DeepSeek seems to be the first to guarantee determinism at temperature 0 across batches — Google came close but didn't ship it.\nDiscussion: https://news.ycombinator.com/item?id=47884971",
-          "source_meta": "1,880 pts · 1466 comments · HN"
+          "summary": "DeepSeek shipped V4 Pro and V4 Flash with 1M-token context, batch-invariant deterministic kernels, and prices that undercut every closed lab.",
+          "paragraph": "V4 Pro is a 671B-parameter MoE that runs at $1.74 / $3.48 per million tokens with a real (HF blog: 'agents can actually use it') 1M context window. V4 Flash is a smaller sibling at $0.14 / $0.28 per Mtok aimed at the Haiku/Gemini Flash band. The release ships with bitwise batch-invariant CUDA kernels — believed to be the first frontier-scale guarantee of bitwise determinism at temperature zero. The thinking-mode documentation is unusually clear, which top HN comments call out directly. Pro throughput is currently capacity-constrained until Huawei Ascend 950 deployment expands.",
+          "details": "Top comment: 'why can't OpenAI and Google produce documentation half this good?' Several engineers note bitwise batch-invariance is a first at this scale. A math researcher reports rigorous-proof quality is competitive with frontier closed models on their PhD-level probability test suite.",
+          "source_meta": "1,912 pts · 1,480 comments · HN"
         },
         {
           "title": "GPT-5.5",
           "url": "https://openai.com/index/introducing-gpt-5-5",
-          "summary": "OpenAI announces GPT-5.5 with staged rollout in ChatGPT and Codex; community reads the launch alongside Anthropic's Mythos cybersec marketing.",
-          "details": "OpenAI staffer notes the rollout is intentionally gradual over hours to keep ChatGPT/Codex stable.\nSimon Willison points out there's no public API yet, but a semi-official 'Codex backdoor' route is working today (his pelican benchmark already ran on it).\nMost-upvoted technical reply: GPT-5.5 hits 82% on CyberGym, almost matching Anthropic's gated Mythos at 83% — but unlike Mythos it's open to anyone, which the offensive/defensive security crowd is taking note of.\nDiscussion: https://news.ycombinator.com/item?id=47879092",
-          "source_meta": "1,540 pts · 1026 comments · HN"
-        },
-        {
-          "title": "An update on recent Claude Code quality reports",
-          "url": "https://www.anthropic.com/engineering/april-23-postmortem",
-          "summary": "Anthropic postmortem: a March-26 latency optimization silently corrupted Claude Code reasoning for weeks before being caught.",
-          "details": "Anthropic admits a bug introduced when clearing older reasoning to reduce latency caused thinking to be cleared every turn, not just on resume — degrading quality across sessions.\nTop comment hammers them on the lack of product-level quality tests when many users built their own; a defender argues the writeup itself was unusually clear and honest by post-incident standards.\nA verbatim pull from the postmortem comment thread: 'a bug caused this to keep happening every turn for the rest of the session,' which most commenters read as the actual root cause rather than the framing.\nDiscussion: https://news.ycombinator.com/item?id=47878905",
-          "source_meta": "918 pts · 702 comments · HN"
-        },
-        {
-          "title": "I cancelled Claude: Token issues, declining quality, and poor support",
-          "url": "https://nickyreinert.de/en/2026/2026-04-24-claude-critics/",
-          "summary": "A long user write-up of Claude subscription frustrations, landing the same week as Anthropic's quality postmortem and fueling broader sentiment.",
-          "details": "Author documents token accounting weirdness, perceived regression, and unresponsive support — the post resonated because it lined up with Anthropic's own admission of model degradation.\nTop comment from a heavy user reports the opposite: with prompt-engineered, contained tasks ('copilot, not autopilot'), Sonnet remains usable and they don't hit limits.\nMost-upvoted critical reply argues the deeper risk is engineers building production foundations on opaque, proprietary subscriptions whose owners can silently pull the rug.\nDiscussion: https://news.ycombinator.com/item?id=47892019",
-          "source_meta": "860 pts · 504 comments · HN"
+          "summary": "OpenAI's first 2026 frontier bump — 1.05M context, $5 / $30 per Mtok, with a Pro tier at $30 / $180, plus a Codex 3.0 platform overhaul.",
+          "paragraph": "GPT-5.5 lifts context to 1.05M tokens and ships with a meaningful jump on reasoning evals, including 82% on CyberGym (comparable to Anthropic's gated Mythos). The release is paired with Codex 3.0 — skills, plugins, scheduled automations, all powered by GPT-5.5 by default. OpenAI staff confirmed in the HN thread that rollout is gradual through the day to keep service stable. The cybersecurity score and the Codex platform retake some narrative ground from Claude after Anthropic's quality issues.",
+          "details": "OpenAI staff: 'rollout is gradual through the day, Pro/Enterprise first, then Plus.' Pricing pushback: local message limits on 5.5 are tighter than 5.4 even after the new efficient mode. Simon Willison confirms it's accessible via the Codex backdoor API today.",
+          "source_meta": "1,545 pts · 1,029 comments · HN"
         },
         {
           "title": "I am building a cloud",
           "url": "https://crawshaw.io/blog/building-a-cloud",
-          "summary": "Tailscale co-founder David Crawshaw on why building a cloud from scratch is sensible now: K8s defaults are bad and 'Cloud 1.0' VM economics are upside-down.",
-          "details": "Argues K8s is high-quality lipstick on a pig and that current cloud defaults (3,000 IOPS VMs when laptops do 500k) make new compute worth re-engineering from below the abstraction.\nTop comment validates the K8s frustration; another flags Crawshaw's Tailscale background as load-bearing context for the take.\nThird most-upvoted thread connects this to the AI-tooling debate: another technology where some swear it's a waste, some say it's good if used right, and some treat it as the future — the post cuts through that for cloud infra.\nDiscussion: https://news.ycombinator.com/item?id=47872324",
-          "source_meta": "1,089 pts · 556 comments · HN"
+          "summary": "Tailscale cofounder David Crawshaw lays out why hyperscaler defaults (3k IOPS, time-priced VMs, K8s) are the wrong shape for modern workloads.",
+          "paragraph": "Crawshaw argues the dominant cloud abstraction taxes you for time rather than work, with hardware defaults that lag commodity laptops by orders of magnitude. He frames K8s as a project in 'putting high-quality lipstick on a pig' and outlines an alternative: buy-your-own hardware, carve into microVMs, snapshot idle workloads, pay only for active work. The post is part roadmap, part manifesto — and given his track record, it lands as a serious threat model for incumbent cloud pricing.",
+          "details": "Hetzner + Firecracker self-hosters in the comments report doing this today on a single auctioned server. The K8s sub-thread splits along familiar lines — operators with clean track records vs. teams that doubled cloud spend trying to harden it. Several VC-adjacent commenters call this a fundable thesis with brutal execution.",
+          "source_meta": "1,091 pts · 557 comments · HN"
         },
         {
           "title": "Qwen3.6-27B: Flagship-Level Coding in a 27B Dense Model",
           "url": "https://qwen.ai/blog?id=qwen3.6-27b",
-          "summary": "Alibaba's Qwen3.6-27B dense model claims flagship-tier coding in a size that runs locally on a single high-RAM Mac.",
-          "details": "A 16.8GB quantized build runs on an M5 Pro using ~20GB RAM and produces strong outputs (Simon Willison's pelican-on-a-bicycle benchmark looks excellent).\nSecond most-upvoted comment: with Gemma 4 at Easter and now Qwen 3.6, the gap from local self-hosting to Claude has narrowed significantly — local was non-competitive a few months ago.\nA highly-ranked piece of feedback for vendors: every release should publish what consumer hardware can run it, expected costs, and tok/s at common quantizations.\nDiscussion: https://news.ycombinator.com/item?id=47863217",
+          "summary": "Alibaba's Qwen3.6-27B claims flagship-tier coding ability in a 27B dense package small enough to run on a 32GB Mac.",
+          "paragraph": "Qwen3.6-27B is the dense variant in the broader Qwen3.6 family (also includes a 35B-A3B MoE). Simon Willison ran the GGUF on an M5 Pro at ~25 tok/s with only ~20GB of memory used — putting Sonnet-class coding on a 32GB consumer machine. r/LocalLLaMA threads claim it 'beats Sonnet 4.6 on feature planning'. With Gemma 4 having raised the local floor at Easter, Qwen3.6 raises it again less than a month later.",
+          "details": "Top theme: 'wish every model launch reported tok/s on consumer hardware'. Several commenters compare V4 Flash and Qwen3.6-27B as the new bar for cost vs local quality.",
           "source_meta": "977 pts · 442 comments · HN"
+        },
+        {
+          "title": "An update on recent Claude Code quality reports",
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem",
+          "summary": "Anthropic publishes a postmortem confirming two bugs caused real Claude quality regressions on Sonnet 4.6 and Opus 4.6 between March 26 and April 10.",
+          "paragraph": "An idle-session-cleanup change shipped March 26 was supposed to clear stale thinking once when sessions resumed; a bug caused it to fire every turn for the rest of the session, making Claude seem forgetful and repetitive. A separate effort-level mismatch compounded it. Both fixed by April 10. Reception on HN is split between 'credit for transparency' and 'how did no internal eval catch this for two weeks while users were complaining'. Reddit's r/LocalLLaMA flaired its top take as 'misleading' but the underlying data is real.",
+          "details": "Several engineers note the lack of product-level regression tests is the real failure. Many users report this matches their lived experience of Claude 4.6 going from 'great' to 'forgetful' in late March. r/LocalLLaMA mod added a 'misleading' flair to the editorialized headline but doesn't dispute the underlying postmortem.",
+          "source_meta": "922 pts · 705 comments · HN"
         },
         {
           "title": "Bitwarden CLI compromised in ongoing Checkmarx supply chain campaign",
           "url": "https://socket.dev/blog/bitwarden-cli-compromised",
-          "summary": "Bitwarden's CLI build pipeline shipped a poisoned npm package as part of the ongoing Checkmarx-style supply chain attack.",
-          "details": "Socket attributes it to a compromised build pipeline that pushed a malicious release; the surface area was small but the target is high-trust.\nTop community defense: setting `min-release-age=7` in `.npmrc` (npm 11.10+) would have protected the 334 affected installers — a now-recurring pattern.\nA highly-rated alternative: doy/rbw is a Rust Bitwarden CLI with a much smaller dependency tree, though Rust crates are now drifting toward npm-style depth.\nThird-most-upvoted: pin dependencies on anything business-critical — the debate keeps repeating because teams keep losing it.\nDiscussion: https://news.ycombinator.com/item?id=47876043",
-          "source_meta": "855 pts · 415 comments · HN"
-        },
-        {
-          "title": "We found a stable Firefox identifier linking all your private Tor identities",
-          "url": "https://fingerprint.com/blog/firefox-tor-indexeddb-privacy-vulnerability/",
-          "summary": "Fingerprint researchers find a stable identifier in Firefox's IndexedDB that persists across Tor private windows for the lifetime of the browser process.",
-          "details": "The identifier is process-scoped, so all your Tor identities created in one browser session can be linked together — Mozilla has been notified.\nTop reply notes this 'pseudonymizes' rather than deanonymizes, but acknowledges that combined with stylometry that's often enough.\nMost-upvoted operational advice: fully exit Tor Browser between distinct sessions, and never mix uses in one process — the fix is mitigation by hygiene until Mozilla patches.\nDiscussion: https://news.ycombinator.com/item?id=47866697",
-          "source_meta": "917 pts · 292 comments · HN"
+          "summary": "Socket reports the @bitwarden/cli npm package was compromised by the Checkmarx-tracked supply-chain campaign; ~334 users pulled the malicious 2026.4.0 build.",
+          "paragraph": "A poisoned 2026.4.0 release of @bitwarden/cli shipped via npm before being pulled within hours. The compromise traces to the same Checkmarx-tracked actor that hit axios, ua-parser-js, and node-ipc in prior waves — the build pipeline was the entry point. Setting min-release-age=7 in .npmrc (npm 11.10+) would have neutralized this for almost all users. The incident reignites the perennial 'pin your deps and avoid ^ ranges' argument.",
+          "details": "Top thread: rbw (Rust alternative) recommended as a smaller dep tree. PSA upvoted: pin exact versions for anything business-critical and don't trust ^ ranges in lockfiles. Several note min-release-age is the underused first line of defense.",
+          "source_meta": "856 pts · 416 comments · HN"
         },
         {
           "title": "Google plans to invest up to $40B in Anthropic",
           "url": "https://www.bloomberg.com/news/articles/2026-04-24/google-plans-to-invest-up-to-40-billion-in-anthropic",
-          "summary": "Bloomberg reports Google's investment in Anthropic could climb to $40B, on top of recent multi-gigawatt TPU and Broadcom commitments.",
-          "details": "Top comment connects this to Anthropic's recent contracts for 'multiple gigawatts of next-gen TPU capacity' from Google and Broadcom — a 'circular deal' pattern recurring across labs.\nMost-upvoted analytical reply: the subtext is that Anthropic was becoming severely capacity-constrained, signing somewhat adverse deals with both Amazon and Google in short succession.\nArchive link surfaced in the discussion: https://archive.ph/u274V\nDiscussion: https://news.ycombinator.com/item?id=47892074",
-          "source_meta": "523 pts · 512 comments · HN"
+          "summary": "Bloomberg: Google is preparing a follow-on of up to $40B in Anthropic, the largest AI investment to date, alongside ongoing TPU compute commitments.",
+          "paragraph": "The reported $40B follow-on dwarfs prior rounds and lands the same week Anthropic posted its Claude Code quality postmortem — useful timing for confidence. The deal would deepen Anthropic's TPU dependency on Google Cloud and complicate any future fundraising story with strategic-cloud rivals. Combined with the recent Anthropic-Amazon compute MOU, it reinforces how concentrated AI capex is among three or four counterparties.",
+          "details": "Comments split between 'this is great for Anthropic' and 'this is regulatory bait'. Several note the asymmetry: OpenAI <-> Microsoft has slowly become OpenAI <-> Oracle, and now Anthropic <-> Google + Amazon. The 'AI capex bubble' framing is the dominant skeptical voice.",
+          "source_meta": "586 pts · 560 comments · HN"
         },
         {
-          "title": "Sabotaging projects by overthinking, scope creep, and structural diffing",
-          "url": "https://kevinlynagh.com/newsletter/2026_04_overthinking/",
-          "summary": "Kevin Lynagh on how engineers self-sabotage by widening scope before validating the core — required reading for senior ICs and TLs.",
-          "details": "Frames overthinking and 'structural diffing' (comparing your half-built thing against an idealized future state) as the dominant failure mode, not under-engineering.\nTop comment connects it to PhD research and how reading all related work tends to expand scope until momentum dies.\nObama-quote thread: 'better is good' — small compounding improvements beat big perfect launches; teams almost never wish they'd delayed launch and polished more.\nDiscussion: https://news.ycombinator.com/item?id=47890799",
-          "source_meta": "410 pts · 105 comments · HN"
+          "title": "Show HN: Honker — Postgres NOTIFY/LISTEN semantics for SQLite",
+          "url": "https://github.com/russellromney/honker",
+          "summary": "Show HN drops a small Rust crate giving SQLite ordered, durable LISTEN/NOTIFY pub/sub — Postgres ergonomics on an embedded DB.",
+          "paragraph": "Honker exposes a NOTIFY/LISTEN API on top of SQLite using a WAL-aware writer fanout. For local-first apps, edge runtimes, and sidecars where you want NOTIFY ergonomics without running Postgres, this is a clean fit. Author wrote up the design tradeoffs (writer-side ordering, durable ack, no-poll listeners) directly in the README. Comments pushed for benchmarks and at-least-once delivery semantics — both seem to be on the way.",
+          "details": "Top thread compares it favorably to litebus and SQLite-only message queues. Some skepticism that SQLite's writer-lock model becomes the bottleneck under fanout. Author engages well in-thread.",
+          "source_meta": "297 pts · 76 comments · HN"
         },
         {
           "title": "Spinel: Ruby AOT Native Compiler",
           "url": "https://github.com/matz/spinel",
-          "summary": "Matz himself shipped an experimental Ruby AOT native compiler — built largely with Claude Code in about a month, demoed live at RubyKaigi 2026.",
-          "details": "Top comment trusts the project specifically because Matz built it: anyone else proposing AOT for Ruby's semantics would face skepticism, but he knows the corner cases.\nDetail from RubyKaigi: built with Claude assistance in roughly a month, named after his new cat (which is named after a Card Captor Sakura cat).\nMost-upvoted critical take: `spinel_codegen.rb` is a 21k-line file with up to 15 levels of method nesting — clearly only maintainable with AI agents in the loop, a fork in the road for compiler codebase aesthetics.\nDiscussion: https://news.ycombinator.com/item?id=47887334",
-          "source_meta": "321 pts · 86 comments · HN"
-        },
-        {
-          "title": "Honker – Postgres NOTIFY/LISTEN Semantics for SQLite",
-          "url": "https://github.com/russellromney/honker",
-          "summary": "Adds cross-process push notifications to SQLite with single-digit ms latency, no broker — using only the existing SQLite file.",
-          "details": "Author replaced polling queries with a clever WAL file stat trick to get push semantics out of plain SQLite.\nIn the thread he posted a follow-up PR implementing a three-layer polling architecture based on HN feedback the same day.\nMost-upvoted technical question: how does the WAL-stat approach behave under high write contention? — author engaged.\nDiscussion: https://news.ycombinator.com/item?id=47874647",
-          "source_meta": "297 pts · 76 comments · HN"
+          "summary": "Yukihiro Matsumoto's new Spinel compiles Ruby ahead-of-time to native binaries, targeting startup-sensitive deployments where MRI is too slow.",
+          "paragraph": "Spinel is matz's bet on AOT compilation for Ruby. It compiles a Ruby-the-language subset to native machine code rather than feeding the MRI interpreter loop. There is no day-one MRI compatibility — the project is explicit that the cost of supporting every C-extension corner case is too high. For Rails monoliths in fintech and e-commerce, an AOT path matters because cold-start latency is the long-running pain. Early but matz-backed.",
+          "details": "Two camps: Ruby-still-matters-in-production (Stripe, Shopify, GitLab cited) and 'why are we still doing Ruby in 2026'. Tsoding meme noted ('better be speedrunning this in a random ass language'). 'Still no prefixed functions?' is the sole language-design subthread.",
+          "source_meta": "325 pts · 87 comments · HN"
         },
         {
           "title": "TorchTPU: Running PyTorch Natively on TPUs at Google Scale",
           "url": "https://developers.googleblog.com/torchtpu-running-pytorch-natively-on-tpus-at-google-scale/",
-          "summary": "Google ships a native PyTorch backend for TPUs via PyTorch's PrivateUse1 mechanism — implicit admission that PyTorch/XLA didn't deliver.",
-          "details": "Top engineering comment: adding new hardware to PyTorch via PrivateUse1 is genuinely tractable; same mechanism the commenter used for WebGPU.\nMost-upvoted critical take: this is Google rebuilding what PyTorch/XLA on TPUs should have been from day one — production ML on a toolchain engineers can't trust is a non-starter.\nThird voice from someone who used PyTorch/XLA on TPU in research: undocumented behavior and silent 8-hour training hangs — the migration path is real.\nDiscussion: https://news.ycombinator.com/item?id=47881786",
+          "summary": "Google announces a path to deploy unmodified PyTorch eager and torch.compile workloads on TPUs without going through XLA tracing.",
+          "paragraph": "TorchTPU aims to remove the 'rewrite in JAX or XLA-trace your PyTorch' tax that kept many ML teams off TPUs. The blog post claims production-scale runs and notes parity gaps remain on dynamic shapes and custom CUDA kernels. Google Cloud TPU economics are 30–50% cheaper than equivalent H100 capacity for many MoE training configs, so removing the porting friction is genuinely strategic. HN response is technical and largely positive.",
+          "details": "Top thread asks about torch.compile vs eager perf parity and dynamic-shape support. Several DL infra engineers note this is what they've been waiting for since 2023.",
           "source_meta": "192 pts · 18 comments · HN"
-        },
-        {
-          "title": "Show HN: Agent Vault – Open-source credential proxy and vault for agents",
-          "url": "https://github.com/Infisical/agent-vault",
-          "summary": "Infisical's open-source credential broker for AI agents: keeps secrets out of agent prompts and tools, brokered through a proxy.",
-          "details": "Author flags this as a research preview — APIs and form factor are unstable.\nMost-upvoted comment confirms the gap is real: capable cloud agents instantly hit the credential management problem, and existing options are tied to specific agent frameworks.\nThird-ranked reply lists missing pieces (OAuth2 refresh handling, response transformation) — useful starting issue list for anyone evaluating for production.\nDiscussion: https://news.ycombinator.com/item?id=47865822",
-          "source_meta": "135 pts · 52 comments · HN"
         }
       ]
     },
@@ -109,60 +393,68 @@
       "name": "Reddit",
       "items": [
         {
-          "title": "DeepSeek-v4 has a comical 384K max output capability",
-          "url": "https://www.reddit.com/r/LocalLLaMA/comments/1su9iio/deepseekv4_has_a_comical_384k_max_output/",
-          "summary": "Tester throws a 'comprehensive single-HTML web OS' prompt at V4 and gets a 100KB single-file deliverable in one shot.",
-          "details": "Spec says 384K max output tokens — most labs ship 8–32K. This thread is the practical sanity check: the model actually generates very long, coherent artifacts in a single response without falling apart.\nThe attached screenshot shows a working monolithic single-file 'OS' UI generated end-to-end. Comments split between 'this is what long-form code synthesis looks like' and 'cherry-picked, but the size is real'.\nWhat to watch for in your own evals: does it hold structure across 100K+ output tokens without repetition collapse?",
-          "source_meta": "r/LocalLLaMA · 351 upvotes · 66 comments"
+          "title": "Anthropic admits to making hosted models more stupid — r/LocalLLaMA's take",
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem",
+          "summary": "Top LocalLLaMA thread reframes Anthropic's postmortem as a structural argument for open-weight models you control.",
+          "paragraph": "The 1.1k-upvote thread editorializes Anthropic's actual postmortem (an idle-session bug + an effort-level mismatch) as proof that closed-model providers will always optimize their burn rate over user quality. The mod added a 'misleading' flair acknowledging the title is hyperbole, but the comment thread is the substantive part: a long argument that local models, even when worse, give you a stable substrate that won't silently get downgraded.",
+          "details": "Mod: title is hyperbole, but for-profit providers will always optimize for margin. Top reply: 'Local is freedom.' Repeated theme: this isn't the first time hosted-model regressions were dismissed before being acknowledged.\nDiscussion: https://www.reddit.com/r/LocalLLaMA/comments/1suef7t/",
+          "source_meta": "r/LocalLLaMA · 1,154 ups · 231 cmts"
         },
         {
-          "title": "Gemma 4 and Qwen 3.6 with q8_0 and q4_0 KV cache: KL divergence results",
+          "title": "Gemma 4 and Qwen 3.6 with q8_0 / q4_0 KV cache: KL divergence results",
           "url": "https://localbench.substack.com/p/kv-cache-quantization-benchmark",
-          "summary": "Empirical KL-divergence numbers for KV-cache quantization on the two hottest open models — useful for sizing local inference.",
-          "details": "Quantifies the precision hit from q8_0 vs q4_0 KV cache on Gemma 4 and Qwen 3.6 instead of relying on vibes.\nKey takeaway from the post: q8_0 is essentially free; q4_0 is acceptable for some workloads but can compound on long contexts.\nReddit thread: https://www.reddit.com/r/LocalLLaMA/comments/1suh3sz/gemma_4_and_qwen_36_with_q8_0_and_q4_0_kv_cache/",
-          "source_meta": "r/LocalLLaMA · 318 upvotes · 58 comments"
+          "summary": "Detailed KV-cache quantization benchmark showing Qwen3.6 and Gemma 4 behave very differently under q8 / q4 KV.",
+          "paragraph": "localbench measures KL divergence between full-precision and quantized-KV runs across both model families. Qwen3.6 holds up surprisingly well at q4, while Gemma 4 shows noticeable distribution drift even at q8 — possibly tied to Google's decision to quantize sliding-window attention cache. For people running 24–48GB cards trying to extend context, this is the most actionable benchmark of the week.",
+          "details": "Top reply theorizes Gemma's drift is the SWA-cache quantization decision. Multiple users replicate similar Qwen3.6 results on their own setups.\nDiscussion: https://www.reddit.com/r/LocalLLaMA/comments/1suh3sz/",
+          "source_meta": "r/LocalLLaMA · 330 ups · 59 cmts"
         },
         {
-          "title": "DS4-Flash vs Qwen3.6 head-to-head",
-          "url": "https://www.reddit.com/r/LocalLLaMA/comments/1sub71w/ds4flash_vs_qwen36/",
-          "summary": "Side-by-side benchmark image of DeepSeek V4 Flash against Qwen 3.6 — the practitioner comparison everyone was waiting for.",
-          "details": "Both models are the week's hot releases; this thread is where local-LLM users are converging on which one to actually run.\nDiscussion centers on tool-use accuracy and multi-turn coherence rather than raw single-turn benchmarks — V4 Flash strong on tool calls, Qwen ahead on dense reasoning.\nWorth scanning the comments before re-running your own evals.",
-          "source_meta": "r/LocalLLaMA · 287 upvotes · 99 comments"
-        },
-        {
-          "title": "Tested DeepSeek V4 Flash on large code-change evals — it absolutely kills with tool-use accuracy",
+          "title": "Tested DeepSeek V4 Flash with large code-change evals",
           "url": "https://www.reddit.com/r/LocalLLaMA/comments/1suhdki/tested_deepseek_v4_flash_with_some_large_code/",
-          "summary": "Practitioner reports V4 Flash handles complex multi-tool calls and large code refactors without the confusion typical of open-weights agents.",
-          "details": "Author ran their own large code-change eval suite, focused on context management, multi-tool dispatch, and thinking-trace quality.\nClaim: 'one of the few open-weights models that does not get confused with multi tool calls or complex native…' — a real bar for agentic use.\nFor anyone running agent loops on local models, this is the most useful single signal of the week.",
-          "source_meta": "r/LocalLLaMA · 140 upvotes · 21 comments"
+          "summary": "Operator runs V4 Flash through their internal large-code-change tool-use suite — reports it 'absolutely kills' on accuracy.",
+          "paragraph": "The author runs DeepSeek V4 Flash against a private tool-use benchmark focused on large multi-file refactors. The reported result: tool-call accuracy is high enough that they're considering V4 Flash as a Haiku replacement at a fraction of the price. Specific failure modes noted are around long-context retrieval where the model occasionally confuses two similarly-named symbols across files.",
+          "details": "Replies request a public benchmark and disclosure of the test set. Several echo that V4 Flash at $0.14/M input changes the cost calculus for batch agentic workloads.",
+          "source_meta": "r/LocalLLaMA · 144 ups · 22 cmts"
         },
         {
           "title": "Takeaways & discussion about the DeepSeek V4 architecture",
           "url": "https://www.reddit.com/r/LocalLLaMA/comments/1subuve/takeaways_discussion_about_the_deepseek_v4/",
-          "summary": "Engineering walkthrough of the V4 tech report — architecture choices that get less coverage than the benchmark numbers.",
-          "details": "Goes beyond benchmarks into the structural decisions: routing, attention variant choices, the deterministic-kernel angle, and how those map to production cost.\nMost engaged comments dig into MoE expert sizing and the implications for serving infra.\nGood companion read alongside the HN thread on the same release.",
-          "source_meta": "r/LocalLLaMA · 131 upvotes · 76 comments"
+          "summary": "Architecture-focused thread on what's actually new in V4: 1M context fits in ~5GB, batch-invariant kernels, no Engram block.",
+          "paragraph": "The thread digs into V4's tech report. Key findings: the 1M-token context can fit in roughly 5GB of KV cache, which is a meaningful efficiency story; the batch-invariant deterministic kernels are real; the rumored 'Engram' novel-attention block didn't ship in this preview. Several commenters speculate Engram is being held for the definitive V4 release rather than this preview.",
+          "details": "Top reply: 'they can fit 1M context in ~5GB — that's the biggest takeaway.' Sub-thread on Engram speculates it's reserved for the definitive V4 release.",
+          "source_meta": "r/LocalLLaMA · 135 ups · 78 cmts"
         },
         {
-          "title": "Qwen3.6-35B-A3B: in VRAM-limited setups, bigger MoE quants can beat smaller dense",
-          "url": "https://www.reddit.com/r/LocalLLaMA/comments/1sutct2/qwen3635ba3b_even_in_vram_limited_scenarios_it/",
-          "summary": "On a 3070 8GB + 64GB DDR4, the 35B-A3B MoE in Q4 outperforms what you'd expect from raw VRAM math — practical local-LLM win.",
-          "details": "OP's setup: RTX 3070 8GB + 64GB DDR4. Default instinct is to take the smallest dense Q4, but they found the larger A3B MoE quant produced better outputs at the same effective memory budget.\nKey insight, expanded in comments: with MoE, only active experts need to fit hot in VRAM; offload patterns flip the usual quality/size tradeoff.\nIf you're doing local agentic work and stretching consumer hardware, this thread changes how you pick a quant.",
-          "source_meta": "r/LocalLLaMA · 161 upvotes · 47 comments"
-        },
-        {
-          "title": "I built my own Diffusion Language Model from scratch",
+          "title": "Building my own Diffusion Language Model from scratch was easier than I thought",
           "url": "https://www.reddit.com/r/MachineLearning/comments/1srufft/bulding_my_own_diffusion_language_model_from/",
-          "summary": "Hand-coded DLM project as a deliberate detox from Claude Code — author reports it was easier than expected and learned more than from any tutorial.",
-          "details": "The framing — 'I felt like I was relying on Claude Code a lot, so I built this without AI help' — is itself the discussion point in the comments.\nGood walk-through of training-loop choices for diffusion-on-text and where the surprises were vs autoregressive intuition.\nUseful weekend project read for anyone wanting to keep their muscles sharp while shipping with agents.",
-          "source_meta": "r/MachineLearning · 123 upvotes · 28 comments"
+          "summary": "ML engineer trains a small discrete-diffusion LM end-to-end on an M2 laptop and shares the full pipeline.",
+          "paragraph": "The author writes up training a discrete diffusion language model from scratch on a consumer laptop — total time was a few hours on M2. The post is mostly didactic: a clean walk-through of the loss, the noising schedule, and the sampling loop, with code. The reframing in the comments is the punchline: discrete diffusion for text is essentially image diffusion run over the vocabulary distribution, which makes it much less mysterious once you've trained one.",
+          "details": "Top reply: training on M2 'in a few hours' is striking — older laptops would not survive. Sub-thread: discrete diffusion looks complicated until you realize it's image-diffusion-with-vocab-as-target.",
+          "source_meta": "r/MachineLearning · 125 ups · 29 cmts"
         },
         {
-          "title": "We benchmarked 18 LLMs on OCR (7k+ calls) — cheaper/older models often win",
+          "title": "Benchmarked 18 LLMs on OCR (7k+ calls) — cheaper/older models often win",
           "url": "https://www.reddit.com/r/MachineLearning/comments/1st9v81/we_benchmarked_18_llms_on_ocr_7k_calls_cheaperold/",
-          "summary": "Open dataset + framework for OCR benchmarking; flagship VLMs lose to cheaper/older models on a lot of real document workloads.",
-          "details": "TL;DR from author: they were overpaying for OCR; comparing flagships against cheaper and older models surfaced clear wins for the cheaper tier on many document classes.\nIncludes a free testing tool for your own documents and an open leaderboard — replicate before adopting flagship pricing for OCR pipelines.\nA useful counter-narrative to 'always use the newest model' for document/agent workflows.",
-          "source_meta": "r/MachineLearning · 58 upvotes · 37 comments"
+          "summary": "Open dataset and framework for OCR benchmarking across 18 LLMs — older or cheaper models often outperform flagship ones.",
+          "paragraph": "The team ran 7,000+ OCR calls across 18 models and open-sourced both the framework and the dataset. Counter-intuitive finding: smaller / older models frequently beat GPT-4o-class models on noisy-document OCR, particularly on tables and handwritten content. The framework lets you re-run with new models in a few hours. Useful before you spend on a 'frontier' model for a problem that doesn't need one.",
+          "details": "Replies: a few flag specific eval choices (table vs raw-text scoring) and ask for V4 / GPT-5.5 to be added to the leaderboard.",
+          "source_meta": "r/MachineLearning · 56 ups · 37 cmts"
+        },
+        {
+          "title": "raylib v6.0",
+          "url": "https://github.com/raysan5/raylib/releases/tag/6.0",
+          "summary": "raylib hits 6.0 — the friendly C games / graphics library used as a teaching baseline by many engine devs.",
+          "paragraph": "v6.0 ships major API cleanups, refreshed examples, and a unified rendering backend across desktop, web, and mobile. raylib remains the canonical way to bootstrap a small game or graphics demo without dragging in a full engine. The release thread is the usual mix of 'finally' for long-overdue cleanups and 'still no X' for missing features. Useful for anyone teaching graphics or building offline tools that need a thin layer over OpenGL/WebGL.",
+          "details": "Top reply jokes Tsoding will speedrun a port. Some confusion about API breaks vs. v5 series.\nDiscussion: https://www.reddit.com/r/programming/comments/1sudrm3/",
+          "source_meta": "r/programming · 107 ups · 18 cmts"
+        },
+        {
+          "title": "Jeff Bezos's 'Project Prometheus' raising $10B at $38B valuation to build 'Physical AI'",
+          "url": "https://www.bloomberg.com/news/articles/2026-04-21/jeff-bezos-nears-10-billion-funding-round-for-ai-lab-ft-says",
+          "summary": "Bloomberg: Bezos is anchoring a $10B round at a $38B valuation for a new lab focused on robotics-grade ('physical') AI.",
+          "paragraph": "Project Prometheus is positioned as a competitor to Figure, Physical Intelligence, and the recently-resurgent Tesla Optimus program. The cap table reportedly mixes Bezos personal capital with sovereign and strategic LPs. The 'physical AI' framing — VLA models trained against real-world robot data — is the same thesis NVIDIA, DeepMind, and Tencent (Hy3) are racing toward. The valuation is striking for a sub-1-year-old lab without a shipped product.",
+          "details": "Top replies: 'did he not look up what happened to Prometheus?' (mythology joke). Sub-thread on whether physical-AI valuations are the next bubble after pure-LLM labs cooled.",
+          "source_meta": "r/artificial · 125 ups · 31 cmts"
         }
       ]
     },
@@ -170,74 +462,68 @@
       "name": "GitHub Trending",
       "items": [
         {
-          "title": "microsoft/typescript-go",
-          "url": "https://github.com/microsoft/typescript-go",
-          "summary": "Microsoft's staging repo for the native Go port of the TypeScript compiler — the project Anders Hejlsberg announced last year is publicly trending.",
-          "details": "Native port of tsc to Go targeting an order-of-magnitude perf improvement over the existing JS implementation.\nWatch this if you ship anything large in TS: build/typecheck times are about to change shape, and tooling that wraps tsc will need updates.",
-          "source_meta": "GitHub Trending · weekly · Go"
+          "title": "forrestchang/andrej-karpathy-skills",
+          "url": "https://github.com/forrestchang/andrej-karpathy-skills",
+          "summary": "A single CLAUDE.md file derived from Andrej Karpathy's running observations about LLM coding pitfalls — fastest-growing repo this week.",
+          "paragraph": "This is the most-starred repo on GitHub Trending right now. It distills Karpathy's running threads on how LLMs sabotage coding (drive-by refactors, sycophancy, missing verification loops) into a drop-in CLAUDE.md. Engineers are using it as a baseline behavior contract for Claude Code, Codex, Cursor, and Aider. The popularity itself is the signal: 'agents-md' style files are now first-class config, not curiosities.",
+          "details": "",
+          "source_meta": "+29,435 stars this week"
         },
         {
-          "title": "deepseek-ai/DeepEP",
-          "url": "https://github.com/deepseek-ai/DeepEP",
-          "summary": "DeepSeek's efficient expert-parallel communication library — the infra DeepSeek runs internally for MoE training/inference.",
-          "details": "CUDA-level library for fast expert-parallel collectives in MoE models — directly tied to V4's serving economics.\nIf you're training or serving MoE at scale, this is the reference implementation to read alongside V4's tech report.",
-          "source_meta": "GitHub Trending · daily · CUDA"
-        },
-        {
-          "title": "huggingface/ml-intern",
-          "url": "https://github.com/huggingface/ml-intern",
-          "summary": "Hugging Face's open-source 'ML engineer' agent: reads papers, runs experiments, ships training code.",
-          "details": "Opinionated agent framework specifically aimed at the ML research workflow — paper ingestion, experiment design, code generation.\nUseful even if you don't run it as-is: prompt structure and tool design are good prior art for any code-running agent.",
-          "source_meta": "GitHub Trending · daily · Python"
+          "title": "NousResearch/hermes-agent",
+          "url": "https://github.com/NousResearch/hermes-agent",
+          "summary": "Nous Research's open-source long-running agent stack with skill-tree growth and persistent memory.",
+          "paragraph": "Hermes Agent is Nous's bet on agents that grow their own skill trees rather than running fixed prompt scaffolds. It pairs an agent loop with a persistent memory store and a 'compounding skills' mechanism. Nous has a Wednesday AMA scheduled in r/LocalLLaMA. Up 19k stars in a week, which puts it second only to the karpathy-skills file on this week's GitHub trending.",
+          "details": "",
+          "source_meta": "+19,019 stars this week"
         },
         {
           "title": "zilliztech/claude-context",
           "url": "https://github.com/zilliztech/claude-context",
-          "summary": "Code-search MCP server for Claude Code that makes a whole codebase available as context via vector search.",
-          "details": "Drop-in MCP that turns codebase indexing into a Claude Code tool — alternative to per-file Read loops on large repos.\nMatters because Claude Code's context window is the bottleneck for monorepo work; this is the leading community answer right now.",
-          "source_meta": "GitHub Trending · daily · TypeScript"
+          "summary": "MCP server that gives Claude Code (and any MCP-aware agent) repo-wide semantic + lexical code search.",
+          "paragraph": "claude-context indexes a codebase into Milvus and exposes it as a Model Context Protocol server. Coding agents call it instead of stuffing files into the prompt — that's the unlock. Following Anthropic's quality postmortem, this is the most-recommended stop-gap to make existing Claude Code sessions behave better. ~2,900 stars this week and ~700 stars/day still climbing.",
+          "details": "",
+          "source_meta": "+706 stars today · TypeScript"
         },
         {
-          "title": "google/osv-scanner",
-          "url": "https://github.com/google/osv-scanner",
-          "summary": "Google's Go-based vulnerability scanner that maps your dependencies against the OSV database.",
-          "details": "Surfacing on trending alongside the Bitwarden CLI/Checkmarx supply chain stories — the timing is not a coincidence.\nReasonable default to bolt onto CI for any project where dependency hygiene actually matters.",
-          "source_meta": "GitHub Trending · daily · Go"
+          "title": "openai/openai-agents-python",
+          "url": "https://github.com/openai/openai-agents-python",
+          "summary": "OpenAI's official Python framework for building multi-agent workflows — now the canonical way to build on Codex 3.0.",
+          "paragraph": "The Codex 3.0 launch on Wednesday made this the de-facto OpenAI agent SDK. Handoffs, tools, tracing, and skill loading are all first-class primitives. Pair it with the GPT-5.5 API and the new Automations runner and you have a full agent platform without leaving the OpenAI surface. ~3.4k new stars this week directly on the back of the Codex announcement.",
+          "details": "",
+          "source_meta": "+3,372 stars this week · Python"
         },
         {
-          "title": "google/adk-samples",
-          "url": "https://github.com/google/adk-samples",
-          "summary": "Sample agents built on Google's Agent Development Kit — the SDK they're pushing as the Vertex AI agent path.",
-          "details": "Useful even if you're not on GCP: ADK's tool/skill abstractions and the sample apps are a good comparison point against AI SDK / OpenAI's Agents SDK.\nLook at the multi-agent samples for the more interesting orchestration patterns.",
-          "source_meta": "GitHub Trending · daily · Python"
+          "title": "multica-ai/multica",
+          "url": "https://github.com/multica-ai/multica",
+          "summary": "Open-source managed-agents platform — assign tasks to coding agents, track progress, compound learned skills.",
+          "paragraph": "Multica wraps coding agents (Claude Code, Codex, Aider) in a dispatch layer that treats them like contractors: assign tasks, watch outputs, accumulate skills across runs. The platform is designed to be self-hostable and compose well with the agents-md / skills standards. ~5.4k stars in a week is unusually fast for an OSS platform launch and suggests teams are tired of running multiple coding agents by hand.",
+          "details": "",
+          "source_meta": "+5,421 stars this week · TypeScript"
         },
         {
-          "title": "openai/skills",
-          "url": "https://github.com/openai/skills",
-          "summary": "OpenAI's official Skills Catalog for Codex — public reference for the new Codex skills/plugins system.",
-          "details": "Lands at the same time as the GPT-5.5 push and the Codex skills/plugins announcements.\nReadable contract for the skills format if you're considering shipping your own — and a check on how OpenAI is structuring the agent surface vs Anthropic's MCP.",
-          "source_meta": "GitHub Trending · daily · Python"
+          "title": "rtk-ai/rtk",
+          "url": "https://github.com/rtk-ai/rtk",
+          "summary": "Single-binary Rust CLI that proxies dev commands and cuts LLM token usage by 60–90% via dedup and compression.",
+          "paragraph": "rtk sits between your shell or coding agent and the LLM, rewriting and compressing common dev-command output (grep / find / ls / test runs) before it ever reaches the model. The README cites 60–90% token savings on representative workloads. Sky-high daily-star count this week — almost a thousand stars in a single day, which usually means either HN or a strong tweet pulled it onto every dashboard.",
+          "details": "",
+          "source_meta": "+969 stars today · Rust"
         },
         {
-          "title": "unslothai/unsloth",
-          "url": "https://github.com/unslothai/unsloth",
-          "summary": "Web UI for training and running open models including Gemma 4 and Qwen 3.6 — the local fine-tuning loop is getting friendlier.",
-          "details": "Adds a UI on top of Unsloth's already-popular fast training kernels — the 'I just want to LoRA Qwen 3.6' path keeps shrinking.\nFor most senior engineers, the value is the kernels; the UI matters for getting product/data folks self-serving on fine-tunes.",
-          "source_meta": "GitHub Trending · daily · Python"
+          "title": "lakehq/sail",
+          "url": "https://github.com/lakehq/sail",
+          "summary": "Drop-in Apache Spark replacement written in Rust — unifies batch, streaming, and AI compute on one engine.",
+          "paragraph": "Sail speaks Spark SQL and DataFrame APIs but runs natively in Rust on Datafusion-style internals, dropping the JVM overhead Spark teams complain about most. The project hit a 1.0 milestone this month with full streaming and Python UDF parity in scope. Steady ~130 stars/day all week, which is the kind of velocity that suggests adoption rather than a launch spike.",
+          "details": "",
+          "source_meta": "+133 stars today · Rust"
         },
         {
-          "title": "kirodotdev/Kiro",
-          "url": "https://github.com/kirodotdev/Kiro",
-          "summary": "Open-source agentic IDE positioning itself as the prototype-to-production code partner — the latest Cursor/Zed competitor.",
-          "details": "Trending hard in TS this week; positions as 'works alongside you from prototype to production' rather than as an autocomplete.\nIf you've been evaluating Cursor/Zed/Continue, this is now in the comparison set — primarily for its agent-loop UX choices.",
-          "source_meta": "GitHub Trending · daily · TypeScript"
-        },
-        {
-          "title": "zed-industries/zed",
-          "url": "https://github.com/zed-industries/zed",
-          "summary": "Zed continues to trend on the weekly board as the high-performance Rust editor with serious AI integration.",
-          "details": "Showing up on weekly trending again because of the 25.x release cadence and the Anthropic/MCP-friendly agent panel.\nIf you've not retried Zed since last year, it's a different product now — particularly for multi-buffer agent edits.",
-          "source_meta": "GitHub Trending · weekly · Rust"
+          "title": "deepseek-ai/DeepGEMM",
+          "url": "https://github.com/deepseek-ai/DeepGEMM",
+          "summary": "Clean FP8 GEMM kernels with fine-grained scaling — the matmul layer behind DeepSeek V4's pricing.",
+          "paragraph": "DeepGEMM is one of the open kernel projects DeepSeek uses to hit V4's $1.74/M input pricing. Fine-grained per-block scaling avoids FP8 accuracy collapse on large hidden dims. It's the GPU-kernel companion to DeepEP (expert-parallel comm) and the new batch-invariant kernels that ship with V4. Activity spiked alongside the V4 release.",
+          "details": "",
+          "source_meta": "+605 stars this week · CUDA"
         }
       ]
     },
@@ -247,107 +533,66 @@
         {
           "title": "DeepSeek V4 — almost on the frontier, a fraction of the price",
           "url": "https://simonwillison.net/2026/Apr/24/deepseek-v4/",
-          "summary": "Simon Willison's hands-on read on V4: near-frontier capability and the price/perf curve that's putting pressure on the US labs' pricing.",
-          "details": "The most useful 'has a senior engineer actually used it' writeup of V4 — pelican benchmark, code synthesis, and price comparisons.\nSimon emphasizes the deterministic kernel work and what it means for reproducible evals.",
-          "source_meta": "Simon Willison · 2026-04-24"
+          "summary": "Simon Willison's first-look review of DeepSeek V4 — capability, cost, and what the open kernels mean.",
+          "paragraph": "Simon walks through V4 Pro and V4 Flash side by side, including pelican benchmarks and side-by-sides against Claude Opus 4.7 and GPT-5.5. He calls out the 1M context as 'actually usable' (citing the HF blog), the bitwise-deterministic kernels as the under-reported part, and the Flash pricing as 'changes the cost calculus'. As always with Simon, the value is in the dispassionate side-by-sides.",
+          "details": "",
+          "source_meta": "Simon Willison · Apr 24"
         },
         {
           "title": "GPT-5.5 prompting guide",
           "url": "https://simonwillison.net/2026/Apr/25/gpt-5-5-prompting-guide/",
-          "summary": "Simon's distillation of OpenAI's GPT-5.5 prompting guide — the deltas vs GPT-5 that matter for production prompts.",
-          "details": "Focuses on the actually-changed instructions for tool use, refusal behavior, and structured output.\nWorth a read before re-running your eval suite against 5.5 — saves you finding the same gotchas the hard way.",
-          "source_meta": "Simon Willison · 2026-04-25"
-        },
-        {
-          "title": "Is Claude Code going to cost $100/month? Probably not — it's all very confusing",
-          "url": "https://simonwillison.net/2026/Apr/22/claude-code-confusion/",
-          "summary": "Calm read of the Claude Code pricing fog — what the actual subscription tiers do and don't include.",
-          "details": "Lands the same week as Anthropic's quality postmortem and the cancel-Claude HN thread; together they map the full pricing/quality discourse.\nIf your team is reauthorizing Claude Code spend this quarter, this is the post to send around.",
-          "source_meta": "Simon Willison · 2026-04-22"
-        },
-        {
-          "title": "Changes to GitHub Copilot Individual plans",
-          "url": "https://simonwillison.net/2026/Apr/22/changes-to-github-copilot/",
-          "summary": "Simon's commentary on GitHub's Copilot Individual plan repackaging — what changes for solo devs and small teams.",
-          "details": "Covers premium-request economics, what counts as 'agent' usage, and how this maps against Cursor / Claude Code billing for the same workloads.",
-          "source_meta": "Simon Willison · 2026-04-22"
-        },
-        {
-          "title": "llm 0.31",
-          "url": "https://simonwillison.net/2026/Apr/24/llm/",
-          "summary": "New release of Simon's `llm` CLI/library — the de-facto Swiss-army tool for hitting any model from a terminal or script.",
-          "details": "0.31 release notes cover provider additions, schema improvements, and the embedding tooling — relevant if you script multi-provider evals.",
-          "source_meta": "Simon Willison · 2026-04-24"
-        },
-        {
-          "title": "Changes in the system prompt between Claude Opus 4.6 and 4.7",
-          "url": "https://simonwillison.net/2026/Apr/18/opus-system-prompt/",
-          "summary": "Diff of Anthropic's hosted system prompts across model versions — concrete view into how Anthropic is steering Claude in production.",
-          "details": "Useful prior art if you're maintaining your own assistant prompts: shows what Anthropic adds/removes when behaviors change.\nPaired with the system-prompts-as-a-git-timeline tracker, it's now easy to follow Claude's hosted behavior over time.",
-          "source_meta": "Simon Willison · 2026-04-18"
+          "summary": "Annotated walk-through of OpenAI's GPT-5.5 prompting guide — what's actually new in practice.",
+          "paragraph": "Verbosity controls, the new Automations runner, the reasoning-effort knob, and where the official docs are still misleading. Simon pairs each section with hands-on llm-cli output. Read this before you migrate any production prompt to 5.5.",
+          "details": "",
+          "source_meta": "Simon Willison · Apr 25"
         },
         {
           "title": "DeepSeek-V4: a million-token context that agents can actually use",
           "url": "https://huggingface.co/blog/deepseekv4",
-          "summary": "Hugging Face's deep-dive on V4's context engine — why the 1M-token claim isn't just a number on a spec sheet.",
-          "details": "Covers retrieval-augmented context handling and how V4 sustains coherence across very long inputs without the usual collapse.\nGood companion piece to the HN postmortem-style 'this actually works in agent loops' threads on Reddit.",
-          "source_meta": "Hugging Face · 2026-04-24"
+          "summary": "Hugging Face's deep-dive on what changed in V4 to make 1M context survive real agentic workloads.",
+          "paragraph": "The HF post argues V4 closes the historical gap between 'advertised context length' and 'context length the model can usefully reason over'. They walk through the architecture changes, the batch-invariant kernel claims, and the cost story. Important if you've been burned by long-context regressions in earlier MoE models.",
+          "details": "",
+          "source_meta": "Hugging Face · Apr 24"
         },
         {
-          "title": "How to Use Transformers.js in a Chrome Extension",
-          "url": "https://huggingface.co/blog/transformersjs-chrome-extension",
-          "summary": "Practical walkthrough for shipping local models in a browser extension via Transformers.js — fully client-side inference.",
-          "details": "The pattern matters because it's the cleanest way to ship private/offline AI features in a browser surface.\nGood reference if you're evaluating client-side vs API-call architectures for a feature that touches user data.",
-          "source_meta": "Hugging Face · 2026-04-23"
+          "title": "GPT-5.5 on AI Gateway",
+          "url": "https://vercel.com/changelog/gpt-5.5-on-ai-gateway",
+          "summary": "Vercel adds GPT-5.5 to AI Gateway day-of, giving teams a single API to A/B 5.5 against DeepSeek V4 and Kimi K2.6.",
+          "paragraph": "Day-of GPT-5.5 access through Vercel AI Gateway, with the same observability and zero-data-retention defaults. Combined with the V4 (Apr 23), GPT Image 2 (Apr 21), and Kimi K2.6 (Apr 20) adds, the Gateway is now the single API surface where this week's model wave converges.",
+          "details": "",
+          "source_meta": "Vercel · Apr 24"
+        },
+        {
+          "title": "DeepSeek V4 on AI Gateway",
+          "url": "https://vercel.com/changelog/deepseek-v4-on-ai-gateway",
+          "summary": "DeepSeek V4 (Pro and Flash) live on Vercel AI Gateway from day one of the model release.",
+          "paragraph": "Both V4 Pro and V4 Flash routed through the Gateway with full streaming, tool calls, and structured-output support. For teams that want to run V4 in production without setting up DeepSeek-direct billing, this is the path of least friction.",
+          "details": "",
+          "source_meta": "Vercel · Apr 23"
         },
         {
           "title": "Introducing GPT-5.5",
           "url": "https://openai.com/index/introducing-gpt-5-5",
-          "summary": "OpenAI's official GPT-5.5 announcement — improved reasoning, coding, and Codex integration as the headline beats.",
-          "details": "Read in tandem with the GPT-5.5 System Card and the prompting guide — together they're the canonical reference for the release.",
-          "source_meta": "OpenAI · 2026-04-23"
+          "summary": "OpenAI's official GPT-5.5 announcement — capabilities, pricing, and the Codex 3.0 platform overhaul.",
+          "paragraph": "OpenAI's launch post for GPT-5.5 covers the headline benchmark gains, the new 1.05M-token context, the Pro tier, and the Codex 3.0 platform refresh that lands at the same time. Read alongside the System Card and the Codex Academy posts for the complete picture.",
+          "details": "",
+          "source_meta": "OpenAI · Apr 23"
         },
         {
-          "title": "Speeding up agentic workflows with WebSockets in the Responses API",
-          "url": "https://openai.com/index/speeding-up-agentic-workflows-with-websockets",
-          "summary": "OpenAI adds WebSocket transport to the Responses API for lower-latency agent loops.",
-          "details": "Concrete win for tool-heavy agents: HTTP/SSE round-trips become a single persistent stream, cutting per-tool-call overhead.\nIf you're hitting Responses API at scale, this is a measurable latency reduction for free.",
-          "source_meta": "OpenAI · 2026-04-22"
+          "title": "An update on recent Claude Code quality reports",
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem",
+          "summary": "Anthropic's engineering postmortem confirming and explaining the late-March / early-April Claude quality regressions.",
+          "paragraph": "Two bugs: an idle-session-cleanup change firing every turn instead of once, and an effort-level mismatch. Both affected Sonnet 4.6 and Opus 4.6 between March 26 and April 10. The post is the most candid public Anthropic engineering post in months and is the document the rest of the week's discourse circles around.",
+          "details": "",
+          "source_meta": "Anthropic · Apr 23"
         },
         {
-          "title": "Introducing workspace agents in ChatGPT",
-          "url": "https://openai.com/index/introducing-workspace-agents-in-chatgpt",
-          "summary": "ChatGPT Enterprise gets background workspace agents that operate over org data with shared context.",
-          "details": "Direction-of-travel signal: OpenAI is pushing into the same territory as Glean and the Microsoft 365 Copilot stack, with a long-running agent surface.\nFor anyone evaluating internal-AI deployments, this changes the build-vs-buy math vs custom RAG.",
-          "source_meta": "OpenAI · 2026-04-22"
-        },
-        {
-          "title": "GPT 5.5 on AI Gateway",
-          "url": "https://vercel.com/changelog/gpt-5.5-on-ai-gateway",
-          "summary": "Vercel AI Gateway exposes GPT-5.5 immediately at launch — pass-through with observability and fallback.",
-          "details": "If you use AI Gateway, you can swap to `openai/gpt-5.5` strings without touching provider SDKs.\nUseful for A/B-ing 5.5 against existing prod models without code changes — measure cost and latency, not just quality.",
-          "source_meta": "Vercel · 2026-04-24"
-        },
-        {
-          "title": "Deepseek V4 on AI Gateway",
-          "url": "https://vercel.com/changelog/deepseek-v4-on-ai-gateway",
-          "summary": "DeepSeek V4 also live on Vercel's AI Gateway — same routing surface, very different price point.",
-          "details": "Sits alongside GPT-5.5 in the gateway, which is the easiest way to run head-to-head evals on your own workloads.\nDirect entry point for the price/perf comparison everyone is running this week.",
-          "source_meta": "Vercel · 2026-04-23"
-        },
-        {
-          "title": "Kimi K2.6 on AI Gateway",
-          "url": "https://vercel.com/changelog/kimi-k2.6-on-ai-gateway",
-          "summary": "Moonshot's Kimi K2.6 added to AI Gateway — another open-weights frontier-adjacent model now reachable via gateway.",
-          "details": "Continues the pattern of treating the gateway as the universal substrate for model-pluggability — meaningful only if you've already abstracted your call sites.",
-          "source_meta": "Vercel · 2026-04-20"
-        },
-        {
-          "title": "Import AI 454: automating alignment research; safety study of a Chinese model; HiFloat4",
+          "title": "Import AI 454: Automating alignment research; safety study of a Chinese model; HiFloat4",
           "url": "https://importai.substack.com/p/import-ai-454-automating-alignment",
-          "summary": "Jack Clark's weekly roundup — alignment-research automation, a safety eval of a major Chinese model, and the HiFloat4 paper.",
-          "details": "Strongest of the weekly newsletters this week for actually-substantive AI engineering signal vs hype.\nWorth subscribing if you don't already — the Tech Tales section alone is usually the most thoughtful AI-policy writing around.",
-          "source_meta": "Import AI · 2026-04-20"
+          "summary": "Jack Clark's weekly digest — alignment-research automation results, a Chinese-model safety study, and HiFloat4.",
+          "paragraph": "The 454th issue covers three threads worth tracking: a new attempt to automate alignment research itself, a safety-evaluation study of one of the major Chinese frontier models, and HiFloat4 — a new low-precision floating-point format being pushed for inference. Clark's standalone link rolls remain the densest weekly read in AI policy / capabilities.",
+          "details": "",
+          "source_meta": "Import AI · Apr 20"
         }
       ]
     }
