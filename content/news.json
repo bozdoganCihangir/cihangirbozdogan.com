@@ -1,14 +1,122 @@
 {
-  "fetched_at": "2026-04-25T11:30:00Z",
+  "fetched_at": "2026-04-26T08:53:00Z",
   "category": "tech",
   "trending": [
+    {
+      "rank": 1,
+      "name": "DeepSeek DeepEP",
+      "category": "tool",
+      "subcategory": "training-kernels",
+      "one_liner": "Expert-parallel communication library powering DeepSeek's MoE training and inference at trillion-parameter scale.",
+      "paragraph": "DeepEP is the all-to-all communication library DeepSeek built for Mixture-of-Experts training and inference. It implements high-throughput dispatching/combining of expert tokens with NVLink, RDMA, and FP8 paths, plus low-latency kernels suitable for online serving. With DeepSeek V4 dropping this week and the team publishing concrete numbers on bitwise-deterministic kernels, DeepEP is back near the top of GitHub Trending — every team trying to reproduce V4-style serving stacks is reading this code.",
+      "url": "https://github.com/deepseek-ai/DeepEP"
+    },
+    {
+      "rank": 2,
+      "name": "tilelang",
+      "category": "tool",
+      "subcategory": "kernel-dsl",
+      "one_liner": "Domain-specific language for writing high-performance GPU, CPU, and accelerator kernels with concise tiled code.",
+      "paragraph": "tilelang lets you express tiled kernels (matmul, attention, MoE dispatch) at a higher level than CUDA while keeping near-handwritten throughput. The project crossed 5,700 stars this week as DeepSeek released TileKernels — a full kernel library written in tilelang — alongside V4. It's becoming the lingua franca for groups that want CUTLASS-class performance without dropping into raw PTX, and is showing up in Apple-Silicon and AMD ports too.",
+      "url": "https://github.com/tile-ai/tilelang"
+    },
+    {
+      "rank": 3,
+      "name": "DeepSeek TileKernels",
+      "category": "tool",
+      "subcategory": "kernel-library",
+      "one_liner": "DeepSeek's open kernel library written in tilelang — the actual kernels under V4's training and inference stack.",
+      "paragraph": "Created on April 22 and already past 1,180 stars, TileKernels is the production set of attention, MoE, and grouped-GEMM kernels DeepSeek uses internally. The team committed to bitwise-deterministic kernels with minimal overhead, which is rare in the open and is the headline detail many engineers are quoting from V4's release notes. If you care about reproducing V4 numbers or fine-tuning on top, this is the new reference implementation.",
+      "url": "https://github.com/deepseek-ai/TileKernels"
+    },
+    {
+      "rank": 4,
+      "name": "FlashKDA",
+      "category": "tool",
+      "subcategory": "attention-kernels",
+      "one_liner": "Moonshot's CUDA kernels for Kimi Delta Attention — high-performance attention variant used inside Kimi K2.6.",
+      "paragraph": "FlashKDA implements Kimi Delta Attention as a set of FlashAttention-style CUDA kernels. Created on April 20 and already at 395 stars, it dropped alongside the Kimi K2.6 weights and is being adopted by inference projects that want the same long-context efficiency Moonshot claims. Useful if you're building serving stacks that want sub-quadratic attention without rolling your own kernel from scratch.",
+      "url": "https://github.com/MoonshotAI/FlashKDA"
+    },
+    {
+      "rank": 5,
+      "name": "pydantic-ai",
+      "category": "tool",
+      "subcategory": "agent-framework",
+      "one_liner": "Type-safe Python agent framework from the Pydantic team — strict outputs, dependency injection, model-agnostic.",
+      "paragraph": "pydantic-ai brings the same validation-first ethos as Pydantic to agent development: every model output is parsed against a schema, tools are typed, and dependencies are injected explicitly. It's now past 16,600 stars with a major April push that adds streaming structured output and richer eval hooks. Teams shipping production agents tend to land here after struggling with LangChain's surface area; the smaller, opinionated API is the selling point.",
+      "url": "https://github.com/pydantic/pydantic-ai"
+    },
+    {
+      "rank": 6,
+      "name": "Claude Context",
+      "category": "tool",
+      "subcategory": "code-search-mcp",
+      "one_liner": "Code-search MCP server from Zilliz that indexes a whole repo and feeds it to coding agents on demand.",
+      "paragraph": "Claude Context indexes a codebase into Milvus and exposes semantic search over it via MCP, so Claude Code (or any MCP client) can pull just the relevant files instead of stuffing the whole tree into context. It's at 9,400+ stars with steady weekly activity. After Anthropic's Claude Code postmortem this week, anyone who saw degraded behavior is reaching for context-management tooling — Claude Context is the most-starred MCP option right now.",
+      "url": "https://github.com/zilliztech/claude-context"
+    },
+    {
+      "rank": 7,
+      "name": "RF-DETR",
+      "category": "tool",
+      "subcategory": "object-detection",
+      "one_liner": "Real-time DETR-family object detection and segmentation, SOTA on COCO, designed for fine-tuning.",
+      "paragraph": "Roboflow's RF-DETR was accepted to ICLR 2026 and the public repo is getting a wave of attention this week as practitioners benchmark it for edge deployment. It hits real-time latencies while keeping DETR-style end-to-end training, which has been the historic weak point of transformer detectors. Now at 6,500 stars, with active recipes for fine-tuning on small custom datasets.",
+      "url": "https://github.com/roboflow/rf-detr"
+    },
+    {
+      "rank": 8,
+      "name": "Memori",
+      "category": "tool",
+      "subcategory": "agent-memory",
+      "one_liner": "Agent-native memory infrastructure — persistent, structured state across LLM sessions, model-agnostic.",
+      "paragraph": "Memori is positioning itself as the durable memory layer for production agents. It captures conversation and tool execution into structured records you can query later, with first-class support for arbitrary LLMs and a clear story for multi-agent setups. The repo is at 13,900 stars with continuous April activity. It's part of a broader theme this week — agent memory is replacing 'larger context window' as the primary scaling lever.",
+      "url": "https://github.com/MemoriLabs/Memori"
+    },
+    {
+      "rank": 9,
+      "name": "Stash",
+      "category": "tool",
+      "subcategory": "agent-memory",
+      "one_liner": "Self-hosted Postgres-backed memory layer for agents — episodes, facts, working context, single Go binary.",
+      "paragraph": "Stash launched on April 24 and crossed 250 stars in two days. It models agent memory as episodes plus facts plus working context, all persisted in Postgres, with a built-in MCP server. The whole thing is one Go binary — no Redis, no vector DB, no cloud. The pitch lands well with people who've watched the agent-memory space turn into a SaaS land grab and want a boring, self-hosted alternative.",
+      "url": "https://github.com/alash3al/stash"
+    },
+    {
+      "rank": 10,
+      "name": "vllm-swift",
+      "category": "tool",
+      "subcategory": "apple-inference",
+      "one_liner": "vLLM Metal plugin powered by mlx-swift — high-throughput LLM inference on Apple Silicon with vLLM's serving API.",
+      "paragraph": "Created April 23 and already at ~200 stars, vllm-swift bridges vLLM's serving stack to Apple's MLX runtime via a Metal plugin. The interesting part is engineering: it lets a Mac Studio or M-series workstation expose the same OpenAI-compatible HTTP endpoints as a CUDA box, with continuous batching. For local-first dev rigs and small production fleets on Apple hardware, this closes a real gap.",
+      "url": "https://github.com/TheTom/vllm-swift"
+    },
+    {
+      "rank": 11,
+      "name": "Niri 26.04",
+      "category": "tool",
+      "subcategory": "wayland-compositor",
+      "one_liner": "Scrollable-tiling Wayland compositor — horizontal column layout converting Linux power users from i3 and Hyprland.",
+      "paragraph": "Niri's 26.04 release shipped this week with significant performance work, better multi-monitor handling, and a friendlier config story. The window-management model — a horizontal scroll of columns rather than rigid tiles — has clicked with engineers tired of fighting traditional tilers. The project hit the HN front page hard, and an OmniWM port that emulates Niri on macOS dropped at the same time, which broadened reach further.",
+      "url": "https://github.com/YaLTeR/niri"
+    },
+    {
+      "rank": 12,
+      "name": "Honker",
+      "category": "tool",
+      "subcategory": "sqlite-extension",
+      "one_liner": "Postgres-style NOTIFY/LISTEN for SQLite — push-style cross-process events with single-digit-millisecond latency.",
+      "paragraph": "Honker is a Show HN that hit 300 points: a small daemon-free addition that gives SQLite genuine cross-process pub/sub semantics. No broker, no polling, just LISTEN against your existing database file. The author iterated visibly during the discussion — the comment thread ended with a follow-up PR addressing several of the concerns raised. It's a useful primitive for SQLite-centric services that want event-driven workers.",
+      "url": "https://github.com/russellromney/honker"
+    },
     {
       "rank": 1,
       "name": "DeepSeek V4",
       "category": "model",
       "subcategory": "frontier-llm",
-      "one_liner": "Open-weights reasoning and coding model with 1M-token context, near-frontier benchmarks at a fraction of API price.",
-      "paragraph": "DeepSeek's V4 release this week is the dominant model story of the cycle. Pro and Flash variants both ship MoE architectures with bitwise-deterministic kernels at temperature 0 — a first for open-weights at this scale. Practitioners on HN and r/LocalLLaMA report it matches or beats Claude/GPT-5 on long-context coding tasks while undercutting them on token cost. The model card and API docs are notably more readable than the equivalents from larger labs.",
+      "one_liner": "Open-weight frontier LLM with a million-token context that DeepSeek says agents can actually use end-to-end.",
+      "paragraph": "DeepSeek V4 (Pro and Flash variants) launched April 24 and is the dominant story of the week. Hugging Face's deep-dive headline — 'a million-token context that agents can actually use' — is the framing everyone is repeating, because the team published bitwise-deterministic kernels and concrete long-context retrieval scores rather than the usual needle-in-a-haystack PR. Pricing on the API is a fraction of GPT-5.5 for comparable benchmarks. Weights are on Hugging Face; an FP8 base is also published.",
       "url": "https://api-docs.deepseek.com/news/news260424"
     },
     {
@@ -16,260 +124,152 @@
       "name": "GPT-5.5",
       "category": "model",
       "subcategory": "frontier-llm",
-      "one_liner": "OpenAI's flagship update — faster, cheaper, and pushed into the API and Codex on day one.",
-      "paragraph": "GPT-5.5 and GPT-5.5 Pro shipped together with a developer changelog and a system card. Early benchmarks have it at 82% on CyberGym, putting it on par with Anthropic's gated Mythos preview but generally available. Rollout in ChatGPT and Codex is staged. Vercel's AI Gateway added it within hours alongside DeepSeek V4.",
-      "url": "https://openai.com/index/introducing-gpt-5-5/"
+      "one_liner": "OpenAI's flagship model release with a new prompting guide, system card, and a Codex-shaped agent surface.",
+      "paragraph": "GPT-5.5 launched April 23 with a system card, a separately-published prompting guide, and a staged rollout in ChatGPT and Codex. OpenAI's framing leans hard on agentic use: the same release ships Codex 3.0, workspace agents, and a Responses API that now supports WebSockets. Early third-party tests have it at 82% on CyberGym — within striking distance of Anthropic's gated Mythos. API access is rolling out gradually but the Codex backdoor route via tools like OpenClaw works today.",
+      "url": "https://openai.com/index/introducing-gpt-5-5"
     },
     {
       "rank": 3,
-      "name": "Qwen3.6-35B-A3B",
+      "name": "Qwen3.6 (27B + 35B-A3B)",
       "category": "model",
-      "subcategory": "moe-llm",
-      "one_liner": "Alibaba's MoE flagship — top of the Hugging Face trending board with ~1.5M weekly downloads.",
-      "paragraph": "Qwen3.6's 35B-A3B sparse MoE shipped with FP8, GGUF, and NVFP4 variants from the day of release, and within a week it was the most-downloaded image-text-to-text model on Hugging Face. Community KV-cache quantization tests show it holds quality at q4_0, putting flagship-grade behavior within reach of single-GPU rigs. The 27B dense sibling Qwen3.6-27B is the one cited as matching Sonnet 4.6 on planning tasks.",
-      "url": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B"
+      "subcategory": "open-llm",
+      "one_liner": "Alibaba's flagship open-weight family — 27B dense plus a 35B MoE with 3B active, both runnable on a single 5090.",
+      "paragraph": "Qwen3.6-27B is reportedly hitting flagship-level coding scores in a 27B dense model, and 35B-A3B (MoE) is one of the highest-volume downloads on Hugging Face this week with over 1.5M GGUF pulls. Local-LLM communities are reporting around 80 tokens per second at a 218k context window on a single RTX 5090 via vLLM. Several uncensored and reasoning-distilled variants are already on HF, which is a strong adoption signal beyond raw download counts.",
+      "url": "https://huggingface.co/Qwen/Qwen3.6-27B"
     },
     {
       "rank": 4,
       "name": "Kimi K2.6",
       "category": "model",
-      "subcategory": "agent-llm",
-      "one_liner": "Moonshot AI's K2 line refresh — agentic coding focus, image-text-to-text, ~290K weekly downloads.",
-      "paragraph": "Moonshot's K2.6 update lands as a multimodal agent model with strong tool-calling and code generation. The release pairs with Moonshot's FlashKDA repo (CUDA kernels for Kimi Delta Attention) which made GitHub trending the same week. Vercel added K2.6 to the AI Gateway on April 20.",
+      "subcategory": "open-llm",
+      "one_liner": "Moonshot's latest flagship — long-context model with the new Kimi Delta Attention, available via Vercel AI Gateway.",
+      "paragraph": "Moonshot pushed Kimi K2.6 with weights on Hugging Face, FlashKDA kernels for the new attention variant, and Vercel AI Gateway integration on April 20. Downloads on HF are already past 376k. The novelty is architectural — Kimi Delta Attention trades quadratic cost for a structured delta scheme — and the kernels are open, so other projects can adopt the same primitive.",
       "url": "https://huggingface.co/moonshotai/Kimi-K2.6"
     },
     {
       "rank": 5,
-      "name": "Gemma 4 31B-it",
+      "name": "Claude 4.7 Opus",
       "category": "model",
-      "subcategory": "open-llm",
-      "one_liner": "Google's open-weights workhorse — 31B instruction-tuned variant with 5.7M downloads, broad VLA tooling.",
-      "paragraph": "Gemma 4 has had the cleanest momentum of any Google open release in two years. The 31B-it variant tops the all-time-downloads board for the family, and Hugging Face shipped a Gemma 4 VLA demo on the Jetson Orin Nano Super this week — a useful signal that the model is being treated as a robotics/embedded option, not just a chat model. The smaller E4B tier is also widely re-tuned by the community.",
-      "url": "https://huggingface.co/google/gemma-4-31B-it"
+      "subcategory": "frontier-llm",
+      "one_liner": "Anthropic's newest Opus tier (April 16) — currently top-three by usage on OpenRouter's leaderboard.",
+      "paragraph": "Claude 4.7 Opus released April 16 and immediately moved to the top of OpenRouter's usage rankings. It's the model behind Claude Code's recent behavior, which is also why this week's Anthropic postmortem matters: a thinking-clearing bug introduced in late March affected sessions across this transition. Now that the fix is in, the model is back in heavy production use across coding-agent stacks.",
+      "url": "https://www.anthropic.com/news/claude-4-7-opus"
     },
     {
       "rank": 6,
-      "name": "GLM-5.1",
+      "name": "Gemma 4 31B",
       "category": "model",
-      "subcategory": "open-llm",
-      "one_liner": "Zhipu's GLM update — text-generation, ~218K weekly downloads, strong showing on reasoning leaderboards.",
-      "paragraph": "GLM-5.1 from zai-org is the next iteration of the GLM line and trended above 1,500 likes on Hugging Face within days. It's gaining adoption on local-LLM rigs as a reasoning alternative to Qwen, and is one of the models reflected in the Qwopus-GLM merged checkpoints showing up in the trending list. Less hype than DeepSeek/Qwen but solid quality at the size.",
-      "url": "https://huggingface.co/zai-org/GLM-5.1"
+      "subcategory": "open-multimodal",
+      "one_liner": "Google's latest open-weight Gemma family — 31B image-text-to-text variant with strong on-device performance.",
+      "paragraph": "Gemma 4 31B is sitting on 6M+ downloads and 2,300+ likes on Hugging Face, with an NVIDIA-published demo of the VLA flavor running on a Jetson Orin Nano. The smaller E4B variant is appearing in 'OBLITERATED' (uncensored) repacks already, which historically tracks adoption better than download count alone. For people building local multimodal pipelines, this is the most interesting Google release in months.",
+      "url": "https://huggingface.co/google/gemma-4-31B-it"
     },
     {
       "rank": 7,
-      "name": "MiniMax-M2.7",
+      "name": "GLM-5.1",
       "category": "model",
       "subcategory": "open-llm",
-      "one_liner": "MiniMax's M2 refresh — text-generation focus, ~477K weekly downloads, growing footprint outside China.",
-      "paragraph": "MiniMax-M2.7 landed quietly but is now firmly in the top trending tier on Hugging Face. The release continues MiniMax's bet on long-context efficient inference, and several community-distilled and Claude-Opus-reasoning-distilled variants are showing up alongside it. Worth watching if DeepSeek's price pressure forces other Chinese labs to release frontier-class weights.",
-      "url": "https://huggingface.co/MiniMaxAI/MiniMax-M2.7"
+      "one_liner": "ZAI's GLM-5.1 — Mixture-of-Experts with deep state-aware attention, 230k+ downloads and 1,500+ likes in week one.",
+      "paragraph": "GLM-5.1 from zai-org landed on HF trending with a 'glm_moe_dsa' architecture — Mixture-of-Experts plus what the model card describes as deep state-aware attention. Early benchmarks position it competitively against Qwen3.6-35B-A3B at similar parameter counts, with comparable serving cost. Worth tracking if you're evaluating Chinese open-weight options beyond DeepSeek and Qwen.",
+      "url": "https://huggingface.co/zai-org/GLM-5.1"
     },
     {
       "rank": 8,
       "name": "Hunyuan Hy3-preview",
       "category": "model",
-      "subcategory": "reasoning-llm",
-      "one_liner": "Tencent's 295B A21B reasoning + agent model — preview release, strong cost/perf for its size class.",
-      "paragraph": "Hy3-preview is a 295-billion parameter MoE with 21B active. Tencent positions it as a leading reasoning and agent model in its size class, with cost efficiency as the headline pitch. The HF repo and the GitHub mirror both gained traction this week as people tested it against DeepSeek V4 and Qwen 3.6.",
+      "subcategory": "reasoning-agent",
+      "one_liner": "Tencent's preview of a 295B-parameter A21B-active reasoning and agent model with claimed cost-efficient inference.",
+      "paragraph": "Tencent published Hy3-preview (295B total, 21B active) as a reasoning- and agent-tuned MoE. It's early — the repo is small and likes are modest — but the size class plus the pricing claims put it in the same conversation as DeepSeek V4 Flash and Qwen3.6-35B-A3B. Tencent has historically been a quiet but capable open-weight contributor; this is the first reasoning-focused release from them in this cycle.",
       "url": "https://huggingface.co/tencent/Hy3-preview"
-    },
-    {
-      "rank": 1,
-      "name": "OpenAI Codex CLI",
-      "category": "tool",
-      "subcategory": "agent-cli",
-      "one_liner": "OpenAI's official Rust-based coding agent CLI — 350+ stars added this week with the GPT-5.5 release.",
-      "paragraph": "Codex's repo is now near the top of the daily-Rust trending list, mirroring OpenAI's push to make Codex a first-class developer surface alongside the GPT-5.5 launch. New automations, scheduled triggers, and a plugins/skills system shipped in the academy docs the same week. Zed-industries also pushed codex-acp, an ACP wrapper letting Zed editors host the Codex agent directly.",
-      "url": "https://github.com/openai/codex"
-    },
-    {
-      "rank": 2,
-      "name": "Hermes Agent",
-      "category": "tool",
-      "subcategory": "agent-framework",
-      "one_liner": "NousResearch's open agent framework — 19,000+ stars added this week, the runaway viral repo of the cycle.",
-      "paragraph": "Hermes is Nous's bet on \"the agent that grows with you\" — a long-running, memory-hosted agent runtime built around their Hermes model line but provider-agnostic. Velocity is the story: 19K stars in seven days puts it among the fastest-growing AI repos of the year. Worth watching even if you don't use Nous models, since the harness pieces (memory, tool selection, persistence) are the parts most teams keep rebuilding.",
-      "url": "https://github.com/NousResearch/hermes-agent"
-    },
-    {
-      "rank": 3,
-      "name": "OpenAI Agents Python",
-      "category": "tool",
-      "subcategory": "agent-framework",
-      "one_liner": "OpenAI's official Python SDK for multi-agent orchestration — 3,300+ stars this week, GA for production use.",
-      "paragraph": "openai-agents-python is OpenAI's blessed alternative to LangChain-style frameworks: handoffs, sessions, tool-calling, and built-in tracing into the OpenAI dashboard. The repo's velocity jumped after Codex Automations and the GPT-5.5 launch made the agent path the default in OpenAI's developer story. Lighter than LangGraph and tied to the OpenAI runtime, but supports any LiteLLM-compatible backend.",
-      "url": "https://github.com/openai/openai-agents-python"
-    },
-    {
-      "rank": 4,
-      "name": "claude-context",
-      "category": "tool",
-      "subcategory": "code-context",
-      "one_liner": "Zilliz's MCP server for code-aware agent context — 2,800+ stars this week, plug-in for Claude Code.",
-      "paragraph": "claude-context indexes a repo into a vector store and exposes it to Claude Code (and other MCP clients) as a structured retrieval tool, so the agent stops re-reading files it has already seen. Zilliz built it on Milvus, but it works against any compatible vector backend. The traction this week reflects how much agent harnesses are now bottlenecked on retrieval, not raw model quality.",
-      "url": "https://github.com/zilliztech/claude-context"
-    },
-    {
-      "rank": 5,
-      "name": "Sail",
-      "category": "tool",
-      "subcategory": "data-engine",
-      "one_liner": "LakeHQ's Rust-native Spark replacement — drop-in PySpark API, single binary, ~133 stars added today.",
-      "paragraph": "Sail is a Rust query engine that speaks the PySpark API and Spark Connect protocol, aimed at teams who want to keep their dataframe code but drop the JVM. It compiles to a single binary, claims 4–10x speedups on common workloads, and integrates with Iceberg, Delta, and Hudi. With Polars dominating single-node and DuckDB on analytical work, Sail is the most interesting attempt yet at the distributed-Spark slot.",
-      "url": "https://github.com/lakehq/sail"
-    },
-    {
-      "rank": 6,
-      "name": "TileLang",
-      "category": "tool",
-      "subcategory": "kernel-dsl",
-      "one_liner": "Python-embedded DSL for writing high-performance GPU kernels — used by DeepSeek's TileKernels release.",
-      "paragraph": "TileLang lets you write GPU kernels in tile-based Python and compile them to Hopper/Blackwell-grade CUDA. It jumped this week because DeepSeek published TileKernels, an open library of FlashAttention/MoE kernels written entirely in TileLang, alongside the V4 release. If you've been using Triton, this is worth tracking — TileLang gives you more explicit control over tile layout and pipeline scheduling.",
-      "url": "https://github.com/tile-ai/tilelang"
-    },
-    {
-      "rank": 7,
-      "name": "FlashKDA",
-      "category": "tool",
-      "subcategory": "cuda-kernels",
-      "one_liner": "MoonshotAI's CUDA kernels for Kimi Delta Attention — high-performance attention primitives behind K2.6.",
-      "paragraph": "FlashKDA is the kernel implementation of the delta-attention variant Moonshot uses in K2.6. Released as a standalone repo, it lets other model developers reuse the kernels for similar architectures. ~390 stars in a week — small in absolute terms but unusually high for a low-level kernel project.",
-      "url": "https://github.com/MoonshotAI/FlashKDA"
-    },
-    {
-      "rank": 8,
-      "name": "Roo Code",
-      "category": "tool",
-      "subcategory": "agent-ide",
-      "one_liner": "Open-source autonomous coding agent — fork of Cline with multi-mode prompting and richer context handling.",
-      "paragraph": "Roo Code is one of the more credible open coding agents, sitting between full IDE integrations like Cursor and CLI agents like Claude Code. It runs as a VS Code extension, lets users define mode-specific personas, and added support for the new agentic models this week. Velocity is steady rather than viral — the kind of repo that sticks.",
-      "url": "https://github.com/RooCodeInc/Roo-Code"
-    },
-    {
-      "rank": 9,
-      "name": "Spinel",
-      "category": "tool",
-      "subcategory": "language-runtime",
-      "one_liner": "Matz's Ruby AOT native compiler — produces standalone binaries from Ruby source, no MRI dependency.",
-      "paragraph": "Spinel is Yukihiro Matsumoto's experimental AOT compiler for Ruby, hitting 328 points and front-page on HN this week. It targets a subset of Ruby that compiles to a native binary without bundling the MRI interpreter. Still early, and not aimed at full Rails apps, but a notable signal about where Ruby's creator wants the language to go.",
-      "url": "https://github.com/matz/spinel"
-    },
-    {
-      "rank": 10,
-      "name": "Raylib v6.0",
-      "category": "tool",
-      "subcategory": "graphics-framework",
-      "one_liner": "Major release of the C99 graphics library — six years in, with revamped renderer and platform layer.",
-      "paragraph": "Raylib 6.0 is the first major version bump since 2020. The release rewrites the platform layer (now backend-pluggable: GLFW, SDL3, Raylib-native) and modernizes the renderer for current GPUs. It remains one of the cleanest C99 codebases to study. Front-paged on HN with strong engagement.",
-      "url": "https://github.com/raysan5/raylib/releases/tag/6.0"
-    },
-    {
-      "rank": 11,
-      "name": "Open WebUI",
-      "category": "tool",
-      "subcategory": "llm-frontend",
-      "one_liner": "Self-hosted ChatGPT-style frontend for Ollama and OpenAI-compatible APIs — 134K stars and accelerating.",
-      "paragraph": "Open WebUI continues to be the default self-hosted UI for local-LLM rigs, and it's added day-one support for Qwen3.6 and DeepSeek V4 served via Ollama. The project still lacks a truly clean MCP story, but for any team standing up a private Claude/ChatGPT alternative, it's the path of least resistance.",
-      "url": "https://github.com/open-webui/open-webui"
-    },
-    {
-      "rank": 12,
-      "name": "Langflow",
-      "category": "tool",
-      "subcategory": "agent-builder",
-      "one_liner": "Visual builder for agent workflows — Python-first, open-source, 147K stars, IBM-backed.",
-      "paragraph": "Langflow is the visual agent-workflow builder that survived the LangChain reshuffle. It still ships as a drop-in Python package, exposes an API for any flow you build, and added native support this week for OpenAI Codex Automations and DeepSeek V4 endpoints. Useful for teams that want a UI for non-engineers without giving up code-level control.",
-      "url": "https://github.com/langflow-ai/langflow"
     },
     {
       "rank": 1,
       "name": "Vercel AI Gateway",
       "category": "api",
-      "subcategory": "ai-gateway",
-      "one_liner": "Unified inference gateway — added GPT-5.5, DeepSeek V4, Kimi K2.6, and GPT Image 2 in five days.",
-      "paragraph": "Vercel's AI Gateway shipped four new model integrations between April 20 and 24: Kimi K2.6, GPT Image 2, DeepSeek V4, and GPT-5.5. The product is now a credible OpenRouter alternative for teams already on Vercel, with built-in observability, BYOK fallbacks, and per-request routing. Usage on the gateway has been doubling roughly every quarter since it went GA in August 2025.",
+      "subcategory": "model-gateway",
+      "one_liner": "Unified gateway across providers — added DeepSeek V4, GPT-5.5, Kimi K2.6, and GPT Image 2 in one week.",
+      "paragraph": "Vercel shipped four model integrations to AI Gateway between April 20 and April 24: Kimi K2.6, GPT Image 2, DeepSeek V4, and GPT-5.5. The Gateway is now positioned as the default routing layer for AI SDK apps — one API key, automatic failover, observability, and zero data retention. The week's drumbeat of changelog posts is the strongest tactical signal that Vercel is treating this as their flagship AI surface, not just a side product.",
       "url": "https://vercel.com/changelog/gpt-5.5-on-ai-gateway"
     },
     {
       "rank": 2,
-      "name": "DeepSeek API",
+      "name": "OpenAI Codex 3.0",
       "category": "api",
-      "subcategory": "model-api",
-      "one_liner": "DeepSeek's hosted V4 API — million-token context, deterministic kernels, headline-undercutting pricing.",
-      "paragraph": "DeepSeek opened the V4 API the same day the weights dropped. The headline numbers — million-token context, bit-exact determinism at temperature 0 — are unusual at this scale, and the docs are widely praised for being clearer than the equivalents at OpenAI or Google. Combined with the price, it's the API teams running long-context agents are testing this week.",
-      "url": "https://api-docs.deepseek.com/"
+      "subcategory": "coding-agent",
+      "one_liner": "Codex relaunched as a full agentic coding platform with skills, plugins, settings, and workspace integrations.",
+      "paragraph": "OpenAI relaunched Codex on April 23 with a complete academy of getting-started docs, an explicit skills/plugins model, and enterprise scaling. The CLI is paired with new automation features and works against GPT-5.5 directly. Of note for anyone benchmarking coding agents: OpenAI is now leaning into the same skill-style abstractions Anthropic's Claude Code popularized, making head-to-head comparisons cleaner.",
+      "url": "https://openai.com/academy/what-is-codex"
     },
     {
       "rank": 3,
-      "name": "OpenAI GPT-5.5 API",
+      "name": "OpenAI Responses API + WebSockets",
       "category": "api",
-      "subcategory": "model-api",
-      "one_liner": "GPT-5.5 and GPT-5.5 Pro live in the OpenAI API, including via Codex and the Responses surface.",
-      "paragraph": "GPT-5.5 hit the API at launch (unusual for OpenAI), with both standard and Pro tiers, plus immediate Codex integration. The system card and changelog were published the same day, and OpenAI's docs are pushing the Responses API and tool-use surface as the recommended path forward. Anecdotally, latency is meaningfully better than GPT-5 at similar quality.",
-      "url": "https://developers.openai.com/api/docs/changelog"
+      "subcategory": "agent-runtime",
+      "one_liner": "WebSocket support in the Responses API — bidirectional streaming for faster, lower-latency agent loops.",
+      "paragraph": "OpenAI shipped WebSocket transport in the Responses API on April 22, aimed squarely at agentic workflows where multi-turn tool calls dominate latency. The framing in the launch post is concrete: tool results stream back over a single connection rather than triggering serial HTTP round-trips. For anyone building real-time copilots or voice agents on top of the Responses API, this is the change that lets you stop bolting your own SSE on top.",
+      "url": "https://openai.com/index/speeding-up-agentic-workflows-with-websockets"
     },
     {
       "rank": 4,
-      "name": "Google Cloud TPU v8 (Ironwood)",
+      "name": "ChatGPT Workspace Agents",
       "category": "api",
-      "subcategory": "inference-cloud",
-      "one_liner": "Google's eighth-generation TPUs — \"two chips for the agentic era\", positioned for agent-style inference patterns.",
-      "paragraph": "Google announced its eighth-generation TPUs framed explicitly around agentic workloads — long sequential calls, tool use, and stateful sessions rather than one-shot inference. The pitch lands credibly because Gemini 3 already uses 5–10x fewer tokens per response than competing models, and Google attributes that efficiency to the chip pipeline. Available in Google Cloud first, broader Vertex availability rolling out.",
-      "url": "https://blog.google/innovation-and-ai/infrastructure-and-cloud/ironwood-tpu/"
+      "subcategory": "managed-agent",
+      "one_liner": "Agents that operate inside a ChatGPT workspace — file access, tool use, and long-running automations.",
+      "paragraph": "Workspace Agents launched April 22 as a productized agent surface inside ChatGPT and the related developer Academy track. The interesting part for engineers is the boundary model: agents can act on files and tools within a tenant workspace, with explicit auth scopes, rather than being a free-floating model with bolted-on tool calls. It positions OpenAI to compete on the same terrain as Anthropic's Claude for Work and Vercel's agent stack.",
+      "url": "https://openai.com/index/introducing-workspace-agents-in-chatgpt"
     },
     {
       "rank": 5,
-      "name": "Cloudflare Agents Week 2026",
+      "name": "Hookdeck Outpost",
       "category": "api",
-      "subcategory": "agentic-cloud",
-      "one_liner": "Cloudflare's annual Agents Week — durable agent runtimes, KV bindings, sandboxes, and bot/human routing.",
-      "paragraph": "Agents Week 2026 collected ~25 launches under the \"agentic cloud\" banner, covering Workers Agents primitives, sandboxes, and a more aggressive bot-management story (\"moving past bots vs. humans\"). The most operationally interesting piece was the panic-and-abort recovery system added to Rust Workers via wasm-bindgen, which makes long-running agent code on Workers genuinely production-shaped.",
-      "url": "https://blog.cloudflare.com/agents-week-in-review/"
+      "subcategory": "event-delivery",
+      "one_liner": "Open-source webhook and event-delivery infrastructure — self-host the outbound side of Hookdeck.",
+      "paragraph": "Hookdeck shipped Outpost this week (Product Hunt, April 22): an open-source self-hostable component that handles outbound webhook delivery, retries, and backoff. It pairs naturally with their hosted product but works standalone. For companies that send a lot of webhooks but can't ship them through a third-party service for compliance reasons, this is the first credible self-hosted option.",
+      "url": "https://www.producthunt.com/products/hookdeck"
     },
     {
       "rank": 6,
-      "name": "OpenAI Codex Automations",
+      "name": "Anthropic Claude API (4.7 Opus)",
       "category": "api",
-      "subcategory": "agent-platform",
-      "one_liner": "Codex tasks now run on schedules and triggers — recurring report and summary jobs without manual prompts.",
-      "paragraph": "OpenAI shipped Automations alongside GPT-5.5: scheduled and triggered Codex tasks that run unattended and write back to repos, docs, or webhooks. Combined with the new plugins/skills surface in Codex, this is OpenAI's serious answer to Anthropic's Claude Code skills ecosystem. Useful for cron-style team workflows that don't need a human in the loop.",
-      "url": "https://openai.com/academy/codex-automations"
+      "subcategory": "frontier-api",
+      "one_liner": "Anthropic API now serving Claude 4.7 Opus with a public postmortem on Claude Code's late-March quality regression.",
+      "paragraph": "Beyond the new Opus tier, this week's signal for the Anthropic API is operational: the team published a detailed engineering postmortem explaining a thinking-clearing bug that hit Claude Code sessions starting March 26. The transparency is the story — it's the kind of write-up Stripe used to do — and it has reset trust with a chunk of the developer audience that had loudly cancelled subscriptions.",
+      "url": "https://www.anthropic.com/engineering/april-23-postmortem"
     },
     {
       "rank": 7,
-      "name": "OpenRouter",
+      "name": "Transformers.js (Chrome Extensions)",
       "category": "api",
-      "subcategory": "model-router",
-      "one_liner": "Multi-provider model gateway — every major release this week landed on OpenRouter within hours.",
-      "paragraph": "OpenRouter remains the cleanest \"one API key for everything\" option for hobbyists and prototypes — DeepSeek V4, Qwen 3.6, Kimi K2.6, GPT-5.5, and Gemma 4 are all routable behind a single OpenAI-compatible endpoint. The leaderboard at openrouter.ai/rankings is the most direct \"what are devs actually calling right now\" signal in the ecosystem.",
-      "url": "https://openrouter.ai"
+      "subcategory": "browser-inference",
+      "one_liner": "Hugging Face's official guide to running real models inside Chrome extensions via WebGPU and Transformers.js.",
+      "paragraph": "Hugging Face published a long-form guide on April 23 walking through Transformers.js inside a Chrome extension end-to-end. The stack runs on WebGPU with no server, which means privacy-sensitive features (PII redaction, embedding-based search, classification) can ship purely client-side. The guide covers manifest permissions, model loading, and worker patterns that previously took weeks to figure out.",
+      "url": "https://huggingface.co/blog/transformersjs-chrome-extension"
     },
     {
       "rank": 1,
-      "name": "An update on recent Claude Code quality reports",
+      "name": "Anthropic — An update on recent Claude Code quality reports",
       "category": "resource",
       "subcategory": "postmortem",
-      "one_liner": "Anthropic's engineering postmortem on the Claude Code quality dip — what broke, why, how it shipped.",
-      "paragraph": "Anthropic published a detailed engineering writeup on the Claude Code quality regressions users had been reporting for weeks. The root cause: a March 26 change meant to clear stale thinking from idle sessions ended up clearing it every turn for the rest of the session, silently degrading reasoning quality across long runs. The post is the most-read engineering writeup of the week and a useful reference for anyone running stateful LLM systems — particularly the discussion of why their existing eval suite missed it.",
+      "one_liner": "Detailed engineering postmortem on the late-March bug that quietly degraded Claude Code thinking until last week.",
+      "paragraph": "Anthropic's postmortem walks through a March 26 change that cleared older thinking from idle sessions to reduce resume latency. A bug caused that clearing to keep happening across active sessions, silently shrinking Claude's effective working memory for weeks. The piece is unusually detailed — engineers are sharing it as a model for honest postmortems, even though the underlying incident was painful for a lot of paying users.",
       "url": "https://www.anthropic.com/engineering/april-23-postmortem"
     },
     {
       "rank": 2,
-      "name": "I am building a cloud",
+      "name": "DeepSeek-V4 — A million-token context that agents can actually use",
       "category": "resource",
       "subcategory": "long-form",
-      "one_liner": "David Crawshaw on what's actually wrong with Cloud 1.0 — and why he's building something different at Tailscale.",
-      "paragraph": "Crawshaw (Tailscale cofounder) lays out what he sees as the fundamental ergonomic failures of the AWS/GCP/Azure model: defaults that punish small teams, IOPS budgets a tenth of a laptop's, and Kubernetes as \"high-quality lipstick on a pig.\" Top of HN with 1,000+ points and an unusually high-quality comment thread. Worth reading even if you disagree with the conclusions — the framing of the problem is sharper than the average cloud-skeptic essay.",
-      "url": "https://crawshaw.io/blog/building-a-cloud"
+      "one_liner": "Hugging Face deep-dive on V4's long-context behavior, kernels, and what 'usable' means past 128k tokens.",
+      "paragraph": "The HF blog goes well beyond the launch announcement: it digs into how DeepSeek's bitwise-deterministic kernels behave at very long contexts, what retrieval scores look like past 256k, and which agent loops actually benefit. It's the most-cited piece of follow-up writing on V4 this week and is showing up in roadmap meetings at any team that does long-document work.",
+      "url": "https://huggingface.co/blog/deepseekv4"
     },
     {
       "rank": 3,
       "name": "Sabotaging projects by overthinking, scope creep, and structural diffing",
       "category": "resource",
-      "subcategory": "long-form",
-      "one_liner": "Kevin Lynagh on the failure modes of senior engineers — and why \"better is good\" beats \"perfect later.\"",
-      "paragraph": "Lynagh names three reliable ways engineers sabotage their own projects: overthinking, scope creep, and obsessive structural diffing against an idealized version that doesn't exist yet. The piece is short, specific, and pulls from his consulting work. Comments on HN are unusually substantive — including a useful Obama quote (\"better is good\") that captures the post's thesis better than most of the writing about incremental delivery does.",
+      "subcategory": "essay",
+      "one_liner": "Kevin Lynagh on the failure modes that quietly kill engineering projects — and the small habits that prevent them.",
+      "paragraph": "Lynagh's essay hit 500+ on HN with a thoughtful comment thread to match. The frame is simple: most stuck projects aren't blocked on technical difficulty, they're blocked on overthinking, accumulated scope, and unwillingness to ship a worse version. The comment thread elaborates with PhD parallels and 'better is good' as a discipline rather than a slogan. Worth a careful read for anyone leading a quarter-long project.",
       "url": "https://kevinlynagh.com/newsletter/2026_04_overthinking/"
     }
   ],
@@ -279,19 +279,19 @@
       "url": "https://simonwillison.net",
       "posts": [
         {
-          "title": "GPT-5.5 prompting guide",
-          "url": "https://simonwillison.net/2026/Apr/25/gpt-5-5-prompting-guide/",
-          "summary": "Simon's annotated walk-through of OpenAI's official GPT-5.5 prompting guide. Useful as a fast index into what changed and what's worth re-tuning if you have a prompt library."
+          "title": "WHY ARE YOU LIKE THIS",
+          "url": "https://simonwillison.net/2026/Apr/25/why-are-you-like-this/",
+          "summary": "Simon's reaction post to the week's onslaught of model launches — DeepSeek V4, GPT-5.5, Qwen3.6 — and what it means for tooling, prompting habits, and his own llm CLI."
         },
         {
-          "title": "llm 0.31",
-          "url": "https://simonwillison.net/2026/Apr/24/llm/",
-          "summary": "Release notes for Simon's llm CLI, with new model plugins for GPT-5.5 and DeepSeek V4 and a bunch of small ergonomic fixes that show up when you actually use it day-to-day."
+          "title": "GPT-5.5 prompting guide",
+          "url": "https://simonwillison.net/2026/Apr/25/gpt-5-5-prompting-guide/",
+          "summary": "Notes on OpenAI's official GPT-5.5 prompting guide with Simon's commentary on what's actually new versus repackaged advice. Useful as a TL;DR if you don't want to read the full document."
         },
         {
           "title": "DeepSeek V4 — almost on the frontier, a fraction of the price",
           "url": "https://simonwillison.net/2026/Apr/24/deepseek-v4/",
-          "summary": "Hands-on review of DeepSeek V4 — pelican benchmark, long-context tests, pricing comparisons. Simon's read is that it's the best open-weights model right now and competitive with closed frontier on most everyday tasks."
+          "summary": "Hands-on with DeepSeek V4 covering pricing, the bitwise-deterministic kernels, and how it compares to GPT-5.5 and Claude 4.7 Opus on Simon's usual evaluation tasks."
         }
       ]
     },
@@ -302,17 +302,17 @@
         {
           "title": "The Pulse: AI token spending out of control – what's next?",
           "url": "https://newsletter.pragmaticengineer.com/p/the-pulse-ai-token-spending",
-          "summary": "Gergely on why eng-org token bills are blowing past forecasts and what the early operational responses look like — caching, gateways, model routing, and the slow death of the \"just give every dev a Cursor seat\" budget line."
+          "summary": "Gergely on how engineering teams are hitting six-figure monthly LLM bills almost overnight, what controls the smarter orgs are putting in place, and where this lands in 12 months."
         },
         {
           "title": "Designing Data-intensive Applications with Martin Kleppmann",
-          "url": "https://newsletter.pragmaticengineer.com/p/designing-data-intensive-applications",
-          "summary": "Long interview with Martin Kleppmann on the second edition of DDIA, what changed in a decade of data infrastructure, and which sections he had to rewrite from scratch."
+          "url": "https://newsletter.pragmaticengineer.com/p/ddia-with-martin-kleppmann",
+          "summary": "Long interview with Martin Kleppmann on the second edition of DDIA — what changed, what didn't, and which patterns from the first edition hold up after a decade."
         },
         {
           "title": "Learnings from conducting ~1,000 interviews at Amazon",
-          "url": "https://newsletter.pragmaticengineer.com/p/learnings-from-conducting-1000-interviews",
-          "summary": "Concrete patterns from a hiring manager who ran roughly a thousand loops at Amazon — what signal Bar Raisers actually look for and where most candidates lose it."
+          "url": "https://newsletter.pragmaticengineer.com/p/amazon-interviews",
+          "summary": "Practical writeup from a long-time Amazon bar raiser on what actually predicts success in technical hiring versus what just feels rigorous."
         }
       ]
     },
@@ -322,18 +322,18 @@
       "posts": [
         {
           "title": "Fragments: April 21",
-          "url": "https://martinfowler.com/fragments/2026-04-21.html",
-          "summary": "Fowler's running notebook of short reflections — this batch covers GenAI's effect on team practice and an essay on why senior engineers' judgment matters more, not less, in an agent-augmented stack."
+          "url": "https://martinfowler.com/articles/2026-fragments.html#April21",
+          "summary": "Fowler's running notebook of small observations from talks, conversations, and reading. Recent fragments touch on AI in legacy modernization and the limits of agent autonomy."
         },
         {
           "title": "Fragments: April 14",
-          "url": "https://martinfowler.com/fragments/2026-04-14.html",
-          "summary": "More fragments — including a piece on technical, cognitive, and intent debt that hit the HN front page separately. Worth reading for the framing of the three different kinds of debt teams accumulate."
+          "url": "https://martinfowler.com/articles/2026-fragments.html#April14",
+          "summary": "Earlier fragments in the same series — useful to read alongside the April 21 entry to see how Fowler's thinking on agents and architecture evolves week to week."
         },
         {
           "title": "Alan Turing play in Cambridge MA",
-          "url": "https://martinfowler.com/articles/202604-turing.html",
-          "summary": "A short review of a recent Turing-centered play in Cambridge — minor in itself but a reminder of how Fowler thinks about computing's history when he steps away from the technical posts."
+          "url": "https://martinfowler.com/articles/2026-04-turing.html",
+          "summary": "Short note on a Turing biographical play Fowler recently saw, with comments on which parts of the historical record the script gets right."
         }
       ]
     },
@@ -344,7 +344,7 @@
         {
           "title": "The Agent Stack Bet",
           "url": "https://addyo.substack.com/p/the-agent-stack-bet",
-          "summary": "Addy on the bet engineering teams are quietly making — that the next decade's productive stack is agent-mediated rather than IDE-mediated. The piece spends most of its time on what changes if that bet pays off."
+          "summary": "Addy on why teams should treat their agent stack — not just their model choice — as the strategic call this year, with specific advice on swappable layers and where to lock in."
         }
       ]
     },
@@ -353,19 +353,19 @@
       "url": "https://swizec.com",
       "posts": [
         {
+          "title": "AI now writes 97% of my code. Here's what I learned",
+          "url": "https://swizec.com/blog/ai-now-writes-97-percent-of-my-code/",
+          "summary": "Swizec's account of an extreme AI-coding setup — what's left for the human, what got faster, and what got worse. Honest about the failure modes, not a victory lap."
+        },
+        {
           "title": "Just Read the Paper",
           "url": "https://swizec.com/blog/just-read-the-paper/",
-          "summary": "Swizec's argument that engineers underuse primary sources — most \"AI papers\" are accessible if you read them straight, and the gap between paper-readers and Twitter-summary-readers compounds quickly."
+          "summary": "On the underrated habit of reading the actual paper for whatever ML system you're building on, instead of relying on summaries and second-hand explanations."
         },
         {
           "title": "Watch people work",
           "url": "https://swizec.com/blog/watch-people-work/",
-          "summary": "On the value of pairing — not for code review but for absorbing the small habits that distinguish productive engineers from stuck ones. A short but specific post."
-        },
-        {
-          "title": "Frustration Driven Development",
-          "url": "https://swizec.com/blog/frustration-driven-development/",
-          "summary": "Why the projects you'll actually finish are the ones that scratch a personal itch — and how to recognize when frustration is signal rather than noise."
+          "summary": "Short piece arguing that the highest-leverage thing senior engineers can do is sit and watch how teammates actually use tools — usability problems and missing automation become obvious immediately."
         }
       ]
     },
@@ -375,13 +375,13 @@
       "posts": [
         {
           "title": "Agents as scaffolding for recurring tasks",
-          "url": "https://lethain.com/agents-as-scaffolding/",
-          "summary": "Will Larson on why the right framing for agents inside engineering orgs is \"scaffolding for repetitive work\" rather than \"replacement for engineers.\" Useful for anyone trying to position agent work to leadership."
+          "url": "https://lethain.com/agents-scaffolding-recurring-tasks/",
+          "summary": "Larson on framing agents not as autonomous workers but as scaffolding around recurring engineering tasks — triage, sweeps, follow-ups — where deterministic glue still does most of the lifting."
         },
         {
           "title": "The agentic passive voice",
           "url": "https://lethain.com/agentic-passive-voice/",
-          "summary": "On the linguistic tic — \"the agent performed X\" — that hides who is responsible for what an agent does. Larson argues this matters for both incident response and how teams communicate about agent reliability."
+          "summary": "Sharp short essay on the rhetorical trick of saying 'the agent did X' to obscure who designed the system and made the choice. Useful counterweight to vendor framing."
         }
       ]
     },
@@ -392,12 +392,12 @@
         {
           "title": "Simdutf Can Now Be Used Without libc++ or libc++abi",
           "url": "https://mitchellh.com/writing/simdutf-no-libcxx",
-          "summary": "Mitchell's notes on the work to make simdutf usable without the LLVM C++ runtime — relevant if you're shipping native binaries that need to ditch libc++ for size or licensing reasons."
+          "summary": "Mitchell on landing a contribution to simdutf so it can be used in environments without libc++/libc++abi. Concrete C++ portability work that matters for embedded and unusual toolchain setups."
         },
         {
           "title": "The Building Block Economy",
           "url": "https://mitchellh.com/writing/building-block-economy",
-          "summary": "On how composable infrastructure primitives — the \"building blocks\" of the cloud — interact economically, and why winning the block tier matters more than winning the application tier."
+          "summary": "Essay on the shift toward composing software from small, well-scoped open building blocks rather than monolithic frameworks, with examples from his recent Ghostty and libghostty work."
         }
       ]
     },
@@ -406,9 +406,9 @@
       "url": "https://brooker.co.za/blog",
       "posts": [
         {
-          "title": "Spec Driven Development isn't Waterfall",
-          "url": "http://brooker.co.za/blog/2026/04/09/waterfall-vs-spec.html",
-          "summary": "AWS principal engineer Marc Brooker pushes back on the lazy take that \"spec-driven development with agents\" is just waterfall again. His distinction: specs as artifacts you iterate against, not as gates you pass through once."
+          "title": "Spec-Driven Development isn't Waterfall",
+          "url": "https://brooker.co.za/blog/2026/04/09/spec-driven.html",
+          "summary": "Brooker pushing back on the recent rebranding of spec-driven workflows as 'waterfall in disguise', and explaining why writing the spec first is the prerequisite for safe AI-assisted coding at scale."
         }
       ]
     },
@@ -419,7 +419,7 @@
         {
           "title": "Squash and Stretch",
           "url": "https://www.joshwcomeau.com/animation/squash-and-stretch/",
-          "summary": "Josh's deep-dive on the squash-and-stretch animation principle, with interactive playgrounds. Frontend-flavored but the explanation of why it feels right transfers to any motion design."
+          "summary": "Interactive deep-dive on the squash-and-stretch animation principle, applied to web UI. Classic Josh format — runnable demos paired with the underlying math and CSS."
         }
       ]
     },
@@ -430,17 +430,17 @@
         {
           "title": "Making Rust Workers reliable: panic and abort recovery in wasm-bindgen",
           "url": "https://blog.cloudflare.com/making-rust-workers-reliable/",
-          "summary": "Engineering writeup on how Cloudflare added panic and abort recovery to Rust Workers. Useful if you're shipping Rust on Workers, and a good case study in WASM runtime hardening more broadly."
+          "summary": "Engineering writeup on how Cloudflare made Rust-based Workers survive panics and abort traps cleanly, with concrete changes to wasm-bindgen and the runtime that other Wasm hosts can borrow."
         },
         {
           "title": "Moving past bots vs. humans",
-          "url": "https://blog.cloudflare.com/past-bots-and-humans/",
-          "summary": "Cloudflare's reframing of bot management: with agents driving real traffic on user behalf, the binary \"bot or human\" classification has stopped being useful. The post sketches what they're replacing it with."
+          "url": "https://blog.cloudflare.com/moving-past-bots-vs-humans/",
+          "summary": "Cloudflare arguing that the binary 'bot or human' framing is obsolete in an age of agent-driven traffic, with their proposed signed-agent model and what it means for site operators."
         },
         {
           "title": "Building the agentic cloud: everything we launched during Agents Week 2026",
-          "url": "https://blog.cloudflare.com/agents-week-in-review/",
-          "summary": "Roll-up of every Agents Week 2026 launch — durable agent runtimes, sandboxes, KV bindings, the new bot-mgmt direction — in one navigable index. The clearest single read on Cloudflare's current agent platform position."
+          "url": "https://blog.cloudflare.com/agents-week-2026-recap/",
+          "summary": "Roundup of every product Cloudflare shipped during Agents Week — Workers AI updates, AI Gateway, Vectorize, sandboxes, and the new agent runtime. Useful as a single index page."
         }
       ]
     }
@@ -452,86 +452,93 @@
         {
           "title": "DeepSeek V4",
           "url": "https://api-docs.deepseek.com/news/news260424",
-          "summary": "DeepSeek released V4 (Pro and Flash) — open-weights, 1M-token context, deterministic kernels, near-frontier performance at API prices that undercut OpenAI and Anthropic.",
-          "paragraph": "DeepSeek V4 is the dominant model story of the cycle. Pro and Flash variants both ship MoE architectures, and the release is the first at this scale to guarantee bitwise-deterministic outputs at temperature 0. Practitioners report it matches or beats Claude/GPT-5 on long-context coding and math tasks at substantially lower cost. The model card and API docs are widely cited as the cleanest in the industry — short, concrete, agent-implementation-ready. Vercel, OpenRouter, and Hugging Face all had it integrated within a day.",
-          "details": "Top comments focused on three things: the determinism guarantee (\"first to guarantee bitwise-batch-invariant kernels at temperature 0\"), the unusually clean documentation (\"why can't OpenAI and Google produce docs half this good?\"), and a researcher's note that V4 handled novel probability/stat problems better than any prior open model.\nDiscussion: https://news.ycombinator.com/item?id=47884971"
+          "summary": "DeepSeek's V4 launches at the frontier of open weights, with bitwise-deterministic kernels and pricing well below GPT-5.5.",
+          "paragraph": "DeepSeek V4 ships in Pro and Flash variants with weights on Hugging Face, an FP8 base, and detailed kernel-level engineering disclosure. The standout claim is end-to-end bitwise-deterministic inference — rare for any production model, frontier or otherwise. API pricing is a fraction of GPT-5.5 and Claude 4.7 Opus for comparable benchmarks, which is the part most teams will care about.",
+          "details": "Top HN comments highlight the unusually clear documentation, the determinism guarantee under fixed seeds, and direct quotes from researchers using V4 on math problems in active research settings.\nDiscussion: https://news.ycombinator.com/item?id=47884971"
         },
         {
-          "title": "GPT-5.5",
-          "url": "https://openai.com/index/introducing-gpt-5-5/",
-          "summary": "OpenAI announced GPT-5.5 and GPT-5.5 Pro — flagship update with day-one API and Codex availability, staged rollout in ChatGPT.",
-          "paragraph": "GPT-5.5 ships with a system card and developer changelog the same day. Early benchmarks have it at 82% on CyberGym, on par with Anthropic's gated Mythos preview. Both 5.5 and 5.5 Pro are in the API on launch (unusual for OpenAI). Vercel's AI Gateway and OpenRouter routed requests to it within hours, and OpenAI also shipped Codex Automations — scheduled/triggered Codex tasks — as a companion launch.",
-          "details": "Comments highlighted that the rollout in ChatGPT and Codex is gradual, and that the Codex API \"backdoor\" used by tools like OpenClaw remains tacitly supported. One thread compared 5.5's CyberGym score (82%) favorably to Anthropic's gated Mythos (83%) since 5.5 is generally available.\nDiscussion: https://news.ycombinator.com/item?id=47879092"
+          "title": "Introducing GPT-5.5",
+          "url": "https://openai.com/index/introducing-gpt-5-5",
+          "summary": "OpenAI's flagship release shipped with a system card, prompting guide, and a Codex-shaped agent surface — staged rollout across ChatGPT and Codex.",
+          "paragraph": "GPT-5.5 launches alongside Codex 3.0 and Workspace Agents, with WebSocket support in the Responses API to back fast multi-turn agent loops. Public access is gradual; the first independent test reported scores around 82% on CyberGym, in striking distance of Anthropic's gated Mythos. API access lags ChatGPT but the Codex backdoor route via tools like OpenClaw works for teams that need it today.",
+          "details": "Top comments note the staged rollout, OpenAI's tacit approval of Codex-API backdoor tools, and an early CyberGym result that puts GPT-5.5 close to Anthropic's gated frontier system.\nDiscussion: https://news.ycombinator.com/item?id=47879092"
         },
         {
-          "title": "I am building a cloud",
-          "url": "https://crawshaw.io/blog/building-a-cloud",
-          "summary": "Tailscale cofounder David Crawshaw lays out the case for building a cloud that doesn't ship 3,000-IOPS defaults and Kubernetes-as-default.",
-          "paragraph": "Crawshaw's piece is the engineering essay of the week. The thesis: AWS/GCP/Azure defaults are calibrated for 2014, IOPS budgets are an order of magnitude below what your laptop ships with, and Kubernetes is high-quality lipstick on a fundamentally awkward design. He's framing what Tailscale is building toward without quite announcing the product. 1,000+ HN points and an unusually substantive comment thread.",
-          "details": "Top comments resonated with the K8s critique (\"this describes exactly my feelings\") and zoomed in on the IOPS-defaults framing as the real argument. Several threads called out that OP runs Tailscale, which gives the post operational weight beyond a typical hot take.\nDiscussion: https://news.ycombinator.com/item?id=47872324"
+          "title": "I cancelled Claude: token issues, declining quality, and poor support",
+          "url": "https://nickyreinert.de/en/2026/2026-04-24-claude-critics/",
+          "summary": "Heavily-upvoted post from a paying engineer who cancelled Claude after weeks of degraded output and unhelpful support — landed the same week as Anthropic's postmortem.",
+          "paragraph": "The author documents detailed prompts where Claude Sonnet missed requirements, duplicated code, and degraded versus its own earlier behavior. The piece is the most-upvoted critical-user story of the cycle and effectively forced a public response. It hit the front page within hours of Anthropic's own postmortem, framing the discussion around quality regression rather than usual model-bashing.",
+          "details": "Comments split between long-time Claude users who pulled back to a 'copilot' workflow and remained productive, and others worried about depending on closed proprietary tools that can silently regress.\nDiscussion: https://news.ycombinator.com/item?id=47892019"
         },
         {
           "title": "An update on recent Claude Code quality reports",
           "url": "https://www.anthropic.com/engineering/april-23-postmortem",
-          "summary": "Anthropic published a detailed postmortem on the Claude Code quality dip — root cause was a March 26 change that cleared thinking every turn instead of once.",
-          "paragraph": "Users had been reporting Claude Code quality regressions for weeks; this is Anthropic's writeup. A March 26 change designed to clear stale thinking from idle sessions ended up clearing it every turn for the rest of the session, silently degrading reasoning on long runs. The post is candid about how their existing eval suite missed it, which is the part most readers found valuable.",
-          "details": "The thread is split — some commenters call it a useful, honest engineering writeup; others ask why product-level quality tests didn't catch it given how many users reproduced the regression independently. The bug itself (\"clear once on idle resume → clear every turn\") is a clean illustration of why session-state changes need golden-trace tests.\nDiscussion: https://news.ycombinator.com/item?id=47878905"
+          "summary": "Anthropic publishes a detailed engineering postmortem on the late-March bug that quietly degraded Claude Code's working memory for weeks.",
+          "paragraph": "On March 26, Anthropic shipped a change to clear older thinking from idle sessions to reduce resume latency. A bug made that clearing keep happening across active sessions too, silently shrinking effective context for many users. The postmortem walks through detection, root cause, and the operational changes that should prevent a repeat. Engineers are circulating it as a model for honest incident writing.",
+          "details": "Reaction is split: many praise the transparency and the clarity of the writeup; others ask why no internal product-level quality tests caught a regression that thousands of users were noticing.\nDiscussion: https://news.ycombinator.com/item?id=47878905"
         },
         {
           "title": "Bitwarden CLI compromised in ongoing Checkmarx supply chain campaign",
           "url": "https://socket.dev/blog/bitwarden-cli-compromised",
-          "summary": "Socket.dev disclosed a compromised release of the Bitwarden CLI on npm — part of an ongoing Checkmarx-tracked supply chain campaign.",
-          "paragraph": "A poisoned package shipped through a compromised build pipeline, affecting users who installed the latest Bitwarden CLI release before the rollback. Socket's writeup details the attack chain. The HN thread quickly turned into a discussion of mitigations: npm's `min-release-age` setting (now 11.10+), pinning, and Rust alternatives like `rbw` for users who need a Bitwarden CLI without the npm dependency tree.",
-          "details": "Recommended mitigation in the thread: set `min-release-age=7` in your `.npmrc` (npm 11.10+) — would have protected the 334 affected users. Several commenters pointed at `doy/rbw` as a Rust alternative with a smaller dependency surface. PSA threads on pinning dependencies for anything business-critical.\nDiscussion: https://news.ycombinator.com/item?id=47876043"
+          "summary": "Socket reports a malicious Bitwarden CLI npm package — part of a broader supply-chain campaign documented by Checkmarx.",
+          "paragraph": "A poisoned build pipeline pushed a compromised version of the Bitwarden CLI to npm. Socket and Checkmarx attribute the incident to a continuing supply-chain campaign targeting developer tooling. The fix is published, but the broader takeaway — pin dependencies, configure min-release-age across npm/pnpm/yarn — is the part teams are quietly auditing this week.",
+          "details": "Comments focus on practical defenses: setting min-release-age=7 in .npmrc, pinning dependencies for business-critical pipelines, and switching to Rust alternatives like rbw where the trust surface is smaller.\nDiscussion: https://news.ycombinator.com/item?id=47876043"
         },
         {
-          "title": "Our eighth generation TPUs: two chips for the agentic era",
-          "url": "https://blog.google/innovation-and-ai/infrastructure-and-cloud/ironwood-tpu/",
-          "summary": "Google announced its 8th-generation TPUs explicitly framed for agent workloads — long sequential calls, tool use, stateful sessions.",
-          "paragraph": "Two chips, one pitched for inference and one for training, both designed around the access patterns agents actually produce. Google's case rests on Gemini's already-good token efficiency: Gemini 3 produces 5–10x fewer tokens per response than competing models in many benchmarks, which Google attributes to the chip pipeline rather than the model alone.",
-          "details": "Top comment threaded into Gemini's token efficiency: across users running Gemini, Claude, and ChatGPT, Gemini consistently produces shorter, denser responses. Several discussions of whether this is a chip story or a smaller-thinking-budget story.\nDiscussion: https://news.ycombinator.com/item?id=47862497"
-        },
-        {
-          "title": "Qwen3.6-27B: Flagship-Level Coding in a 27B Dense Model",
-          "url": "https://qwen.ai/blog?id=qwen3.6-27b",
-          "summary": "Alibaba's Qwen team shipped a 27B dense model that's posting flagship-level scores on coding benchmarks — runs on a 32GB consumer rig.",
-          "paragraph": "Qwen3.6-27B is the dense sibling to the 35B-A3B MoE that's currently topping HF. It's the one cited as matching Sonnet 4.6 on feature planning. Quantized to 16.8GB, it runs comfortably on a single M-series Mac with 32GB or a 24GB GPU. Combined with the MoE release, this is one of the strongest weeks for open-weights since DeepSeek V3.",
-          "details": "Simon Willison's pelican benchmark passed cleanly. Several commenters echoed that the gap between local models and Claude has compressed dramatically since Gemma 4 and Qwen 3.6. Recurring ask in the thread: model announcements should always include consumer hardware support and tok/s.\nDiscussion: https://news.ycombinator.com/item?id=47863217"
-        },
-        {
-          "title": "Over-editing refers to a model modifying code beyond what is necessary",
-          "url": "https://nrehiew.github.io/blog/minimal_editing/",
-          "summary": "nrehiew on a failure mode in coding agents: editing more than the prompt asked for, often \"helpfully,\" usually destructively.",
-          "paragraph": "The piece names a specific anti-pattern in coding agents: when asked to make a focused change, models often touch surrounding code that wasn't broken. nrehiew classifies the failure modes (silent reformatting, opportunistic refactors, invented tests) and argues for explicit minimal-edit prompting plus structural diff checks before accepting agent changes.",
-          "details": "Comments split between users who praise Claude Code's behavior here and users who say agents over-privilege existing code structure when they could improve it. Recurring observation: agents like to wrap exceptions and return dummy values, hiding failures in over-abbreviated logs.\nDiscussion: https://news.ycombinator.com/item?id=47866913"
-        },
-        {
-          "title": "Sabotaging projects by overthinking, scope creep, and structural diffing",
-          "url": "https://kevinlynagh.com/newsletter/2026_04_overthinking/",
-          "summary": "Kevin Lynagh names three reliable ways senior engineers sabotage their own projects — and why \"better is good\" beats \"perfect later.\"",
-          "paragraph": "Short, specific essay from Lynagh's consulting work. The three failure modes are overthinking, scope creep, and obsessive diffing against an idealized version. He argues incremental beats perfect even on technical work, and the comments thread is one of the more substantive on craft this month.",
-          "details": "Most-quoted comment: an Obama quote about \"better is good\" that captures the post's thesis better than most writing on incremental delivery. Several commenters connected the failure mode to PhD research and the impossible scope creep of \"reading all the related work first.\"\nDiscussion: https://news.ycombinator.com/item?id=47890799"
-        },
-        {
-          "title": "GitHub CLI now collects pseudoanonymous telemetry",
-          "url": "https://cli.github.com/telemetry",
-          "summary": "GitHub announced telemetry in the gh CLI — pseudonymous, opt-out — which the HN thread is unhappy about.",
-          "paragraph": "GitHub's argument is that the team needs visibility into feature usage to prioritize work. The disclosure includes the data shape and an opt-out env var. The pushback in the thread isn't really about telemetry per se — it's about CLI tools running unattended in CI/CD pipelines and server environments where outbound connections of any kind are a problem.",
-          "details": "Top comments centered on the CI/CD case: gh runs in pipelines and on bastion hosts where any unsolicited outbound call is a footgun. Several requests for a system-wide opt-out mechanism rather than per-tool env vars.\nDiscussion: https://news.ycombinator.com/item?id=47862331"
-        },
-        {
-          "title": "We found a stable Firefox identifier linking all your private Tor identities",
-          "url": "https://fingerprint.com/blog/firefox-tor-indexeddb-privacy-vulnerability",
-          "summary": "Fingerprint.com disclosed a stable cross-session identifier in Firefox's IndexedDB implementation that pseudonymizes Tor users.",
-          "paragraph": "The vulnerability lets a site identify a returning Firefox+Tor user across separate browsing sessions via IndexedDB state that survives Tor circuit rotation. Disclosed responsibly to Mozilla. The write-up is unusually well-written for a vendor blog — readers noted the absence of any product pitch.",
-          "details": "Comment threads draw a careful distinction: this pseudonymizes (gives you a stable handle), it doesn't deanonymize (link to a real identity). Multiple commenters point out that stylometric/behavioral fingerprinting can already pseudonymize Tor users, so the new identifier raises the floor more than it changes the ceiling.\nDiscussion: https://news.ycombinator.com/item?id=47866697"
+          "title": "Google plans to invest up to $40B in Anthropic",
+          "url": "https://www.bloomberg.com/news/articles/2026-04-24/google-plans-to-invest-up-to-40-billion-anthropic",
+          "summary": "Bloomberg reports Google's planned investment in Anthropic could reach $40 billion, deepening the GCP relationship.",
+          "paragraph": "The deal would more than double Google's existing position in Anthropic and tighten compute commitments on TPU. For developers, the practical question is whether this constrains Anthropic's multi-cloud story; historically Anthropic has shipped on AWS, GCP, and direct API in parallel. The size of the investment is the headline; the structural detail will matter more for enterprise buyers.",
+          "details": "Discussion centers on what the funding implies for compute access, GPU/TPU mix, and whether competition with OpenAI on raw scale is now the entire game."
         },
         {
           "title": "Spinel: Ruby AOT Native Compiler",
           "url": "https://github.com/matz/spinel",
-          "summary": "Yukihiro Matsumoto (Matz) released Spinel, an experimental ahead-of-time native compiler for Ruby — produces standalone binaries.",
-          "paragraph": "Spinel is Matz's experimental AOT compiler. It targets a subset of Ruby that compiles to a standalone native binary without the MRI interpreter bundled in. Not aimed at Rails apps yet. The project is small but the signal is large: it suggests where Ruby's creator wants the language to go for CLI tools and embedded use cases.",
-          "details": "Comments on HN are mostly positive — \"the kind of side-project the language ecosystem actually needs.\" A handful of practical questions about which Ruby features are excluded and whether GVL goes away.\nDiscussion: https://news.ycombinator.com/item?id=47872306"
+          "summary": "Matz unveils an experimental Ruby AOT native compiler at RubyKaigi 2026, built in roughly a month with help from Claude.",
+          "paragraph": "Spinel takes Ruby source and produces native binaries ahead of time. Matz built the prototype in about a month with significant assistance from Claude, and demoed it live at RubyKaigi 2026. It's experimental — the generated codegen file is over 21k lines with deep nesting — but the existence of a working AOT compiler authored by Ruby's creator is the news.",
+          "details": "Comment thread debates whether AI-assisted code at this complexity is maintainable long-term, and notes Matz's deep familiarity with Ruby semantics as the saving grace. Named after Matz's new cat.\nDiscussion: https://news.ycombinator.com/item?id=47887334"
+        },
+        {
+          "title": "Sabotaging projects by overthinking, scope creep, and structural diffing",
+          "url": "https://kevinlynagh.com/newsletter/2026_04_overthinking/",
+          "summary": "Kevin Lynagh on the failure modes — overthinking, scope creep, structural diffing — that quietly kill engineering projects.",
+          "paragraph": "The argument is concrete: most stuck projects aren't blocked on technical difficulty but on accumulated scope and an unwillingness to ship a worse version. Lynagh draws parallels to PhD research, where the read-everything-first instinct often produces the worst outcome. Useful for anyone leading a multi-quarter project that has slowed without obvious cause.",
+          "details": "Top comments connect the essay to Obama's 'better is good', team retrospectives that consistently regret long projects, and the under-rated cost of structural diff churn.\nDiscussion: https://news.ycombinator.com/item?id=47890799"
+        },
+        {
+          "title": "Niri 26.04: Scrollable-tiling Wayland compositor",
+          "url": "https://github.com/niri-wm/niri/releases/tag/v26.04",
+          "summary": "Niri's 26.04 release lands with significant performance work and friendlier configuration — converting more Linux power users from i3 and Hyprland.",
+          "paragraph": "Niri models windows as a horizontal scroll of columns rather than fixed tiles. The 26.04 release improves multi-monitor handling, adds quality-of-life touches to the config, and tightens performance. An OmniWM port that emulates Niri on macOS dropped at the same time and shows up across the comment thread.",
+          "details": "Long-time users describe Niri as the most consequential window-manager switch they've made; macOS readers are pointed at OmniWM to get a similar layout.\nDiscussion: https://news.ycombinator.com/item?id=47902416"
+        },
+        {
+          "title": "Honker — Postgres NOTIFY/LISTEN semantics for SQLite",
+          "url": "https://github.com/russellromney/honker",
+          "summary": "Show HN: a small, daemon-free addition that gives SQLite genuine cross-process pub/sub with single-digit-millisecond latency.",
+          "paragraph": "Honker adds Postgres-style LISTEN/NOTIFY against an existing SQLite file, with no broker or polling. The author iterated visibly during the comment thread, opening a follow-up PR that incorporated feedback the same day. Useful for small services that want event-driven workers without graduating to a separate message queue.",
+          "details": "Discussion contrasts Honker's design with PostgreSQL 19's improved LISTEN/NOTIFY scaling, and the author's responsiveness in turning feedback into a PR is repeatedly called out.\nDiscussion: https://news.ycombinator.com/item?id=47874647"
+        },
+        {
+          "title": "My audio interface has SSH enabled by default",
+          "url": "https://hhh.hn/rodecaster-duo-fw/",
+          "summary": "Engineer reverse-engineers a Rode RodeCaster Duo and finds a 64-bit Linux box with SSH enabled by default.",
+          "paragraph": "The post is part hardware curiosity, part security note: a high-end audio interface ships as a 64-bit Linux machine with SSH on by default and firmware delivered as a plain tarball plus hash. The author treats the openness as a feature rather than a bug, but the details point at how casually 'embedded' devices have become full Linux servers.",
+          "details": "Commenters debate signed vs. open firmware, with several arguing the two aren't actually opposites if signing-for-update can be disabled by the owner.\nDiscussion: https://news.ycombinator.com/item?id=47894747"
+        },
+        {
+          "title": "Replace IBM Quantum back end with /dev/urandom",
+          "url": "https://github.com/yuvadm/quantumslop",
+          "summary": "Tongue-in-cheek but technically pointed repo demonstrating that some toy IBM Quantum demos are statistically indistinguishable from random.",
+          "paragraph": "The repo replaces calls to IBM Quantum's backend with /dev/urandom and reproduces a set of widely-quoted demo results. The point isn't that quantum hardware is fake — it's that some specific marketing-grade demos don't measurably differ from randomness, and the author wants people to ask harder questions before quoting them.",
+          "details": "Discussion is half-joking, half-serious — several commenters add their own examples of quantum demos that look impressive in slides but degrade under shot-noise analysis."
+        },
+        {
+          "title": "SDL now supports DOS",
+          "url": "https://github.com/libsdl-org/SDL/pull/15377",
+          "summary": "SDL's main branch lands a DOS port — running modern SDL apps on real DOS hardware and DOSBox.",
+          "paragraph": "The PR adds an SDL backend that targets DOS via DJGPP, including video, input, and audio. It's a community effort but gets merged into the official repo, which means the DOS target is now first-class enough to keep building. Practically useful for retro-game ports and demoscene work; symbolically interesting as evidence of how alive that ecosystem still is.",
+          "details": ""
         }
       ]
     },
@@ -539,60 +546,60 @@
       "name": "Reddit",
       "items": [
         {
-          "title": "Anthropic admits to having made hosted models more stupid, proving the importance of open weights",
-          "url": "https://www.anthropic.com/engineering/april-23-postmortem",
-          "summary": "r/LocalLLaMA's framing of Anthropic's Claude Code postmortem — the regression as evidence that closed-API models can silently degrade.",
-          "paragraph": "Same Anthropic postmortem as on HN, but the LocalLLaMA discussion is sharper-edged: this is what users on the subreddit have been arguing for two years — closed APIs can change quality silently, open weights can't. The thread treats it as vindication and pivots to which open models are now \"good enough\" to deprecate Claude in agent workflows. DeepSeek V4 is the most-mentioned alternative.",
-          "details": "Top comments split between engineers happy Anthropic published the writeup and engineers who want to know why their evals didn't catch it. Several long threads comparing DeepSeek V4 cost-per-task vs Claude on the same tasks.\nDiscussion: https://www.reddit.com/r/LocalLLaMA/comments/1sp2k1u/anthropic_admits_to_have_made_hosted_models_more/"
+          "title": "Qwen3.6-27B at ~80 tps with a 218k context window on 1x RTX 5090, served by vLLM",
+          "url": "https://www.reddit.com/r/LocalLLaMA/comments/1sv8eua/qwen362_27b/",
+          "summary": "LocalLLaMA benchmarks Qwen3.6-27B on a single RTX 5090 hitting ~80 tokens/sec at a 218k context window via vLLM.",
+          "paragraph": "The thread is a concrete deployment recipe: vLLM 0.x with the FP8 build of Qwen3.6-27B, single RTX 5090, configuration details and numbers. The takeaway for engineers running local inference is that you can get long-context flagship-tier serving on a single consumer card if you're willing to pin the right kernels and quantization.",
+          "details": "Commenters compare against 35B-A3B numbers on the same hardware and discuss tradeoffs in vLLM PagedAttention settings."
         },
         {
-          "title": "Deepseek V4 AGI confirmed",
-          "url": "https://www.reddit.com/r/LocalLLaMA/comments/1swkd8t/deepseek_v4_agi_comfirmed/",
-          "summary": "Tongue-in-cheek r/LocalLLaMA post celebrating DeepSeek V4 — 1,400 upvotes, half meme half real benchmarking.",
-          "paragraph": "The top post on r/LocalLLaMA the day V4 dropped. Mostly memes about the price-per-token comparison, but the comment thread underneath is one of the more useful crowd-sourced reviews — people sharing setup configs, quantization choices, and which tasks V4 actually beats Claude on (long-context coding, math reasoning) versus where it doesn't (UI-design, certain agent harnesses).",
-          "details": "Recurring takes: \"this changes the OSS economics for the year,\" \"the docs alone are worth the launch,\" and several users posting end-to-end agent workflows that now run on V4 instead of Claude/GPT.\nDiscussion: https://www.reddit.com/r/LocalLLaMA/comments/1swkd8t/deepseek_v4_agi_comfirmed/"
+          "title": "Xiaomi MiMo V2.5 Pro lands at 54 on the Artificial Analysis index",
+          "url": "https://www.reddit.com/r/LocalLLaMA/comments/1sv9q8f",
+          "summary": "Xiaomi's MiMo V2.5 Pro debuts at AA index 54 with weights coming — a notable entrant in the open-weight tier just below the frontier.",
+          "paragraph": "MiMo V2.5 Pro is the latest model from Xiaomi's research group, scoring 54 on the Artificial Analysis intelligence index. The post mentions weights are imminent, which is the part the community is watching — Xiaomi has trended toward more open releases recently.",
+          "details": "Discussion compares MiMo to Qwen3.6 and DeepSeek V4 Flash in the same parameter class."
         },
         {
-          "title": "Gemma 4 and Qwen 3.6 with q8_0 and q4_0 KV cache: KL divergence results",
-          "url": "https://localbench.substack.com/p/kv-cache-quantization-benchmark",
-          "summary": "Hands-on KL-divergence comparison of KV-cache quantization on Gemma 4 and Qwen 3.6 — the kind of test only LocalLLaMA produces.",
-          "paragraph": "A community benchmark showing that q4_0 KV-cache quantization holds up surprisingly well on both Gemma 4 and Qwen 3.6 — KL divergence stays small enough that you can drop VRAM use significantly without quality degradation on most tasks. Useful if you're squeezing these models onto consumer GPUs.",
-          "details": "Comment thread is heavy on practical config swaps: which q-modes are stable, which crash llama.cpp, and what the actual VRAM savings look like. Several side-by-side outputs.\nDiscussion: https://www.reddit.com/r/LocalLLaMA/comments/1suvxck/gemma_4_and_qwen_36_with_q8_0_and_q4_0_kv_cache/"
+          "title": "DeepSeek V4 update",
+          "url": "https://i.redd.it/he3eoyzr9bxg1.png",
+          "summary": "Community digest of DeepSeek V4's release, available variants, and early local-deployment recipes.",
+          "paragraph": "The thread aggregates the V4 launch details from a local-deployment perspective: which variants are practical to run, which quantizations exist on Hugging Face, and what tilelang kernels mean for someone on consumer hardware. Useful as a one-stop summary if you don't want to read the full HF blog.",
+          "details": "Comments include early throughput numbers from people actually running V4 Flash quantized locally."
         },
         {
-          "title": "Researchers gave 1,222 people AI assistants, then took them away after 10 months",
-          "url": "https://www.sciencedaily.com/releases/2026/04/researchers-ai-assistants-removed.html",
-          "summary": "Long-running study where researchers introduced AI assistants to 1,222 participants and then removed them — measured downstream productivity and reliance.",
-          "paragraph": "The study covers ten months of AI-assistant use followed by a clean withdrawal. Findings track the obvious intuition (productivity drop on removal) but also include some less obvious results around skill atrophy on tasks the assistant was handling silently. r/artificial discussion is more substantive than usual for that sub.",
-          "details": "Comments split between \"of course this is what happens\" and \"the more interesting result is which skills atrophied.\" Several engineers in the thread connect it to internal data on Cursor/Copilot users who lose seat access during reorgs.\nDiscussion: https://www.reddit.com/r/artificial/comments/1sqcz1m/researchers_gave_1222_people_ai_assistants/"
-        },
-        {
-          "title": "Qwen3.6-35B-A3B — even in VRAM-limited scenarios it can be better to use bigger model",
-          "url": "https://www.reddit.com/r/LocalLLaMA/comments/1sutct2/qwen3635ba3b_even_in_vram_limited_scenarios/",
-          "summary": "Practical post arguing that Qwen3.6-35B-A3B with offloading often beats smaller models on the same hardware.",
-          "paragraph": "Counterintuitive result: with sparse MoE activation, the 35B-A3B model with partial CPU offload outperforms a 14B fully-on-GPU on the same setup, because most experts are dormant per token. The post lays out the configs that work and the ones that crash.",
-          "details": "Comments confirm the pattern across consumer rigs (M-series, 4090, 3090). Some pushback from users on slower memory bandwidth where the offload overhead dominates.\nDiscussion: https://www.reddit.com/r/LocalLLaMA/comments/1sutct2/qwen3635ba3b_even_in_vram_limited_scenarios/"
-        },
-        {
-          "title": "Tested Deepseek v4 flash with some large code change evals — it absolutely kills",
-          "url": "https://v.redd.it/4mtb85hee5xg1",
-          "summary": "Video walkthrough of DeepSeek V4 Flash on a multi-file refactoring task — the cheaper variant holding up better than expected.",
-          "paragraph": "Concrete eval: a senior engineer running V4 Flash through a multi-file refactor across a real codebase, narrating where it fails and where it surprises. Useful as a counterweight to the V4 hype because Flash is the cheaper variant and demonstrates the model isn't just good in benchmark conditions.",
-          "details": "Comments compare with parallel runs of Claude Code on the same task. Mixed but generally positive — Flash misses some edge cases Claude catches, but the cost differential is large enough that most agent workflows run multiple Flash passes per Claude pass.\nDiscussion: https://www.reddit.com/r/LocalLLaMA/comments/1suxw6c/tested_deepseek_v4_flash_with_some_large_code/"
-        },
-        {
-          "title": "A Yale ethicist who has studied AI for 25 years says the real danger isn't what you think",
-          "url": "https://www.reddit.com/r/artificial/comments/1stkefq/a_yale_ethicist_who_has_studied_ai_for_25_years/",
-          "summary": "Long-form interview/summary on AI risk that lands harder than typical \"AI ethics\" coverage — top of r/artificial.",
-          "paragraph": "Yale ethicist Wendell Wallach reframes \"AI danger\" away from sci-fi extinction scenarios and toward erosion of meaningful work, social trust, and decision-making capacity. The piece is denser than the average r/artificial post and the comment thread is unusually engineering-heavy.",
-          "details": "Comments include several engineers who don't usually engage with ethics posts — mostly because the framing avoids the typical \"alignment vs accelerationism\" axis. Several useful book and paper recommendations in replies.\nDiscussion: https://www.reddit.com/r/artificial/comments/1stkefq/a_yale_ethicist_who_has_studied_ai_for_25_years/"
+          "title": "Decreased Intelligence Density in DeepSeek V4 Pro",
+          "url": "https://i.redd.it/a6ix6ztc1cxg1.png",
+          "summary": "Critical thread arguing V4 Pro's intelligence-per-active-parameter is lower than V3's — useful counterweight to launch hype.",
+          "paragraph": "The post compares V4 Pro and V3 on tasks where parameter efficiency matters and argues V4 Pro is a step back on density even if it leads on raw scores. The data is partial, but the framing — distinguishing 'better model' from 'better architecture' — is the kind of analysis that's missing from most launch coverage.",
+          "details": "Comments split between defenders citing V4's long-context wins and critics agreeing the density story is weaker than V3's was."
         },
         {
           "title": "Building my own Diffusion Language Model from scratch was easier than I thought",
-          "url": "https://www.reddit.com/r/MachineLearning/comments/1srufft/bulding_my_own_diffusion_language_model_from/",
-          "summary": "Walkthrough of training a small diffusion-style language model from scratch — code, configs, ablations.",
-          "paragraph": "A solo researcher walks through training a small diffusion language model end-to-end on consumer hardware. Code is up, training curves look reasonable, and the writeup explains where diffusion-LM differs from autoregressive approaches in the parts that usually trip up first-time implementers.",
-          "details": "Comments mostly congratulatory but include several useful pointers — particularly to LLaDA papers and to Inception's recent work that this implementation borrows from. A few requests for a follow-up on inference latency.\nDiscussion: https://www.reddit.com/r/MachineLearning/comments/1srufft/bulding_my_own_diffusion_language_model_from/"
+          "url": "https://www.reddit.com/r/MachineLearning/comments/1srufft",
+          "summary": "ML practitioner walks through building a small diffusion-based language model from scratch, with code and notes on what surprised them.",
+          "paragraph": "Diffusion language models are an active research area but most practitioners haven't tried building one. This post documents a small implementation end-to-end, including the bits the papers gloss over. Useful as a starting point if you want to follow along with where text-diffusion is heading without committing to a multi-week project.",
+          "details": "Comments include pointers to two recent papers that simplify the noise schedule and a discussion of whether diffusion-LMs ever beat autoregressive models on generic text."
+        },
+        {
+          "title": "We benchmarked 18 LLMs on OCR (7k+ calls) — cheaper, older models often win",
+          "url": "https://www.reddit.com/r/MachineLearning/comments/1st9v81",
+          "summary": "Eval across 18 LLMs on a real OCR benchmark with 7k+ calls — cheaper or older models frequently beat the newest flagships.",
+          "paragraph": "The thread documents methodology, dataset, and per-model results. The headline finding is that 'always pick the newest model' is the wrong heuristic for OCR-style structured-extraction work — older, cheaper models match or beat flagships often enough to dominate cost. Concrete tables make this useful for anyone making a routing decision.",
+          "details": "Discussion adds suggestions for additional models to test and methodological caveats around the dataset choice."
+        },
+        {
+          "title": "1,200 ICLR 2026 papers with public code or data",
+          "url": "https://www.reddit.com/r/MachineLearning/comments/1spvoer",
+          "summary": "Curated list of 1,200 ICLR 2026 papers that ship code or data — directly searchable.",
+          "paragraph": "ICLR 2026 ran with an unusually large reproducibility push and the resulting list is large enough to be useful as a search tool rather than a reading list. Engineers building on top of recent research will get more out of grepping this than skimming the conference program.",
+          "details": "Discussion in the thread points at the highest-impact subsets — RL fine-tuning recipes, long-context attention variants, and small-model distillation."
+        },
+        {
+          "title": "Jeff Bezos's 'Project Prometheus' raising $10B at a $38B valuation",
+          "url": "https://www.bloomberg.com/news/articles/2026-04-21/jeff-bezos-project-prometheus",
+          "summary": "Bloomberg reports Bezos's new AI venture is raising $10B at a $38B valuation, aimed at frontier infrastructure.",
+          "paragraph": "Project Prometheus joins the small list of ventures with the capital to credibly attempt frontier-scale training without renting compute from a hyperscaler. Details on architecture, leadership, and customer story are still light, but the fundraise alone moves the competitive landscape — particularly for buyers shopping for non-Anthropic, non-OpenAI frontier roadmaps.",
+          "details": "Discussion is mostly skeptical about another well-funded venture without clear differentiation, with a few commenters speculating about specific people Bezos has been recruiting."
         }
       ]
     },
@@ -600,81 +607,74 @@
       "name": "GitHub Trending",
       "items": [
         {
-          "title": "openai/codex",
-          "url": "https://github.com/openai/codex",
-          "summary": "OpenAI's Rust-native coding agent CLI — accelerating with the GPT-5.5 release and the Codex Automations launch.",
-          "paragraph": "Codex is now positioned as OpenAI's primary developer surface. The Rust CLI got 350+ stars added today and trends top-of-list on daily Rust. Companion launches this week: Automations (scheduled/triggered Codex tasks), a Plugins/Skills system, and Zed-industries' codex-acp ACP wrapper. If you've ever used Claude Code, the trajectory is similar — agent-first, framework-native.",
-          "details": "+352 stars today on the daily Rust trending list."
-        },
-        {
-          "title": "NousResearch/hermes-agent",
-          "url": "https://github.com/NousResearch/hermes-agent",
-          "summary": "Nous Research's open agent runtime — \"the agent that grows with you\" — 19,000+ stars added this week, the runaway repo of the cycle.",
-          "paragraph": "Hermes Agent is the highest-velocity AI repo of the week. It's Nous's bet on a long-running, memory-hosted agent runtime built around the Hermes model line but provider-agnostic via OpenAI-compatible APIs. The harness pieces (memory store, tool routing, persistence) are the parts most teams keep rebuilding, so the framework's traction is meaningful even if you don't use Nous models.",
-          "details": "+19,019 stars this week (weekly-all trending)."
-        },
-        {
-          "title": "openai/openai-agents-python",
-          "url": "https://github.com/openai/openai-agents-python",
-          "summary": "OpenAI's official Python agent SDK — handoffs, sessions, tool-calling, native tracing — 3,300+ stars this week.",
-          "paragraph": "The blessed alternative to LangChain/LangGraph for OpenAI-stack teams. The SDK leans hard into the Responses API and ships native tracing into the OpenAI dashboard. With Codex Automations and GPT-5.5 making the agent path the default OpenAI developer story, this repo is becoming the canonical starting point for new agent code on the platform.",
-          "details": "+3,372 stars this week (weekly-all trending)."
-        },
-        {
-          "title": "zilliztech/claude-context",
-          "url": "https://github.com/zilliztech/claude-context",
-          "summary": "Vector-backed code-context retrieval as an MCP server — works with Claude Code and any MCP-compatible client.",
-          "paragraph": "Indexes a repo into a vector store and exposes it as a structured retrieval tool over MCP, so the agent doesn't re-read files it already knows. Built on Milvus by default but pluggable. The 2,800-stars-this-week figure is a good signal that retrieval, not raw model quality, is now the bottleneck people are willing to spend stars on.",
-          "details": "+2,878 stars this week."
-        },
-        {
-          "title": "lakehq/sail",
-          "url": "https://github.com/lakehq/sail",
-          "summary": "Rust-native Spark replacement — drop-in PySpark API, single binary, Spark Connect compatible.",
-          "paragraph": "Sail compiles to a single Rust binary and speaks the PySpark API plus Spark Connect protocol. LakeHQ's pitch is 4–10x speedups on common workloads with no code changes, and Iceberg/Delta/Hudi as first-class citizens. With Polars dominating single-node and DuckDB owning analytical SQL, Sail is the most credible attempt yet at the distributed-Spark slot.",
-          "details": "+133 stars today (daily-Rust trending)."
-        },
-        {
-          "title": "deepseek-ai/TileKernels",
-          "url": "https://github.com/deepseek-ai/TileKernels",
-          "summary": "DeepSeek's open kernel library written in TileLang — FlashAttention/MoE primitives released alongside V4.",
-          "paragraph": "DeepSeek shipped TileKernels the same week as V4. It's an open library of high-performance GPU kernels — attention, MoE routing, MLA — written in the TileLang DSL. The release matters because it makes V4's bitwise-deterministic claim reproducible: the kernels behind that property are now public.",
-          "details": "+1,120 stars in the trending window."
+          "title": "deepseek-ai/DeepEP",
+          "url": "https://github.com/deepseek-ai/DeepEP",
+          "summary": "DeepSeek's expert-parallel communication library — the all-to-all dispatch/combine engine behind V4's MoE training and inference.",
+          "paragraph": "DeepEP implements high-throughput and low-latency kernels for MoE token routing across NVLink, RDMA, and FP8 paths. With V4's launch this week the repo is back near the top of trending; engineers reproducing V4-style serving stacks treat this as the canonical reference. 9,500+ stars total.",
+          "details": "+200+ stars today on GitHub Trending."
         },
         {
           "title": "tile-ai/tilelang",
           "url": "https://github.com/tile-ai/tilelang",
-          "summary": "The tile-based GPU kernel DSL DeepSeek's TileKernels is built in — Python-embedded, compiles to Hopper/Blackwell CUDA.",
-          "paragraph": "TileLang is the kernel DSL behind TileKernels. Python-embedded, gives you explicit tile layout and pipeline scheduling control beyond what Triton offers. Worth tracking if you're writing custom attention/MoE kernels and finding Triton's abstractions limiting.",
-          "details": "+62 stars today (daily-Python trending)."
+          "summary": "Domain-specific language for writing high-performance GPU/CPU/accelerator kernels with concise tiled code.",
+          "paragraph": "tilelang is a kernel DSL aimed at near-handwritten throughput without raw PTX. Adoption jumped this week with DeepSeek's TileKernels release using it as the implementation language. Becoming the lingua franca for groups that want CUTLASS-class performance with less code.",
+          "details": "+55 stars today; 5,700+ total."
+        },
+        {
+          "title": "deepseek-ai/TileKernels",
+          "url": "https://github.com/deepseek-ai/TileKernels",
+          "summary": "DeepSeek's open kernel library written in tilelang — the actual kernels under V4's training and inference stack.",
+          "paragraph": "Created April 22 and already past 1,180 stars, TileKernels is the production set of attention, MoE, and grouped-GEMM kernels DeepSeek uses internally. The bitwise-deterministic guarantee is the headline detail.",
+          "details": "+189 stars today; 1,180+ total since April 22."
         },
         {
           "title": "MoonshotAI/FlashKDA",
           "url": "https://github.com/MoonshotAI/FlashKDA",
-          "summary": "CUDA kernels for Kimi Delta Attention — the attention primitive behind Moonshot's K2.6 release.",
-          "paragraph": "FlashKDA is the kernel layer behind K2.6's delta-attention variant. Released as a standalone repo so other model developers can reuse the kernels. ~390 stars in a week is small in absolute terms but unusually high for a low-level kernel project, and the codebase is one of the cleaner reads in the FlashAttention-style literature.",
-          "details": "+392 stars in the trending window."
+          "summary": "Moonshot's CUDA kernels for Kimi Delta Attention — high-performance attention variant used inside Kimi K2.6.",
+          "paragraph": "FlashKDA implements Kimi Delta Attention as FlashAttention-style CUDA kernels, dropping alongside Kimi K2.6 weights on April 20. Inference stacks that want the same long-context efficiency Moonshot claims are picking it up.",
+          "details": "395 total stars in five days."
         },
         {
-          "title": "RooCodeInc/Roo-Code",
-          "url": "https://github.com/RooCodeInc/Roo-Code",
-          "summary": "Open-source autonomous coding agent — VS Code extension, multi-mode personas, day-one support for new agentic models.",
-          "paragraph": "Roo Code sits between Cursor (full IDE) and Claude Code (CLI agent) — a VS Code extension with mode-specific personas and richer context handling than its Cline ancestor. Steady-state velocity rather than viral, but consistent enough to be worth watching as an open alternative for teams that don't want a closed-IDE dependency.",
-          "details": "+55 stars today (daily-TS trending)."
+          "title": "huggingface/ml-intern",
+          "url": "https://github.com/huggingface/ml-intern",
+          "summary": "Open-source ML engineer agent that reads papers, trains models, and ships — Hugging Face's reference implementation.",
+          "paragraph": "ml-intern is an end-to-end coding agent specialised for ML work — reading papers, generating training code, running experiments, and iterating. The repo crossed 6,400 stars and is on the daily-Python trending list. Useful as a concrete reference if you're building domain-specific coding agents and want to see how Hugging Face wires the loop.",
+          "details": "+1,240 stars today."
         },
         {
-          "title": "matz/spinel",
-          "url": "https://github.com/matz/spinel",
-          "summary": "Yukihiro Matsumoto's experimental Ruby AOT native compiler — 328 points on HN, signals where Ruby may go for CLI/embedded.",
-          "paragraph": "Matz's experimental AOT compiler for a subset of Ruby, producing standalone binaries without bundling MRI. Not aimed at Rails. The signal is more about direction than the immediate utility — this is the language's creator pointing at native-binary distribution as a real future for Ruby tooling.",
-          "details": "Front-paged on HN with 328 points and 100+ comments."
+          "title": "rtk-ai/rtk",
+          "url": "https://github.com/rtk-ai/rtk",
+          "summary": "CLI proxy that reduces LLM token consumption by 60–90% on common dev commands — single Rust binary, zero deps.",
+          "paragraph": "rtk sits between your shell and an LLM API and rewrites repetitive coding-agent traffic to cut token use by an order of magnitude. The 35,700+ stars are the strongest velocity signal on Rust trending this week. The architecture is simple by design: rules + caching + targeted rewrites.",
+          "details": "+1,094 stars today."
         },
         {
-          "title": "raysan5/raylib v6.0",
-          "url": "https://github.com/raysan5/raylib/releases/tag/6.0",
-          "summary": "Major version of the C99 graphics library — first major bump since 2020, modernized renderer, pluggable platform layer.",
-          "paragraph": "Raylib 6.0 rewrites the platform layer (now backend-pluggable: GLFW, SDL3, Raylib-native), modernizes the renderer for current GPUs, and remains one of the cleanest C99 codebases to study. Notable for being a multi-year solo-led project that landed a major version bump without losing the original code-quality bar.",
-          "details": "Front-paged on HN with 221 points."
+          "title": "zilliztech/claude-context",
+          "url": "https://github.com/zilliztech/claude-context",
+          "summary": "Code-search MCP for Claude Code — index a repo into Milvus, then surface only the relevant slices to the agent.",
+          "paragraph": "The repo gives coding agents on-demand semantic search over an entire codebase via MCP, instead of stuffing files into context. After Anthropic's Claude Code postmortem this week, attention swung back to context-management tooling and Claude Context is the most-starred MCP entry.",
+          "details": "+451 stars today; 9,400+ total."
+        },
+        {
+          "title": "badlogic/pi-mono",
+          "url": "https://github.com/badlogic/pi-mono",
+          "summary": "AI agent toolkit — coding agent CLI, unified LLM API, TUI/web UI libraries, Slack bot, vLLM pods.",
+          "paragraph": "pi-mono is an end-to-end agent toolkit from Mario Zechner: a coding-agent CLI plus reusable Python and TUI components plus serving infrastructure. At 40,000+ stars, the project is consolidating a lot of separate libraries that used to require manual gluing. Worth a look if you're building internal agents and tired of stitching fragments together.",
+          "details": "+528 stars today."
+        },
+        {
+          "title": "alexzhang13/rlm",
+          "url": "https://github.com/alexzhang13/rlm",
+          "summary": "Plug-and-play inference library for Recursive Language Models, supporting various sandbox backends.",
+          "paragraph": "rlm is a research-grade library for Recursive Language Models — agents that recursively spawn smaller models inside structured sandboxes. The repo provides a clean substrate for experimenting with this architecture without rolling your own sandboxing.",
+          "details": "+225 stars today; 3,900+ total."
+        },
+        {
+          "title": "roboflow/rf-detr",
+          "url": "https://github.com/roboflow/rf-detr",
+          "summary": "Real-time DETR-family object detection and segmentation, SOTA on COCO, designed for fine-tuning.",
+          "paragraph": "Accepted to ICLR 2026 and getting a wave of attention this week as practitioners benchmark it for edge deployment. Hits real-time latencies while keeping DETR-style end-to-end training, with active recipes for fine-tuning on small custom datasets.",
+          "details": "+59 stars today; 6,500+ total."
         }
       ]
     },
@@ -682,73 +682,87 @@
       "name": "Blogs & Newsletters",
       "items": [
         {
-          "title": "GPT-5.5 prompting guide",
-          "url": "https://simonwillison.net/2026/Apr/25/gpt-5-5-prompting-guide/",
-          "summary": "Simon Willison's annotated walkthrough of OpenAI's official GPT-5.5 prompting guide — fast index into what's worth re-tuning.",
-          "paragraph": "OpenAI shipped a prompting guide alongside GPT-5.5; Simon's annotations turn it into a useful diff against existing prompt libraries. He calls out which guidance is genuinely new (Responses API patterns, tool-routing) and which is unchanged from 5.0. Read it before re-tuning anything that crossed the model boundary.",
-          "details": ""
-        },
-        {
-          "title": "DeepSeek V4 — almost on the frontier, a fraction of the price",
-          "url": "https://simonwillison.net/2026/Apr/24/deepseek-v4/",
-          "summary": "Simon's hands-on V4 review — pelican benchmark, long-context tests, cost comparisons.",
-          "paragraph": "Simon's review is the cleanest single read on V4 if you only have ten minutes. Pelican passes, long-context coding holds up, and the price math against Claude/GPT-5 lands the way the rest of the web is reporting. His conclusion: best open-weights model right now and competitive with closed frontier on everyday tasks.",
-          "details": ""
-        },
-        {
           "title": "DeepSeek-V4: a million-token context that agents can actually use",
           "url": "https://huggingface.co/blog/deepseekv4",
-          "summary": "Hugging Face's V4 deep-dive — focused on what \"1M context\" actually delivers in agent workflows.",
-          "paragraph": "HF's blog on V4 zeroes in on the practical question: a million-token context window is meaningless if recall degrades past 200K. Their tests suggest V4 holds quality further than any prior open model, which is the part that actually matters for agent stacks that accumulate tool outputs, file contents, and traces. Includes integration notes for transformers and TGI.",
+          "summary": "Hugging Face deep-dive on V4's long-context behavior, kernels, and what 'usable past 128k' actually means in practice.",
+          "paragraph": "The post goes well beyond the launch announcement, digging into how DeepSeek's bitwise-deterministic kernels behave at very long contexts and what retrieval scores look like past 256k. It's the most-cited follow-up writing on V4 this week and is showing up in roadmap meetings at any team that does long-document work.",
           "details": ""
         },
         {
           "title": "Introducing GPT-5.5",
           "url": "https://openai.com/index/introducing-gpt-5-5",
-          "summary": "OpenAI's launch post for GPT-5.5 and 5.5 Pro — flagship model update, day-one in the API and Codex.",
-          "paragraph": "Official launch post. Summarizes capability deltas across coding, research, and tool use, links to the system card, and outlines the Codex Automations and Plugins/Skills launches that shipped the same day. Worth reading the changelog rather than just headlines if you're building on OpenAI APIs.",
+          "summary": "OpenAI's official GPT-5.5 announcement — system card, prompting guide, and rollout plan.",
+          "paragraph": "GPT-5.5 lands April 23 with a prompting guide, system card, and gradual rollout in ChatGPT and Codex. The companion launches — Codex 3.0, WebSocket support in the Responses API, Workspace Agents — make it clear OpenAI is positioning the model primarily as an agent backbone rather than a chat model.",
           "details": ""
         },
         {
-          "title": "GPT 5.5 on AI Gateway",
+          "title": "GPT-5.5 prompting guide",
+          "url": "https://simonwillison.net/2026/Apr/25/gpt-5-5-prompting-guide/",
+          "summary": "Simon Willison's notes on OpenAI's official GPT-5.5 prompting guide — what's new versus repackaged advice.",
+          "paragraph": "Simon distils the official document into the parts that change real prompting behavior and the parts that restate prior best practice. Useful as a TL;DR if you don't want to read the full guide.",
+          "details": ""
+        },
+        {
+          "title": "GPT-5.5 on AI Gateway",
           "url": "https://vercel.com/changelog/gpt-5.5-on-ai-gateway",
-          "summary": "Vercel added GPT-5.5 to the AI Gateway on launch day — fourth frontier-model integration in five days.",
-          "paragraph": "Vercel's gateway shipped GPT-5.5, DeepSeek V4, GPT Image 2, and Kimi K2.6 between April 20 and 24 — a useful anchor for how quickly the multi-provider gateway space is moving. If you're prototyping on Vercel, the four-models-in-five-days cadence is the operational story.",
+          "summary": "Vercel adds GPT-5.5 to AI Gateway — fourth major model integration shipped this week.",
+          "paragraph": "AI Gateway picks up GPT-5.5 the same day the model launches, joining DeepSeek V4, Kimi K2.6, and GPT Image 2 added earlier in the week. Single API key, observability, automatic failover, zero data retention. The cadence of changelog posts is the strongest tactical signal that Vercel is treating Gateway as the flagship AI surface.",
+          "details": ""
+        },
+        {
+          "title": "DeepSeek V4 — almost on the frontier, a fraction of the price",
+          "url": "https://simonwillison.net/2026/Apr/24/deepseek-v4/",
+          "summary": "Simon Willison's hands-on look at DeepSeek V4 — pricing, kernels, and how it compares to GPT-5.5 and Claude 4.7 Opus.",
+          "paragraph": "Simon runs V4 through his usual evaluation tasks and reports on pricing, the bitwise-deterministic claim, and where V4 lands relative to GPT-5.5 and Claude 4.7 Opus. Concrete enough to use as input for cost/quality decisions.",
+          "details": ""
+        },
+        {
+          "title": "DeepSeek V4 on AI Gateway",
+          "url": "https://vercel.com/changelog/deepseek-v4-on-ai-gateway",
+          "summary": "Vercel adds DeepSeek V4 to AI Gateway one day after launch — usable from any AI SDK app immediately.",
+          "paragraph": "DeepSeek V4 lands on AI Gateway April 23, the day after launch. Same routing, same observability, no extra config beyond a model identifier. The cycle from launch to Gateway integration keeps shrinking, which is a big part of why Gateway is becoming the default routing layer for AI SDK applications.",
+          "details": ""
+        },
+        {
+          "title": "Speeding up agentic workflows with WebSockets in the Responses API",
+          "url": "https://openai.com/index/speeding-up-agentic-workflows-with-websockets",
+          "summary": "OpenAI ships WebSocket transport in the Responses API — bidirectional streaming for lower-latency agent loops.",
+          "paragraph": "Aimed squarely at agentic workflows where multi-turn tool calls dominate latency. Tool results stream back over a single connection rather than triggering serial HTTP round-trips. Closes a real gap for real-time copilots and voice agents on top of the Responses API.",
+          "details": ""
+        },
+        {
+          "title": "Building the agentic cloud: everything we launched during Agents Week 2026",
+          "url": "https://blog.cloudflare.com/agents-week-2026-recap/",
+          "summary": "Cloudflare's roundup of every product shipped during Agents Week — Workers AI, AI Gateway, Vectorize, sandboxes, agent runtime.",
+          "paragraph": "A single index page covering every Cloudflare agent-stack release this week. Useful as the one bookmark to keep if you'd rather skim the surface than read each individual launch post. The Rust-Workers reliability piece is the most engineering-dense in the set.",
+          "details": ""
+        },
+        {
+          "title": "How to use Transformers.js in a Chrome extension",
+          "url": "https://huggingface.co/blog/transformersjs-chrome-extension",
+          "summary": "Hugging Face's official guide to running real models inside Chrome extensions via WebGPU and Transformers.js.",
+          "paragraph": "End-to-end walkthrough: manifest permissions, model loading, worker patterns, WebGPU setup. Lets privacy-sensitive features ship purely client-side. The kind of guide that previously took weeks to assemble from scattered sources.",
           "details": ""
         },
         {
           "title": "The Pulse: AI token spending out of control – what's next?",
           "url": "https://newsletter.pragmaticengineer.com/p/the-pulse-ai-token-spending",
-          "summary": "Gergely Orosz on why eng-org token bills are blowing past forecasts — and the early operational responses.",
-          "paragraph": "Gergely's read on why token spend is breaking budgets across engineering organizations, and what teams are doing about it: caching, routing, gateways, model fallbacks, and the slow death of the universal Cursor-seat budget line. Useful for anyone trying to forecast 2026 LLM spend.",
+          "summary": "Pragmatic Engineer on engineering teams hitting six-figure monthly LLM bills almost overnight, and what controls the smarter orgs are putting in place.",
+          "paragraph": "Gergely Orosz on token-spending governance — concrete examples, why the obvious controls (rate limits, model routing) aren't enough, and what to expect over the next twelve months. Practical for anyone setting budgets for AI work this year.",
           "details": ""
         },
         {
-          "title": "Building the agentic cloud: everything we launched during Agents Week 2026",
-          "url": "https://blog.cloudflare.com/agents-week-in-review/",
-          "summary": "Cloudflare's Agents Week roll-up — durable agent runtimes, sandboxes, KV bindings, and the new bot-management direction.",
-          "paragraph": "One navigable index for ~25 launches under the agentic-cloud banner. The most operationally interesting piece is the panic-and-abort recovery system added to Rust Workers via wasm-bindgen, which makes long-running agent code on Workers genuinely production-shaped. The bot-management reframing (\"moving past bots vs humans\") is the strategic piece.",
+          "title": "Moving past bots vs. humans",
+          "url": "https://blog.cloudflare.com/moving-past-bots-vs-humans/",
+          "summary": "Cloudflare argues the binary 'bot or human' framing is obsolete in an age of agent-driven traffic, and proposes a signed-agent model.",
+          "paragraph": "The piece reframes traffic identification: instead of trying to tell bots from humans, treat well-behaved agents as a separate, identifiable class with cryptographic signing. Important reading if you operate sites and are seeing legitimate agent traffic that today shows up as 'bot' and gets blocked.",
           "details": ""
         },
         {
-          "title": "Gemma 4 VLA Demo on Jetson Orin Nano Super",
-          "url": "https://huggingface.co/blog/nvidia/gemma4",
-          "summary": "Hugging Face × NVIDIA demo running Gemma 4 as a VLA (vision-language-action) model on Jetson Orin Nano Super.",
-          "paragraph": "Useful signal that Gemma 4 is being treated as a robotics/embedded option, not just a chat model. The demo runs the model as a VLA on Jetson Orin Nano Super and walks through the deployment path. Includes throughput numbers and the relevant TensorRT integration notes.",
-          "details": ""
-        },
-        {
-          "title": "Deepseek V4 on AI Gateway",
-          "url": "https://vercel.com/changelog/deepseek-v4-on-ai-gateway",
-          "summary": "Vercel added DeepSeek V4 to the AI Gateway on launch — full V4 Pro and Flash routing.",
-          "paragraph": "Vercel routed V4 within hours of weights dropping. Both Pro and Flash variants are available, with the gateway's standard observability and BYOK fallback story. If you're already on Vercel's gateway, switching a provider is a one-line config change.",
-          "details": ""
-        },
-        {
-          "title": "Import AI 454: Automating alignment research; safety study of a Chinese model",
-          "url": "https://importai.substack.com/p/import-ai-454-automating-alignment",
-          "summary": "Jack Clark's weekly roundup — alignment-research automation, a safety study of a Chinese frontier model, and adjacent papers.",
-          "paragraph": "Jack Clark's Import AI continues to be the most useful weekly synthesis of frontier-AI papers and policy moves. This issue's lead piece on automated alignment research is the part most readers will want — the specific framing of \"what an alignment researcher's day looks like when a coding agent does the experiments\" is sharper than the typical writeup.",
+          "title": "Making Rust Workers reliable: panic and abort recovery in wasm-bindgen",
+          "url": "https://blog.cloudflare.com/making-rust-workers-reliable/",
+          "summary": "Cloudflare engineering on making Rust-based Workers survive panics and abort traps cleanly.",
+          "paragraph": "Concrete changes to wasm-bindgen and the Workers runtime to recover from Rust panics and abort traps without taking the isolate down. Other Wasm hosts can borrow the approach. The most engineering-dense Cloudflare post of the week.",
           "details": ""
         }
       ]
