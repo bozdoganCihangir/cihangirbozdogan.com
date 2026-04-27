@@ -9,9 +9,9 @@ You are running the daily refresh for a personal zero-cost static site at `/User
 # Goal
 
 Fully overwrite `content/news.json` with:
-1. **Trending top 30** — tools, models, APIs, resources gaining traction this week (backend / infra / devops / AI infra focus)
+1. **Trending top 50** — tools, models, APIs, resources gaining traction this week (backend / infra / devops / AI infra focus)
 2. **News sections** — Hacker News, Reddit, GitHub Trending, Blogs & Newsletters
-3. **Voices** — latest posts (last 30 days, max 3 each) from a curated roster of practitioner blogs
+3. **Voices** — latest posts (last 30 days, max 5 each) from a curated roster of practitioner blogs
 
 Then commit and push to `main` so Vercel auto-deploys.
 
@@ -27,12 +27,12 @@ If a different category is requested and not present in `CATEGORIES`, stop and t
 
 ---
 
-# PART A — Trending top 30
+# PART A — Trending top 50
 
 The trending list is the headline feature of the page. Get this right.
 
 Read `CategoryConfig.trending` from `lib/sources.ts`. It defines:
-- `totalCap` — overall cap (30)
+- `totalCap` — overall cap (50)
 - `windowDays` — velocity window (7)
 - `subcategories.{tool, model, api, resource}` — each has `count` and `scope`
 - `sources[]` — APIs / web search queries to consult
@@ -41,12 +41,12 @@ Read `CategoryConfig.trending` from `lib/sources.ts`. It defines:
 
 | Subcategory | Count | Focus |
 |---|---|---|
-| `tool`     | 12    | Backend libs, infra/devops tooling, DBs, queues, agent frameworks, build tools |
-| `model`    | 8     | Open-weight LLMs, code models, embeddings, locally-deployed models, frontier updates |
-| `api`      | 7     | Hosted dev-infra services, AI infrastructure APIs, managed services |
-| `resource` | 3     | Long-form blog posts, talks, deep guides — going viral among engineers |
+| `tool`     | 20    | Backend libs, infra/devops tooling, DBs, queues, agent frameworks, build tools |
+| `model`    | 13    | Open-weight LLMs, code models, embeddings, locally-deployed models, frontier updates |
+| `api`      | 12    | Hosted dev-infra services, AI infrastructure APIs, managed services |
+| `resource` | 5     | Long-form blog posts, talks, deep guides — going viral among engineers |
 
-Total = 30. If a sub-section can't fill its cap with quality items, ship fewer rather than padding. Push hard before giving up — the signal is out there.
+Total = 50. If a sub-section can't fill its cap with quality items, ship fewer rather than padding. Push hard before giving up — the signal is out there.
 
 ## What "trending" means here
 
@@ -202,7 +202,7 @@ A curated roster of trusted engineering / AI practitioner blogs. Per-author late
 
 Read `voices` from `lib/sources.ts` (`CategoryConfig.voices`). It defines:
 - `lookbackDays` (30) — drop posts older than this
-- `maxPostsPerAuthor` (3) — cap per author
+- `maxPostsPerAuthor` (5) — cap per author
 - `authors[]` — `{ name, homepage, feed, focus? }` entries
 
 ## Per-author fetch
@@ -245,7 +245,7 @@ Each author with at least one kept post becomes a `Voice`:
 - **Feed 404 / DNS / timeout** — catch, skip author, **report failure** in run summary. Do NOT fabricate posts to fill the gap
 - **Malformed XML** — try Atom selectors as fallback before giving up
 - **Duplicate posts across authors** (cross-posts) — keep both, scoped to author
-- **Same author posted >3 in window** — keep 3 most recent
+- **Same author posted >5 in window** — keep 5 most recent
 - **All authors silent (rare)** — emit `voices: []`. Page handles empty state.
 
 ## Order

@@ -218,12 +218,12 @@ export const TECH_AI: CategoryConfig = {
     },
   ],
   trending: {
-    totalCap: 30,
+    totalCap: 50,
     windowDays: 7,
     subcategories: {
       tool: {
         label: "Tools",
-        count: 12,
+        count: 20,
         scope: [
           "backend libraries / frameworks (Node, Python, Go, Rust)",
           "infra & devops tooling (K8s, Terraform, Pulumi, observability, CI/CD)",
@@ -234,7 +234,7 @@ export const TECH_AI: CategoryConfig = {
       },
       model: {
         label: "Models",
-        count: 8,
+        count: 13,
         scope: [
           "open-weight LLMs gaining adoption (Hugging Face trending, OpenRouter usage)",
           "code models, embedding models, reranking models",
@@ -244,7 +244,7 @@ export const TECH_AI: CategoryConfig = {
       },
       api: {
         label: "APIs & Services",
-        count: 7,
+        count: 12,
         scope: [
           "hosted dev-infra services (DBs, vector DBs, queues, observability SaaS)",
           "AI infrastructure APIs (inference platforms, gateways, RAG services)",
@@ -254,7 +254,7 @@ export const TECH_AI: CategoryConfig = {
       },
       resource: {
         label: "Resources",
-        count: 3,
+        count: 5,
         scope: [
           "high-quality long-form blog posts going viral among engineers",
           "talks / conference recordings",
@@ -336,7 +336,7 @@ export const TECH_AI: CategoryConfig = {
   },
   voices: {
     lookbackDays: 30,
-    maxPostsPerAuthor: 3,
+    maxPostsPerAuthor: 5,
     authors: [
       { name: "Simon Willison",       homepage: "https://simonwillison.net",       feed: "https://simonwillison.net/atom/everything/",  focus: "ai" },
       { name: "Gergely Orosz",        homepage: "https://www.pragmaticengineer.com", feed: "https://newsletter.pragmaticengineer.com/feed", focus: "leadership" },
@@ -350,16 +350,33 @@ export const TECH_AI: CategoryConfig = {
       { name: "Will Larson",          homepage: "https://lethain.com",             feed: "https://lethain.com/feeds/",                  focus: "leadership" },
       { name: "Mitchell Hashimoto",   homepage: "https://mitchellh.com",           feed: "https://mitchellh.com/feed.xml",              focus: "infra" },
       { name: "Charity Majors",       homepage: "https://charity.wtf",             feed: "https://charity.wtf/feed/",                   focus: "devops" },
-      { name: "Bartosz Ciechanowski", homepage: "https://ciechanow.ski",           feed: "https://ciechanow.ski/atom.xml",              focus: "backend" },
       { name: "Marc Brooker",         homepage: "https://brooker.co.za/blog",      feed: "https://brooker.co.za/blog/rss.xml",          focus: "infra" },
       { name: "Eugene Yan",           homepage: "https://eugeneyan.com",           feed: "https://eugeneyan.com/rss/",                  focus: "ai" },
       { name: "Chip Huyen",           homepage: "https://huyenchip.com",           feed: "https://huyenchip.com/feed.xml",              focus: "ai" },
-      { name: "Jay Alammar",          homepage: "https://jalammar.github.io",      feed: "https://jalammar.github.io/feed.xml",         focus: "ai" },
       { name: "Josh Comeau",          homepage: "https://www.joshwcomeau.com",     feed: "https://www.joshwcomeau.com/rss.xml",         focus: "frontend" },
       { name: "Lee Robinson",         homepage: "https://leerob.com",              feed: "https://leerob.com/rss",                      focus: "frontend" },
       { name: "Brendan Gregg",        homepage: "https://www.brendangregg.com",    feed: "https://www.brendangregg.com/blog/rss.xml",   focus: "infra" },
+      { name: "Andrej Karpathy",      homepage: "https://karpathy.github.io",      feed: "https://karpathy.github.io/feed.xml",         focus: "ai" },
+      { name: "Hamel Husain",         homepage: "https://hamel.dev",               feed: "https://hamel.dev/index.xml",                 focus: "ai" },
+      { name: "Nathan Lambert",       homepage: "https://www.interconnects.ai",    feed: "https://www.interconnects.ai/feed",           focus: "ai" },
+      { name: "Dave Cheney",          homepage: "https://dave.cheney.net",         feed: "https://dave.cheney.net/feed",                focus: "backend" },
+      { name: "Hillel Wayne",         homepage: "https://www.hillelwayne.com",     feed: "https://www.hillelwayne.com/post/index.xml",  focus: "backend" },
+      { name: "Rachel by the Bay",    homepage: "https://rachelbythebay.com/w/",   feed: "https://rachelbythebay.com/w/atom.xml",       focus: "infra" },
+      { name: "Tanya Reilly",         homepage: "https://www.noidea.dog",          feed: "https://www.noidea.dog/work?format=rss",      focus: "leadership" },
+      { name: "Cindy Sridharan",      homepage: "https://copyconstruct.medium.com", feed: "https://copyconstruct.medium.com/feed",      focus: "infra" },
+      { name: "Matt Klein",           homepage: "https://mattklein123.dev",        feed: "https://mattklein123.dev/atom.xml",           focus: "infra" },
+      { name: "Filippo Valsorda",     homepage: "https://words.filippo.io",        feed: "https://words.filippo.io/rss/",               focus: "backend" },
+      { name: "Dan Abramov",          homepage: "https://overreacted.io",          feed: "https://overreacted.io/rss.xml",              focus: "frontend" },
+      { name: "Sara Soueidan",        homepage: "https://www.sarasoueidan.com",    feed: "https://www.sarasoueidan.com/blog/index.xml", focus: "frontend" },
+      { name: "Sophie Alpert",        homepage: "https://www.sophiebits.com",      feed: "https://www.sophiebits.com/atom.xml",         focus: "frontend" },
+      { name: "Camille Fournier",     homepage: "https://skamille.medium.com",     feed: "https://skamille.medium.com/feed",            focus: "leadership" },
+      { name: "Patrick McKenzie",     homepage: "https://www.bitsaboutmoney.com",  feed: "https://www.bitsaboutmoney.com/archive/rss/", focus: "leadership" },
       { name: "Fly.io",               homepage: "https://fly.io/blog",             feed: "https://fly.io/blog/feed.xml",                focus: "infra" },
       { name: "Cloudflare",           homepage: "https://blog.cloudflare.com",     feed: "https://blog.cloudflare.com/rss/",            focus: "infra" },
+      { name: "Stripe Engineering",   homepage: "https://stripe.com/blog/engineering", feed: "https://stripe.com/blog/feed.rss",        focus: "backend" },
+      { name: "Discord Engineering",  homepage: "https://discord.com/category/engineering", feed: "https://discord.com/blog/rss.xml",   focus: "infra" },
+      { name: "Oxide",                homepage: "https://oxide.computer/blog",     feed: "https://oxide.computer/blog/feed",            focus: "infra" },
+      { name: "Jane Street Tech",     homepage: "https://blog.janestreet.com",     feed: "https://blog.janestreet.com/feed.xml",        focus: "backend" },
     ],
   },
 };
