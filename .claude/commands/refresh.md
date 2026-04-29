@@ -1,10 +1,10 @@
 ---
-description: Refresh the my-news site — fetch trending tools/models/APIs + today's tech & AI news, then commit & push.
+description: Refresh the cihangirbozdogan.com site — fetch trending tools/models/APIs + today's tech & AI news, then commit & push.
 allowed-tools: Bash, Read, Write, Edit, WebFetch, WebSearch, Agent
 argument-hint: "[category] (optional, default: tech)"
 ---
 
-You are running the daily refresh for a personal zero-cost static site at `/Users/cihangirbozdogan/Documents/my-news`.
+You are running the daily refresh for a personal zero-cost static site at `/Users/cihangirbozdogan/Documents/cihangirbozdogan.com`.
 
 # Goal
 
@@ -75,7 +75,7 @@ Fetch these **in parallel** wherever possible. Each `TrendingSourceConfig` in `l
 - Endpoint: `https://api.github.com/search/repositories`
 - Substitute `${windowStart}` in `query` with `(today - windowDays).toISOString().slice(0,10)` (e.g. `2026-04-18`)
 - Add `&sort=stars&order=desc&per_page=${maxItems}`
-- Header: `Accept: application/vnd.github+json`, `User-Agent: my-news-fetcher/1.0`
+- Header: `Accept: application/vnd.github+json`, `User-Agent: cihangirbozdogan-com-fetcher/1.0`
 - No auth needed — unauthenticated rate limit is 10 req/min for search, plenty
 - Parse: `items[]` has `full_name`, `description`, `html_url`, `stargazers_count`, `language`, `created_at`, `pushed_at`, `topics`
 
@@ -155,7 +155,7 @@ For each item that survives scoring:
 ### 2. Reddit (`kind: "reddit"`)
 For each feed in `feeds[]`:
 - URL: `https://www.reddit.com/r/<subreddit>/top.json?t=<timeWindow>&limit=25`
-- Header: `User-Agent: my-news-fetcher/1.0`
+- Header: `User-Agent: cihangirbozdogan-com-fetcher/1.0`
 - Keep posts where `ups >= minUpvotes`, drop self-promo / low-effort
 - Take up to `maxItems` per subreddit
 - Merge across subs, dedupe by URL
@@ -209,7 +209,7 @@ Read `voices` from `lib/sources.ts` (`CategoryConfig.voices`). It defines:
 
 For each author, in parallel:
 
-1. Fetch `feed` URL. Follow redirects (curl `-L`). Headers: `User-Agent: my-news-fetcher/1.0`, `Accept: application/rss+xml, application/atom+xml, application/xml`.
+1. Fetch `feed` URL. Follow redirects (curl `-L`). Headers: `User-Agent: cihangirbozdogan-com-fetcher/1.0`, `Accept: application/rss+xml, application/atom+xml, application/xml`.
 2. Parse RSS or Atom. Try both — feeds vary:
    - RSS: `<item>` with `<title>`, `<link>`, `<pubDate>`, `<description>` / `<content:encoded>`
    - Atom: `<entry>` with `<title>`, `<link href>`, `<published>` or `<updated>`, `<summary>` / `<content>`
@@ -289,7 +289,7 @@ Section names **must match the `name` fields in `lib/sources.ts`**. Validate JSO
 # Commit & push
 
 ```bash
-cd /Users/cihangirbozdogan/Documents/my-news
+cd /Users/cihangirbozdogan/Documents/cihangirbozdogan.com
 git add content/news.json
 git commit -m "refresh: $(date -u +%Y-%m-%dT%H:%MZ)"
 git push origin main

@@ -1,4 +1,4 @@
-# Claude Context — my-news
+# Claude Context — cihangirbozdogan.com
 
 ## What this is
 

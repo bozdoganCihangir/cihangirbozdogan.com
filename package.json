@@ -1,7 +1,14 @@
 {
-  "name": "my-news",
+  "name": "cihangirbozdogan.com",
   "version": "0.1.0",
   "private": true,
+  "description": "Personal site of Cihangir Bozdogan — daily curated tech & AI signal: trending tools, models, APIs, and writing from practitioner blogs.",
+  "author": "Cihangir Bozdogan <bozdogan.cihangir@gmail.com>",
+  "homepage": "https://www.cihangirbozdogan.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bozdoganCihangir/cihangirbozdogan.com.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
