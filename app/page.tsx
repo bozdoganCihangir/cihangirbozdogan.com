@@ -10,7 +10,7 @@ import { AUTHOR_NAME, SITE_URL } from "@/lib/seo";
 const data = news as NewsPayload;
 
 export const metadata: Metadata = {
-  title: "News — Daily Tech & AI Signal",
+  title: "Daily AI Signal & Tech",
   description: `Daily curated tech and AI news by ${AUTHOR_NAME} — the highest-signal items from Hacker News, Reddit, GitHub Trending, and engineering blogs, refreshed every day.`,
   alternates: { canonical: "/" },
   openGraph: {
