@@ -26,14 +26,7 @@ export default function TrendingPage() {
   return (
     <PageShell
       sidebar={<OnThisPage items={toc} />}
-      main={
-        <>
-          <h1 className="sr-only">
-            Trending Tools, Models & APIs — {AUTHOR_NAME}
-          </h1>
-          <TrendingDetail items={trending} />
-        </>
-      }
+      main={<TrendingDetail items={trending} />}
     />
   );
 }

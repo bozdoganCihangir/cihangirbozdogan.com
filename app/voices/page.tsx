@@ -7,6 +7,7 @@ import { OnThisPage } from "@/components/on-this-page";
 import { slugify } from "@/lib/slug";
 import { AUTHOR_NAME, SITE_URL } from "@/lib/seo";
 
+
 const data = news as NewsPayload;
 
 export const metadata: Metadata = {
@@ -32,14 +33,7 @@ export default function VoicesPage() {
   return (
     <PageShell
       sidebar={<OnThisPage items={toc} />}
-      main={
-        <>
-          <h1 className="sr-only">
-            Voices — Curated Engineering & AI Blogs by {AUTHOR_NAME}
-          </h1>
-          <VoicesList voices={voices} />
-        </>
-      }
+      main={<VoicesList voices={voices} />}
     />
   );
 }

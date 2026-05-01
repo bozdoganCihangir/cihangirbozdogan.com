@@ -19,9 +19,9 @@ There is no history. Each refresh is a snapshot.
 
 | Route | Content | Sidebar |
 |-------|---------|---------|
-| `/` | News sections — Hacker News, Reddit, GitHub Trending, Blogs & Newsletters | Trending list |
-| `/voices` | Curated practitioner blogs — latest posts (last 30 days, max 3 per author) | Trending list |
-| `/trending` | Full-detail view of trending tools / models / APIs / resources | Anchor TOC |
+| `/` | News sections — Hacker News, Reddit, GitHub Trending, Blogs & Newsletters | Anchor TOC (sections) |
+| `/voices` | Curated practitioner blogs — latest posts (last 30 days, max 5 per author) | Anchor TOC (authors) |
+| `/trending` | Full-detail view of trending tools / models / APIs / resources | Anchor TOC (categories) |
 
 Top nav (`components/nav.tsx`) is sticky on every page. Layout shell is `components/page-shell.tsx`.
 
@@ -51,11 +51,10 @@ app/
 components/
   nav.tsx             # top tab nav
   page-shell.tsx      # shared 2-column shell (main + sidebar)
+  on-this-page.tsx    # anchor TOC sidebar used by every page
   section.tsx         # one news section (HN, Reddit, etc.)
   news-item.tsx       # collapsible news item
-  trending.tsx        # sidebar trending list
-  trending-item.tsx   # collapsible trending row
-  trending-detail.tsx # full /trending page + TOC sidebar
+  trending-detail.tsx # full /trending page body
   voice-card.tsx      # one author + their posts
   voices-list.tsx     # the /voices page main
 content/

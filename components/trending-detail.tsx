@@ -25,26 +25,11 @@ export function TrendingDetail({ items }: { items: TrendingItemType[] }) {
   const grouped = groupByCategory(items);
   const total = items.length;
 
-  if (total === 0) {
-    return (
-      <div className="rounded border border-dashed border-rule p-8 text-center text-sm text-ink-muted">
-        <p>No trending data yet.</p>
-        <p className="mt-1">
-          Run{" "}
-          <code className="font-mono text-ink bg-paper-subtle px-1.5 py-0.5 rounded border border-rule-soft">
-            /refresh
-          </code>{" "}
-          in Claude Code to populate.
-        </p>
-      </div>
-    );
-  }
-
   return (
     <div>
       <header className="mb-8 pb-3 border-b border-rule">
         <p className="text-[10px] uppercase tracking-[0.22em] text-accent font-semibold">
-          Top {total} · this week
+          {total > 0 ? `Top ${total} · this week` : "This week"}
         </p>
         <h1 className="font-serif text-3xl font-semibold tracking-tight text-ink mt-1 leading-tight">
           Trending for engineers
@@ -53,6 +38,19 @@ export function TrendingDetail({ items }: { items: TrendingItemType[] }) {
           Tools, models, APIs &amp; resources gaining traction · infra, AI, backend, devops.
         </p>
       </header>
+
+      {total === 0 && (
+        <div className="rounded border border-dashed border-rule p-8 text-center text-sm text-ink-muted">
+          <p>No trending data yet.</p>
+          <p className="mt-1">
+            Run{" "}
+            <code className="font-mono text-ink bg-paper-subtle px-1.5 py-0.5 rounded border border-rule-soft">
+              /refresh
+            </code>{" "}
+            in Claude Code to populate.
+          </p>
+        </div>
+      )}
 
       {TRENDING_CATEGORY_ORDER.map((cat) => {
         const list = grouped[cat];
@@ -93,7 +91,7 @@ export function TrendingDetail({ items }: { items: TrendingItemType[] }) {
                     <p className="mt-2 text-[15px] text-ink-muted leading-relaxed">
                       {item.one_liner}
                     </p>
-                    {item.paragraph?.trim() && (
+                    {item.paragraph.trim() && (
                       <p className="mt-3 font-serif text-[16px] text-ink leading-[1.6] whitespace-pre-wrap">
                         {item.paragraph}
                       </p>

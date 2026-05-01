@@ -20,6 +20,5 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "DuckDuckBot", allow: "/" },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
-    host: SITE_URL,
   };
 }

@@ -38,6 +38,7 @@ export function NewsItem({ item, index }: { item: NewsItemType; index: number })
       </button>
 
       <div
+        inert={!open}
         className={`grid transition-[grid-template-rows] duration-200 ease-out ${
           open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
         }`}
