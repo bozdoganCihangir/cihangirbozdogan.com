@@ -99,6 +99,14 @@ const personLd = {
     "Backend Engineering",
     "Developer Tools",
   ],
+  sameAs: [
+    "https://www.linkedin.com/in/cihangir-bozdogan-63459035/",
+    "https://github.com/bozdoganCihangir",
+    "https://x.com/CihangirBoz2",
+    "https://medium.com/@bozdogan.cihangir",
+    "https://dev.to/cihangir_bozdogan_76b8c99",
+    "https://substack.com/@cihangirbozdogan",
+  ],
 };
 
 const websiteLd = {
