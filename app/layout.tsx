@@ -84,6 +84,7 @@ const personLd = {
   "@id": `${SITE_URL}/#person`,
   name: AUTHOR_NAME,
   url: SITE_URL,
+  image: `${SITE_URL}/cihangir-bozdogan.png`,
   jobTitle: AUTHOR_JOB_TITLE,
   description: SITE_DESCRIPTION,
   address: {
