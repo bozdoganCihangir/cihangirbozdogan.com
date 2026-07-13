@@ -11,6 +11,7 @@ import {
   AUTHOR_NAME,
   AUTHOR_JOB_TITLE,
   AUTHOR_LOCATION,
+  OG_IMAGE,
 } from "@/lib/seo";
 
 const inter = Inter({
@@ -49,20 +50,13 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: `${AUTHOR_NAME} — ${SITE_TAGLINE}`,
     description: SITE_DESCRIPTION,
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: `${AUTHOR_NAME} — ${SITE_TAGLINE}`,
-      },
-    ],
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: `${AUTHOR_NAME} — ${SITE_TAGLINE}`,
     description: SITE_DESCRIPTION,
-    images: ["/opengraph-image"],
+    images: [OG_IMAGE.url],
   },
   robots: {
     index: true,

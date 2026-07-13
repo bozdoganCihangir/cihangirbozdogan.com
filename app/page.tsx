@@ -5,7 +5,7 @@ import { Section } from "@/components/section";
 import { PageShell } from "@/components/page-shell";
 import { OnThisPage } from "@/components/on-this-page";
 import { slugify } from "@/lib/slug";
-import { AUTHOR_NAME, SITE_URL } from "@/lib/seo";
+import { AUTHOR_NAME, SITE_URL, OG_IMAGE } from "@/lib/seo";
 
 const data = news as NewsPayload;
 
@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     title: `News — ${AUTHOR_NAME}`,
     description: `Daily curated tech and AI news by ${AUTHOR_NAME}.`,
+    images: [OG_IMAGE],
   },
 };
 

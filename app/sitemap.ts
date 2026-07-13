@@ -3,6 +3,9 @@ import news from "@/content/news.json";
 import type { NewsPayload } from "@/lib/types";
 import { SITE_URL } from "@/lib/seo";
 
+// Required for `output: export` — emit sitemap.xml as a static file at build.
+export const dynamic = "force-static";
+
 const data = news as NewsPayload;
 
 export default function sitemap(): MetadataRoute.Sitemap {

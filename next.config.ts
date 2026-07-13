@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Emit a fully static site into ./out for GitHub Pages (no server runtime).
+  output: "export",
+  // Pages has no Next.js image optimizer; serve images as-is.
+  images: { unoptimized: true },
 };
 
 export default nextConfig;
