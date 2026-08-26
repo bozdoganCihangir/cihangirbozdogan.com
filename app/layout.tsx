@@ -43,6 +43,9 @@ export const metadata: Metadata = {
   category: "technology",
   alternates: {
     canonical: "/",
+    types: {
+      "application/rss+xml": [{ url: "/feed.xml", title: `${SITE_NAME} — Daily Tech & AI Signal` }],
+    },
   },
   openGraph: {
     type: "website",

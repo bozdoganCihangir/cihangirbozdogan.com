@@ -10,14 +10,16 @@ export function VoiceCard({ voice }: { voice: Voice }) {
       className="border-b border-rule-soft py-7 first:pt-0 last:border-b-0 scroll-mt-24"
     >
       <header className="mb-4">
-        <a
-          href={voice.url}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="font-serif text-2xl font-semibold tracking-tight text-ink hover:text-accent transition-colors"
-        >
-          {voice.author}
-        </a>
+        <h2>
+          <a
+            href={voice.url}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="font-serif text-2xl font-semibold tracking-tight text-ink hover:text-accent transition-colors"
+          >
+            {voice.author}
+          </a>
+        </h2>
       </header>
       <ul className="space-y-5">
         {voice.posts.map((post, i) => (

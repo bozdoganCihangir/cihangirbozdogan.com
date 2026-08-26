@@ -1,7 +1,14 @@
 import type { Voice } from "@/lib/types";
 import { VoiceCard } from "./voice-card";
+import { UpdatedAt } from "./updated-at";
 
-export function VoicesList({ voices }: { voices: Voice[] }) {
+export function VoicesList({
+  voices,
+  updatedAt,
+}: {
+  voices: Voice[];
+  updatedAt?: string;
+}) {
   const populated = voices.filter((v) => v.posts.length > 0);
 
   return (
@@ -16,6 +23,7 @@ export function VoicesList({ voices }: { voices: Voice[] }) {
         <p className="text-sm text-ink-faint mt-1">
           Latest posts from a curated roster — infra, devops, AI, backend.
         </p>
+        {updatedAt && <UpdatedAt iso={updatedAt} />}
       </header>
       {populated.length === 0 ? (
         <div className="rounded border border-dashed border-rule p-8 text-center text-sm text-ink-muted">

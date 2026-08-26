@@ -5,14 +5,21 @@ import { Section } from "@/components/section";
 import { PageShell } from "@/components/page-shell";
 import { OnThisPage } from "@/components/on-this-page";
 import { slugify } from "@/lib/slug";
-import { AUTHOR_NAME, SITE_URL, OG_IMAGE } from "@/lib/seo";
+import { AUTHOR_NAME, SITE_URL, OG_IMAGE, RSS_ALTERNATE } from "@/lib/seo";
+import { JsonLd } from "@/components/json-ld";
+import { UpdatedAt } from "@/components/updated-at";
+import { collectionPageLd } from "@/lib/structured-data";
 
 const data = news as NewsPayload;
 
 export const metadata: Metadata = {
-  title: "Daily AI Signal & Tech",
+  // The root page shares its route segment with the root layout, so the
+  // layout's `%s · Cihangir Bozdogan` template does not apply here — unlike
+  // /trending and /voices. Spell the name out so the homepage still ranks
+  // for it.
+  title: `Daily Tech & AI Signal · ${AUTHOR_NAME}`,
   description: `Daily curated tech and AI news by ${AUTHOR_NAME} — the highest-signal items from Hacker News, Reddit, GitHub Trending, and engineering blogs, refreshed every day.`,
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", types: RSS_ALTERNATE },
   openGraph: {
     url: SITE_URL,
     title: `News — ${AUTHOR_NAME}`,
@@ -35,6 +42,19 @@ export default function Home() {
       sidebar={<OnThisPage items={toc} />}
       main={
         <>
+          <JsonLd
+            data={collectionPageLd({
+              id: "news",
+              path: "/",
+              name: `${AUTHOR_NAME} — Daily Tech & AI News`,
+              description:
+                "Daily curated tech and AI news from Hacker News, Reddit, GitHub Trending, and engineering blogs.",
+              dateModified: data.fetched_at,
+              items: populated.flatMap((s) =>
+                s.items.map((item) => ({ name: item.title, url: item.url })),
+              ),
+            })}
+          />
           <h1 className="sr-only">
             {AUTHOR_NAME} — Daily Tech & AI News
           </h1>
@@ -51,6 +71,7 @@ export default function Home() {
             <p className="text-sm text-ink-faint mt-1">
               Hand-picked from Hacker News, Reddit, GitHub Trending and engineering blogs.
             </p>
+            {data.fetched_at && <UpdatedAt iso={data.fetched_at} />}
           </header>
           {newsEmpty ? (
             <div className="rounded border border-dashed border-rule p-8 text-center text-sm text-ink-muted">

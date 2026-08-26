@@ -4,6 +4,7 @@ import {
   TRENDING_CATEGORY_LABELS,
   TRENDING_CATEGORY_ORDER,
 } from "@/lib/types";
+import { UpdatedAt } from "./updated-at";
 
 function groupByCategory(
   items: TrendingItemType[],
@@ -21,7 +22,13 @@ function groupByCategory(
   return grouped;
 }
 
-export function TrendingDetail({ items }: { items: TrendingItemType[] }) {
+export function TrendingDetail({
+  items,
+  updatedAt,
+}: {
+  items: TrendingItemType[];
+  updatedAt?: string;
+}) {
   const grouped = groupByCategory(items);
   const total = items.length;
 
@@ -37,6 +44,7 @@ export function TrendingDetail({ items }: { items: TrendingItemType[] }) {
         <p className="text-sm text-ink-faint mt-1">
           Tools, models, APIs &amp; resources gaining traction · infra, AI, backend, devops.
         </p>
+        {updatedAt && <UpdatedAt iso={updatedAt} />}
       </header>
 
       {total === 0 && (

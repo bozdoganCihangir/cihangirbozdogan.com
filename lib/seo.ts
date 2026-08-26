@@ -34,3 +34,12 @@ export const SITE_KEYWORDS = [
   "machine learning news",
   "LLM news",
 ];
+
+// Next.js replaces the whole `alternates` object per route segment, so a page
+// that sets `canonical` also drops anything the layout declared. Every page
+// spreads this in alongside its canonical so the feed stays advertised.
+export const RSS_ALTERNATE = {
+  "application/rss+xml": [
+    { url: "/feed.xml", title: `${SITE_NAME} — ${SITE_TAGLINE}` },
+  ],
+};
