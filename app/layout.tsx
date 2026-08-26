@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/nav";
+import { Footer } from "@/components/footer";
 import {
   SITE_URL,
   SITE_NAME,
@@ -136,6 +137,7 @@ export default function RootLayout({
         />
         <Nav />
         {children}
+        <Footer />
       </body>
     </html>
   );
