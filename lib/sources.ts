@@ -60,7 +60,6 @@ export type TrendingConfig = {
   totalCap: number; // overall cap (e.g. 30)
   windowDays: number; // velocity window (e.g. last 7 days)
   subcategories: {
-    tool: TrendingSubcategoryFocus;
     model: TrendingSubcategoryFocus;
     api: TrendingSubcategoryFocus;
     resource: TrendingSubcategoryFocus;
@@ -74,8 +73,12 @@ export type TrendingSourceConfig =
       kind: "github_search";
       id: string;
       name: string;
-      /** GitHub Search query template — slash command substitutes ${date} for windowStart */
-      query: string;
+      /**
+       * GitHub Search query template(s) — slash command substitutes ${windowStart}.
+       * An array means one request per entry; GitHub rejects OR across
+       * qualifiers (`topic:a OR topic:b`), so list them separately.
+       */
+      query: string | string[];
       maxItems: number;
       notes?: string;
     }
@@ -118,6 +121,47 @@ export type TrendingSourceConfig =
       maxItems: number;
     };
 
+export type ToolGroupFocus = {
+  /** Display label for the /tools group */
+  label: string;
+  /** Target item count for the group — a target, not a hard cap */
+  target: number;
+  /** Topics / examples that count as in-scope for this group */
+  scope: string[];
+};
+
+/**
+ * Hard gate every /tools candidate must pass. The slash command checks these
+ * against the GitHub Search API response fields — no guessing, no exceptions.
+ */
+export type ToolMaintenanceGate = {
+  /** `pushed_at` must be within this many days of now */
+  pushedWithinDays: number;
+  /** Repos created before the velocity window need at least this many stars */
+  minStarsEstablished: number;
+  /** Repos created inside the velocity window need at least this many stars */
+  minStarsNew: number;
+  /** Must not be `archived`, `disabled`, or a `fork` */
+  rejectArchivedOrFork: true;
+  /** Must have a non-empty `description` */
+  requireDescription: true;
+  /** Reject by name/description/topic match — lists, tutorials, dotfiles… */
+  rejectPatterns: string[];
+};
+
+export type ToolsConfig = {
+  /** Never ship fewer than this many tools. Widen the search before giving up. */
+  minTotal: number;
+  /** Stop adding once this many pass the gate */
+  maxTotal: number;
+  /** Velocity window in days — same meaning as `TrendingConfig.windowDays` */
+  windowDays: number;
+  maintenance: ToolMaintenanceGate;
+  groups: Record<"agents" | "infra" | "data" | "backend" | "devex", ToolGroupFocus>;
+  /** Only GitHub-backed sources — every tool must resolve to a repo URL */
+  sources: TrendingSourceConfig[];
+};
+
 export type VoiceAuthor = {
   /** Display name, e.g. "Simon Willison" */
   name: string;
@@ -144,6 +188,7 @@ export type CategoryConfig = {
   negativeFilters: string[];
   sources: SourceConfig[];
   trending: TrendingConfig;
+  tools: ToolsConfig;
   voices: VoicesConfig;
 };
 
@@ -213,25 +258,14 @@ export const TECH_AI: CategoryConfig = {
         { name: "OpenAI",             url: "https://openai.com/news/rss.xml" },
         { name: "Anthropic",          url: "https://www.anthropic.com/news/rss.xml" },
         { name: "Vercel",             url: "https://vercel.com/atom" },
-        { name: "lobste.rs",          url: "https://lobste.rs/hot.rss" },
+        { name: "lobste.rs",          url: "https://lobste.rs/rss" },
       ],
     },
   ],
   trending: {
-    totalCap: 50,
+    totalCap: 30, // models + apis + resources — tools live in `tools` below
     windowDays: 7,
     subcategories: {
-      tool: {
-        label: "Tools",
-        count: 20,
-        scope: [
-          "backend libraries / frameworks (Node, Python, Go, Rust)",
-          "infra & devops tooling (K8s, Terraform, Pulumi, observability, CI/CD)",
-          "databases, caches, queues, message brokers",
-          "agent frameworks, LLM orchestration libraries, eval tools, MCP servers",
-          "developer experience: build tools, runtimes, CLIs, code-quality, testing",
-        ],
-      },
       model: {
         label: "Models",
         count: 13,
@@ -262,30 +296,14 @@ export const TECH_AI: CategoryConfig = {
         ],
       },
     },
+    // GitHub signal for trending comes from the `tools` pool below — the slash
+    // command fetches it once and reuses it here for open-source APIs/services.
     sources: [
-      {
-        kind: "github_search",
-        id: "gh-new-rising",
-        name: "GitHub — new repos with momentum",
-        query: "stars:>100 created:>${windowStart}",
-        maxItems: 50,
-        notes:
-          "Catches brand-new repos that have crossed 100★ within the velocity window. Sort by stars desc.",
-      },
-      {
-        kind: "github_search",
-        id: "gh-active-popular",
-        name: "GitHub — active popular repos",
-        query: "stars:>1000 pushed:>${windowStart}",
-        maxItems: 50,
-        notes:
-          "Established repos with recent activity. Use to dedupe vs the 'new' set and to ground signal.",
-      },
       {
         kind: "huggingface",
         id: "hf-trending-models",
         name: "Hugging Face — trending models",
-        endpoint: "https://huggingface.co/api/models?sort=trending&direction=-1&limit=40",
+        endpoint: "https://huggingface.co/api/models?sort=trendingScore&direction=-1&limit=40",
         maxItems: 40,
       },
       {
@@ -308,7 +326,7 @@ export const TECH_AI: CategoryConfig = {
         kind: "rss",
         id: "console-dev",
         name: "console.dev — curated dev tools",
-        url: "https://console.dev/feed/",
+        url: "https://console.dev/rss.xml",
         maxItems: 15,
       },
       {
@@ -329,6 +347,192 @@ export const TECH_AI: CategoryConfig = {
           "viral engineering blog post this week",
           "new vector database launch",
           "trending agent framework github",
+        ],
+        maxItems: 20,
+      },
+    ],
+  },
+  tools: {
+    minTotal: 50,
+    maxTotal: 70,
+    windowDays: 7,
+    maintenance: {
+      pushedWithinDays: 30,
+      minStarsEstablished: 500,
+      minStarsNew: 150,
+      rejectArchivedOrFork: true,
+      requireDescription: true,
+      rejectPatterns: [
+        "awesome", "awesome-list", "curated list", "interview", "roadmap",
+        "cheatsheet", "cheat-sheet", "dotfiles", "tutorial", "course",
+        "book", "leetcode", "100-days", "learn-", "study", "notes",
+        "boilerplate", "starter-kit", "template", "collection of",
+        "wallpaper", "icon pack", "theme", "portfolio",
+      ],
+    },
+    groups: {
+      agents: {
+        label: "Agents & LLM tooling",
+        target: 14,
+        scope: [
+          "coding agents, agent harnesses, agent runtimes and control planes",
+          "agent frameworks, LLM orchestration, MCP servers and clients",
+          "eval / observability / security tooling for LLM apps",
+          "local inference servers, model routers, token proxies",
+        ],
+      },
+      infra: {
+        label: "Infra & DevOps",
+        target: 10,
+        scope: [
+          "Kubernetes, containers, sandboxing, virtualization",
+          "infrastructure as code, GitOps, CI/CD, deploy tooling",
+          "observability, tracing, logging, profiling",
+          "networking, service mesh, tunnels, local networking",
+        ],
+      },
+      data: {
+        label: "Data & Databases",
+        target: 8,
+        scope: [
+          "databases, embedded DBs, vector DBs, caches",
+          "queues, streams, message brokers, CDC",
+          "dataframes, query engines, storage formats, object storage",
+        ],
+      },
+      backend: {
+        label: "Backend & Runtimes",
+        target: 8,
+        scope: [
+          "web frameworks, RPC, API servers (Go, Rust, Python, TS, Zig)",
+          "language runtimes, WASM runtimes, JS/TS runtimes",
+          "auth, background jobs, workflow engines",
+        ],
+      },
+      devex: {
+        label: "Developer Experience",
+        target: 10,
+        scope: [
+          "CLIs, terminal tools, shells, TUIs engineers actually use",
+          "build tools, package managers, monorepo tooling",
+          "testing, linting, formatting, code-quality",
+          "editors, editor plugins, code search, code review tooling",
+        ],
+      },
+    },
+    sources: [
+      {
+        kind: "github_search",
+        id: "tools-gh-new-rising",
+        name: "GitHub — new repos with momentum",
+        query: "stars:>100 created:>${windowStart} archived:false fork:false",
+        maxItems: 100,
+        notes: "Brand-new repos that crossed 100★ inside the window. Sort by stars desc.",
+      },
+      {
+        kind: "github_search",
+        id: "tools-gh-active-popular",
+        name: "GitHub — active popular repos",
+        query: "stars:>1000 pushed:>${windowStart} archived:false fork:false",
+        maxItems: 100,
+        notes: "Established repos with commits this week. Rank by stars added, not total.",
+      },
+      {
+        kind: "github_search",
+        id: "tools-gh-topic-agents",
+        name: "GitHub — agents / MCP / LLM topics",
+        query: [
+          "topic:ai-agents stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:llm stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:mcp stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:mcp-server stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:agents stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:coding-agent stars:>200 pushed:>${windowStart} archived:false fork:false",
+        ],
+        maxItems: 100,
+      },
+      {
+        kind: "github_search",
+        id: "tools-gh-topic-infra",
+        name: "GitHub — infra / devops topics",
+        query: [
+          "topic:kubernetes stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:devops stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:observability stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:infrastructure-as-code stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:docker stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:ci-cd stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:networking stars:>200 pushed:>${windowStart} archived:false fork:false",
+        ],
+        maxItems: 100,
+      },
+      {
+        kind: "github_search",
+        id: "tools-gh-topic-data",
+        name: "GitHub — database / data topics",
+        query: [
+          "topic:database stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:vector-database stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:message-queue stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:dataframe stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:sql stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:storage stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:streaming stars:>200 pushed:>${windowStart} archived:false fork:false",
+        ],
+        maxItems: 100,
+      },
+      {
+        kind: "github_search",
+        id: "tools-gh-topic-devex",
+        name: "GitHub — CLI / build / testing topics",
+        query: [
+          "topic:cli stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:terminal stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:build-tool stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:testing stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:linter stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:developer-tools stars:>200 pushed:>${windowStart} archived:false fork:false",
+          "topic:package-manager stars:>200 pushed:>${windowStart} archived:false fork:false",
+        ],
+        maxItems: 100,
+      },
+      {
+        kind: "github_search",
+        id: "tools-gh-lang-systems",
+        name: "GitHub — active Rust / Go / Zig repos",
+        query: [
+          "language:rust stars:>300 pushed:>${windowStart} archived:false fork:false",
+          "language:go stars:>300 pushed:>${windowStart} archived:false fork:false",
+          "language:zig stars:>300 pushed:>${windowStart} archived:false fork:false",
+        ],
+        maxItems: 100,
+      },
+      {
+        kind: "github_search",
+        id: "tools-gh-lang-app",
+        name: "GitHub — active Python / TypeScript repos",
+        query: [
+          "language:python stars:>300 pushed:>${windowStart} archived:false fork:false",
+          "language:typescript stars:>300 pushed:>${windowStart} archived:false fork:false",
+        ],
+        maxItems: 100,
+      },
+      {
+        kind: "rss",
+        id: "tools-console-dev",
+        name: "console.dev — curated dev tools",
+        url: "https://console.dev/rss.xml",
+        maxItems: 15,
+      },
+      {
+        kind: "web_search",
+        id: "tools-web-search",
+        name: "Web search — gap filler",
+        queries: [
+          "trending github repo developer tool this week",
+          "new open source CLI tool github 2026",
+          "new agent framework github release",
+          "new observability tool open source github",
         ],
         maxItems: 20,
       },

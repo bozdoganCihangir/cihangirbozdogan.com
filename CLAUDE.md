@@ -21,7 +21,8 @@ There is no history. Each refresh is a snapshot.
 |-------|---------|---------|
 | `/` | News sections — Hacker News, Reddit, GitHub Trending, Blogs & Newsletters | Anchor TOC (sections) |
 | `/voices` | Curated practitioner blogs — latest posts (last 30 days, max 5 per author) | Anchor TOC (authors) |
-| `/trending` | Full-detail view of trending tools / models / APIs / resources | Anchor TOC (categories) |
+| `/trending` | Full-detail view of trending models / APIs / resources | Anchor TOC (categories) |
+| `/tools` | 50+ actively maintained GitHub repos gaining traction, grouped (agents, infra, data, backend, devex) | Anchor TOC (groups) |
 
 Top nav (`components/nav.tsx`) is sticky on every page. Layout shell is `components/page-shell.tsx`.
 
@@ -42,6 +43,7 @@ app/
   page.tsx            # /  (News)
   voices/page.tsx     # /voices
   trending/page.tsx   # /trending
+  tools/page.tsx      # /tools
   globals.css         # Tailwind + theme tokens
   icon.png            # favicon — static PNG
   apple-icon.png      # Apple touch icon — static PNG
@@ -54,13 +56,15 @@ components/
   section.tsx         # one news section (HN, Reddit, etc.)
   news-item.tsx       # collapsible news item
   trending-detail.tsx # full /trending page body
+  tools-detail.tsx    # full /tools page body
+  ranked-item.tsx     # one ranked row, shared by /trending and /tools
   voice-card.tsx      # one author + their posts
   voices-list.tsx     # the /voices page main
 content/
   news.json           # the entire site's data, overwritten by /refresh
 lib/
   sources.ts          # feeds, caps, voices roster — SINGLE SOURCE OF TRUTH
-  types.ts            # NewsPayload, NewsItem, TrendingItem, Voice, VoicePost
+  types.ts            # NewsPayload, NewsItem, TrendingItem, ToolItem, Voice, VoicePost
   seo.ts              # site URL, name, tagline, description, keywords — SEO source of truth
 .claude/
   commands/refresh.md # the slash command that does all the work
@@ -87,6 +91,7 @@ pnpm lint             # ESLint
 ## Editing rules
 
 - **Adding a feed** (HN/Reddit/GitHub/RSS) → edit `lib/sources.ts` only. The `/refresh` command reads it; no other code changes needed.
+- **Tuning the Tools page** → `tools` in `lib/sources.ts`: `minTotal` (hard floor, 50), `maintenance` (the gate every repo must pass: pushed within N days, star thresholds, not archived/fork, junk-name patterns), per-group `target`s, and the GitHub search queries. Adding a group means also adding it to `ToolGroup` / `TOOL_GROUP_LABELS` / `TOOL_GROUP_ORDER` in `lib/types.ts`.
 - **Adding/removing a Voices author** → edit the `voices.authors[]` array in `lib/sources.ts`. The display order in the array is the display order on the page — keep it intentional.
 - **Changing display layout** → components only. The data shape lives in `lib/types.ts`; if you change the shape, update `/refresh` to match.
 - **Adding a category** (currently only `tech`) → add a new `CategoryConfig` in `lib/sources.ts`, then call `/refresh <category>`.
@@ -103,7 +108,7 @@ pnpm lint             # ESLint
 
 - Editorial / FT-inspired pink-paper palette. Tokens in `app/globals.css`.
 - Source Serif 4 for headlines/body prose; Inter for UI chrome.
-- Collapsible items (news + trending) use a CSS-grid `grid-template-rows` animation, not `max-height`.
+- Collapsible items (news) use a CSS-grid `grid-template-rows` animation, not `max-height`. Trending and Tools rows are not collapsible — they share `components/ranked-item.tsx`.
 - Voices items are **not** collapsible — title + summary visible by default. No avatars, no dates, no metadata. Text + link only.
 
 ## Rules of engagement

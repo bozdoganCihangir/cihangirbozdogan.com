@@ -29,6 +29,8 @@ export const SITE_KEYWORDS = [
   "daily AI digest",
   "engineering blogs",
   "trending AI tools",
+  "trending GitHub repos",
+  "developer tools",
   "trending AI models",
   "developer news",
   "machine learning news",

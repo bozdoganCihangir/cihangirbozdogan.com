@@ -28,6 +28,12 @@ export function GET() {
       body: t.paragraph,
       category: "Trending",
     })),
+    ...(data.tools ?? []).map((t) => ({
+      title: `${t.name} — ${t.one_liner}`,
+      url: t.url,
+      body: t.paragraph,
+      category: "Tools",
+    })),
     ...data.sections.flatMap((section) =>
       section.items.map((item) => ({
         title: item.title,

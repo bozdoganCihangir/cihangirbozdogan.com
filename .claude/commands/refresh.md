@@ -1,19 +1,20 @@
 ---
-description: Refresh the cihangirbozdogan.com site — fetch trending tools/models/APIs + today's tech & AI news, then commit & push.
+description: Refresh the cihangirbozdogan.com site — fetch 50+ trending GitHub tools, trending models/APIs/resources, today's tech & AI news and Voices, then commit & push.
 allowed-tools: Bash, Read, Write, Edit, WebFetch, WebSearch, Agent
 argument-hint: "[category] (optional, default: tech)"
 ---
 
-You are running the daily refresh for a personal zero-cost static site at `/Users/cihangirbozdogan/Documents/cihangirbozdogan.com`.
+You are running the daily refresh for a personal zero-cost static site at `/Users/cihangirbozdogan/Documents/Projects/cihangirbozdogan.com`.
 
 # Goal
 
 Fully overwrite `content/news.json` with:
-1. **Trending top 50** — tools, models, APIs, resources gaining traction this week (backend / infra / devops / AI infra focus)
-2. **News sections** — Hacker News, Reddit, GitHub Trending, Blogs & Newsletters
-3. **Voices** — latest posts (last 30 days, max 5 each) from a curated roster of practitioner blogs
+1. **Tools (50+)** — actively maintained GitHub repos gaining traction this week, grouped by area (`/tools` page)
+2. **Trending top 30** — models, APIs, resources gaining traction this week (backend / infra / devops / AI infra focus)
+3. **News sections** — Hacker News, Reddit, GitHub Trending, Blogs & Newsletters
+4. **Voices** — latest posts (last 30 days, max 5 each) from a curated roster of practitioner blogs
 
-Then commit and push to `main` so Vercel auto-deploys.
+Then commit and push to `main` so GitHub Actions redeploys GitHub Pages.
 
 The site has **no database**. Each run **fully overwrites** `content/news.json`. There is no history.
 
@@ -21,32 +22,97 @@ The site has **no database**. Each run **fully overwrites** `content/news.json`.
 
 Argument: `${1:-tech}` — default `tech`.
 
-**First step every run**: read `lib/sources.ts`. It is the **single source of truth** for which feeds to fetch and the per-source policy (lookback windows, item caps, score thresholds, trending sub-section counts). Follow it exactly.
+**First step every run**: read `lib/sources.ts`. It is the **single source of truth** for which feeds to fetch and the per-source policy (lookback windows, item caps, score thresholds, tools maintenance gate, trending sub-section counts). Follow it exactly.
 
 If a different category is requested and not present in `CATEGORIES`, stop and tell the user to add it to `lib/sources.ts` first.
 
 ---
 
-# PART A — Trending top 50
+# PART A — Tools (minimum 50)
 
-The trending list is the headline feature of the page. Get this right.
+The `/tools` page is the headline feature of the site. It is a list of **GitHub repos** that are (a) gaining traction this week and (b) demonstrably well maintained. Every entry links to a repo. **The floor is 50 shipped tools** — if you are under 50 after the first pass, widen the search (more queries, per_page=100, page 2) before you accept fewer. Never pad with repos that fail the gate.
+
+Read `CategoryConfig.tools` from `lib/sources.ts`. It defines:
+- `minTotal` (50) / `maxTotal` (70) — total shipped tools
+- `windowDays` (7) — velocity window
+- `maintenance` — the **hard gate** below
+- `groups.{agents, infra, data, backend, devex}` — each has `label`, `target`, `scope`
+- `sources[]` — GitHub Search queries + console.dev + web search
+
+## A.1 Fetch the candidate pool
+
+For each `kind: "github_search"` source — and for **each entry** when `query` is an array (GitHub rejects `OR` across qualifiers, so topics/languages are listed one per request) — fetch, spacing calls to stay under the rate limit:
+
+- Endpoint: `https://api.github.com/search/repositories?q=<query>&sort=stars&order=desc&per_page=100`
+- Substitute `${windowStart}` with `(today - windowDays).toISOString().slice(0,10)`
+- Headers: `Accept: application/vnd.github+json`, `User-Agent: cihangirbozdogan-com-fetcher/1.0`
+- **Auth**: run `gh auth token` first. If it returns a token, send `Authorization: Bearer <token>` — that lifts search to 30 req/min and avoids 403s across the ~8 queries. If it fails, go unauthenticated (10 req/min) and space the calls.
+- Keep these fields per repo: `full_name`, `html_url`, `description`, `stargazers_count`, `language`, `created_at`, `pushed_at`, `topics`, `archived`, `disabled`, `fork`, `open_issues_count`, `license.spdx_id`
+- Also merge in the GitHub Trending pages fetched in Part C.3 (`github_trending` source) — they are the best daily velocity signal and are already in hand.
+- console.dev and web search are **gap fillers only**: every candidate they surface must be resolved to a GitHub repo and fetched via `GET /repos/{owner}/{repo}` so the gate has real fields to check. No repo → not a tool.
+
+Dedupe the pool by `full_name` (case-insensitive). Expect 400–800 unique repos.
+
+## A.2 Maintenance gate — hard, no exceptions
+
+Apply `tools.maintenance` from `lib/sources.ts` to every candidate **using the API fields, not vibes**. Reject if ANY of these is true:
+
+| Check | Rule |
+|---|---|
+| Activity | `pushed_at` older than `pushedWithinDays` (30) days |
+| Stars, established | `created_at` before `windowStart` AND `stargazers_count < minStarsEstablished` (500) |
+| Stars, new | `created_at` within window AND `stargazers_count < minStarsNew` (150) |
+| Status | `archived`, `disabled`, or `fork` is true |
+| Description | `description` empty or null |
+| Junk | `full_name`, `description`, or any `topics[]` matches a `rejectPatterns` entry (case-insensitive substring) |
+
+Then apply the editorial filters (same as before — this is the part you already do well):
+- Drop crypto / web3 / NFT, frontend UI/CSS/mobile-only, personal portfolio projects, tutorials/courses, "AI hype" repos with no working code
+- Drop repos whose README is a landing page for a closed SaaS with no runnable code
+- **Modern** means: shipped a release, tag or notable feature within the window, or is a new project that went from 0 to hundreds of stars in the window. A 40k★ repo with a typo-fix commit does not count as "gaining traction" — it needs a real reason to be here this week.
+
+For anything you keep that isn't obviously alive, spot-check `GET /repos/{owner}/{repo}/releases?per_page=1` or the commits page. Sample, don't fetch everything.
+
+## A.3 Score, group, rank
+
+Score survivors as **velocity × recency × relevance**, exactly as for trending:
+- velocity = stars added in the window (GitHub Trending "stars this week" when available; otherwise `stargazers_count / age_days` for new repos, or a `stars:>N created:>` search-position proxy)
+- recency = release / major push inside the window
+- relevance = fits one of `tools.groups[*].scope`
+
+Assign each survivor to exactly one `group` (`agents | infra | data | backend | devex`) by best fit. Fill each group toward its `target`; if a group is thin, the surplus goes to whichever group has the strongest remaining candidates — **the total floor (50) beats per-group targets**. Rank `1..N` within each group.
+
+## A.4 Write each `ToolItem` (shape in `lib/types.ts`)
+
+- `rank`: 1..N within its group
+- `name`: clean, recognizable. `"Bun"`, not `"oven-sh/bun"`. Keep enough to disambiguate.
+- `group`: one of the five ids
+- `subcategory`: 1–3 word label, e.g. `"agent-harness"`, `"mcp-server"`, `"vector-db"`, `"wasm-runtime"`, `"cli"`
+- `one_liner`: **12–18 words**, what it is, no marketing voice
+- `paragraph`: **3–5 sentences**, why it is trending NOW and why it is trustworthy: stars and growth this week, language, last push / latest release, who is adopting it. Every number from a real fetch. No links inline.
+- `url`: the canonical `html_url` of the repo — always `https://github.com/{owner}/{repo}`
+
+---
+
+# PART B — Trending top 30
+
+Models, APIs & services, and resources. Tools now live in Part A — **do not put GitHub repos here** unless the entry is a hosted API/service or a long-form resource.
 
 Read `CategoryConfig.trending` from `lib/sources.ts`. It defines:
-- `totalCap` — overall cap (50)
+- `totalCap` — overall cap (30)
 - `windowDays` — velocity window (7)
-- `subcategories.{tool, model, api, resource}` — each has `count` and `scope`
+- `subcategories.{model, api, resource}` — each has `count` and `scope`
 - `sources[]` — APIs / web search queries to consult
 
 ## Sub-section caps (must hit these exactly when possible)
 
 | Subcategory | Count | Focus |
 |---|---|---|
-| `tool`     | 20    | Backend libs, infra/devops tooling, DBs, queues, agent frameworks, build tools |
 | `model`    | 13    | Open-weight LLMs, code models, embeddings, locally-deployed models, frontier updates |
 | `api`      | 12    | Hosted dev-infra services, AI infrastructure APIs, managed services |
 | `resource` | 5     | Long-form blog posts, talks, deep guides — going viral among engineers |
 
-Total = 50. If a sub-section can't fill its cap with quality items, ship fewer rather than padding. Push hard before giving up — the signal is out there.
+Total = 30. If a sub-section can't fill its cap with quality items, ship fewer rather than padding. Push hard before giving up — the signal is out there.
 
 ## What "trending" means here
 
@@ -71,13 +137,8 @@ Drop entirely:
 
 Fetch these **in parallel** wherever possible. Each `TrendingSourceConfig` in `lib/sources.ts` has a `kind`:
 
-### `kind: "github_search"` — GitHub Search API
-- Endpoint: `https://api.github.com/search/repositories`
-- Substitute `${windowStart}` in `query` with `(today - windowDays).toISOString().slice(0,10)` (e.g. `2026-04-18`)
-- Add `&sort=stars&order=desc&per_page=${maxItems}`
-- Header: `Accept: application/vnd.github+json`, `User-Agent: cihangirbozdogan-com-fetcher/1.0`
-- No auth needed — unauthenticated rate limit is 10 req/min for search, plenty
-- Parse: `items[]` has `full_name`, `description`, `html_url`, `stargazers_count`, `language`, `created_at`, `pushed_at`, `topics`
+### GitHub signal
+- Trending has no `github_search` sources of its own — reuse the Part A pool. Open-source repos that are primarily a hosted service (e.g. an inference gateway with a cloud offering) may appear under `api`; everything else stays in Part A.
 
 ### `kind: "huggingface"` — Hugging Face API
 - Endpoint is fully specified — just GET it
@@ -112,17 +173,17 @@ Fetch these **in parallel** wherever possible. Each `TrendingSourceConfig` in `l
 
 For each item that survives scoring:
 
-- `rank`: 1..N **within its category** (1..12 for tools, 1..8 for models, etc.)
-- `name`: clean, recognizable name. `"Bun"`, not `"oven-sh/bun"`. `"Llama 3.3 70B"`, not `"meta-llama/Llama-3.3-70B-Instruct"`. Keep enough to disambiguate similarly-named things.
-- `category`: `"tool" | "model" | "api" | "resource"`
-- `subcategory`: short label like `"runtime"`, `"vector-db"`, `"agent-framework"`, `"observability"`, `"code-llm"`, `"embedding"`, `"managed-service"`, `"talk"`, `"long-form"`. 1–3 words.
+- `rank`: 1..N **within its category** (1..13 for models, 1..12 for apis, 1..5 for resources)
+- `name`: clean, recognizable name. `"Llama 3.3 70B"`, not `"meta-llama/Llama-3.3-70B-Instruct"`. Keep enough to disambiguate similarly-named things.
+- `category`: `"model" | "api" | "resource"`
+- `subcategory`: short label like `"code-llm"`, `"embedding"`, `"managed-service"`, `"inference-api"`, `"talk"`, `"long-form"`. 1–3 words.
 - `one_liner`: **12–18 words**. What it is, no marketing voice. Example: `"Fast JS runtime, drop-in Node alternative with built-in bundler, transpiler, and package manager."`
 - `paragraph`: **3–5 sentences**, plain English, why it's trending NOW. Concrete details (numbers, who's using it, what's new). No hype words. No links inline.
 - `url`: canonical link (project repo, model page, API homepage, blog post)
 
 ---
 
-# PART B — News sections
+# PART C — News sections
 
 (Per-source config in `CategoryConfig.sources`.)
 
@@ -196,7 +257,7 @@ For each feed in `feeds[]`:
 
 ---
 
-# PART C — Voices
+# PART D — Voices
 
 A curated roster of trusted engineering / AI practitioner blogs. Per-author latest-posts feed, **independent of news churn**.
 
@@ -264,15 +325,26 @@ Schema (must match `lib/types.ts` exactly):
 {
   "fetched_at": "<ISO 8601 in UTC>",
   "category": "tech",
-  "trending": [
+  "tools": [
     {
       "rank": 1,
       "name": "Bun",
-      "category": "tool",
+      "group": "backend",
       "subcategory": "runtime",
       "one_liner": "Fast JS runtime, drop-in Node alternative with built-in bundler, transpiler, and package manager.",
       "paragraph": "...",
-      "url": "https://bun.sh"
+      "url": "https://github.com/oven-sh/bun"
+    }
+  ],
+  "trending": [
+    {
+      "rank": 1,
+      "name": "Llama 3.3 70B",
+      "category": "model",
+      "subcategory": "open-weight-llm",
+      "one_liner": "...",
+      "paragraph": "...",
+      "url": "https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct"
     }
   ],
   "sections": [
@@ -286,10 +358,16 @@ Schema (must match `lib/types.ts` exactly):
 
 Section names **must match the `name` fields in `lib/sources.ts`**. Validate JSON parses before writing.
 
+Pre-write checks (abort and fix if any fails):
+- `tools.length >= 50`
+- every `tools[].url` starts with `https://github.com/`
+- every `tools[].group` is one of `agents | infra | data | backend | devex`
+- no `trending[]` entry has `category: "tool"`
+
 # Commit & push
 
 ```bash
-cd /Users/cihangirbozdogan/Documents/cihangirbozdogan.com
+cd /Users/cihangirbozdogan/Documents/Projects/cihangirbozdogan.com
 git add content/news.json
 git commit -m "refresh: $(date -u +%Y-%m-%dT%H:%MZ)"
 git push origin main
@@ -297,14 +375,16 @@ git push origin main
 
 Then report:
 - timestamp
+- tools total + count per group, and how many candidates the maintenance gate rejected
 - trending counts per sub-section
 - news counts per section
 - 1-line summary of the day's biggest story
-- "Vercel will redeploy in ~30s"
+- "GitHub Pages will redeploy in ~1min"
 
 # Rules of engagement
 
 - **Be ruthless on signal**: 10 great items beats 30 padded ones. Respect category caps as a *target*, but the floor is quality.
+- **Except tools**: 50 is a hard floor. Widen the search until you have 50 repos that pass the maintenance gate. If you genuinely cannot (GitHub API down), ship what passed and say so loudly.
 - **Fetch in parallel**: multiple `curl`/WebFetch calls in one tool block.
 - **Do not hallucinate** URLs, scores, comment quotes, or stats. Every number must come from a real fetch.
 - **Do not invent items** when a source fails. Empty section + report the failure to the user.
