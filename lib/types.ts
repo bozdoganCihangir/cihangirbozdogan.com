@@ -50,12 +50,26 @@ export type Voice = {
   posts: VoicePost[];
 };
 
+export type YouTubeGroup = "ai" | "engineering" | "devops" | "industry";
+
+/** A video on /youtube. Title and summary are rewritten by /refresh — the
+    original YouTube title is never shown. Only videos that pass the learning-
+    value judgement are ever written here. */
+export type YouTubeVideo = {
+  title: string;
+  url: string; // https://www.youtube.com/watch?v=…
+  summary: string;
+  group: YouTubeGroup;
+  channel: string; // provenance only — not rendered
+};
+
 export type NewsPayload = {
   fetched_at: string;
   category: string;
   trending?: TrendingItem[];
   tools?: ToolItem[];
   voices?: Voice[];
+  youtube?: YouTubeVideo[];
   sections: NewsSection[];
 };
 
@@ -85,4 +99,18 @@ export const TOOL_GROUP_ORDER: ToolGroup[] = [
   "data",
   "backend",
   "devex",
+];
+
+export const YOUTUBE_GROUP_LABELS: Record<YouTubeGroup, string> = {
+  ai: "AI & Agents",
+  engineering: "Software Engineering",
+  devops: "DevOps & Cloud",
+  industry: "Startups & Industry",
+};
+
+export const YOUTUBE_GROUP_ORDER: YouTubeGroup[] = [
+  "ai",
+  "engineering",
+  "devops",
+  "industry",
 ];

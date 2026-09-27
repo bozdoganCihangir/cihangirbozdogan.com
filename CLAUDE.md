@@ -21,6 +21,7 @@ There is no history. Each refresh is a snapshot.
 |-------|---------|---------|
 | `/` | News sections — Hacker News, Reddit, GitHub Trending, Blogs & Newsletters | Anchor TOC (sections) |
 | `/voices` | Curated practitioner blogs — latest posts (last 30 days, max 5 per author) | Anchor TOC (authors) |
+| `/youtube` | Short (≤20 min) videos from the last 14 days, from a curated channel roster, kept only if they have learning value; AI-rewritten title + summary | Anchor TOC (groups) |
 | `/trending` | Full-detail view of trending models / APIs / resources | Anchor TOC (categories) |
 | `/tools` | 50+ actively maintained GitHub repos gaining traction, grouped (agents, infra, data, backend, devex) | Anchor TOC (groups) |
 
@@ -44,6 +45,7 @@ app/
   voices/page.tsx     # /voices
   trending/page.tsx   # /trending
   tools/page.tsx      # /tools
+  youtube/page.tsx    # /youtube
   globals.css         # Tailwind + theme tokens
   icon.png            # favicon — static PNG
   apple-icon.png      # Apple touch icon — static PNG
@@ -60,12 +62,15 @@ components/
   ranked-item.tsx     # one ranked row, shared by /trending and /tools
   voice-card.tsx      # one author + their posts
   voices-list.tsx     # the /voices page main
+  youtube-list.tsx    # the /youtube page main (grouped video list)
 content/
   news.json           # the entire site's data, overwritten by /refresh
 lib/
   sources.ts          # feeds, caps, voices roster — SINGLE SOURCE OF TRUTH
   types.ts            # NewsPayload, NewsItem, TrendingItem, ToolItem, Voice, VoicePost
   seo.ts              # site URL, name, tagline, description, keywords — SEO source of truth
+scripts/
+  fetch-youtube.mjs   # zero-dep YouTube candidate fetcher, run by /refresh (PART E)
 .claude/
   commands/refresh.md # the slash command that does all the work
 public/
@@ -93,6 +98,7 @@ pnpm lint             # ESLint
 - **Adding a feed** (HN/Reddit/GitHub/RSS) → edit `lib/sources.ts` only. The `/refresh` command reads it; no other code changes needed.
 - **Tuning the Tools page** → `tools` in `lib/sources.ts`: `minTotal` (hard floor, 50), `maintenance` (the gate every repo must pass: pushed within N days, star thresholds, not archived/fork, junk-name patterns), per-group `target`s, and the GitHub search queries. Adding a group means also adding it to `ToolGroup` / `TOOL_GROUP_LABELS` / `TOOL_GROUP_ORDER` in `lib/types.ts`.
 - **Adding/removing a Voices author** → edit the `voices.authors[]` array in `lib/sources.ts`. The display order in the array is the display order on the page — keep it intentional.
+- **Adding/removing a YouTube channel** → edit `youtube.channels[]` in `lib/sources.ts` — **one channel per line**, `channelId` (UC…) is required (handles get squatted; verify the ID). `scripts/fetch-youtube.mjs` parses that array directly. YouTube RSS is dead (404 since 2026); the script scrapes `/channel/<id>/videos` + the public `youtubei/v1/next` endpoint instead. Window and length limits (`lookbackDays`, `maxMinutes`, `hardMaxMinutes`) live there too.
 - **Changing display layout** → components only. The data shape lives in `lib/types.ts`; if you change the shape, update `/refresh` to match.
 - **Adding a category** (currently only `tech`) → add a new `CategoryConfig` in `lib/sources.ts`, then call `/refresh <category>`.
 

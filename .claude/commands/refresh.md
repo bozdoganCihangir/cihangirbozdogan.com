@@ -1,10 +1,10 @@
 ---
-description: Refresh the cihangirbozdogan.com site — fetch 50+ trending GitHub tools, trending models/APIs/resources, today's tech & AI news and Voices, then commit & push.
+description: Refresh the cihangirbozdogan.com site — fetch 50+ trending GitHub tools, trending models/APIs/resources, today's tech & AI news, Voices and YouTube, then commit & push.
 allowed-tools: Bash, Read, Write, Edit, WebFetch, WebSearch, Agent
 argument-hint: "[category] (optional, default: tech)"
 ---
 
-You are running the daily refresh for a personal zero-cost static site at `/Users/cihangirbozdogan/Documents/Projects/cihangirbozdogan.com`.
+You are running the daily refresh for a personal zero-cost static site at `/Users/cihangirbozdogan/Documents/cihangirbozdogan.com`.
 
 # Goal
 
@@ -13,6 +13,7 @@ Fully overwrite `content/news.json` with:
 2. **Trending top 30** — models, APIs, resources gaining traction this week (backend / infra / devops / AI infra focus)
 3. **News sections** — Hacker News, Reddit, GitHub Trending, Blogs & Newsletters
 4. **Voices** — latest posts (last 30 days, max 5 each) from a curated roster of practitioner blogs
+5. **YouTube** — short (≤20 min) videos from the last 14 days from a curated channel roster, kept only if they have real learning value (`/youtube` page)
 
 Then commit and push to `main` so GitHub Actions redeploys GitHub Pages.
 
@@ -313,6 +314,91 @@ Each author with at least one kept post becomes a `Voice`:
 
 Output `voices[]` in the **same order as `authors[]` in `lib/sources.ts`**. Do not re-sort by recency or post count — the roster order is intentional.
 
+# PART E — YouTube
+
+Short, substantive videos from a curated channel roster, published in the last 14 days. This page is for **learning**: every video listed must be worth the reader's time. If a video is listed, the reader assumes it is good — so an empty group beats a padded one. There is **no quantity cap and no floor**: 3 videos or 150 are both fine, as long as each one earns its place.
+
+Read `youtube` from `lib/sources.ts` (`CategoryConfig.youtube`):
+- `lookbackDays` (14) — exact publish date must be within this window. Older → never listed.
+- `maxMinutes` (20) — target length. Anything longer must be exceptional.
+- `hardMaxMinutes` (30) — never list anything longer.
+- `channels[]` — `{ name, channelId, url, group, lang? }`
+
+## E.1 Fetch candidates — run the script, don't scrape by hand
+
+YouTube's RSS feeds (`/feeds/videos.xml`) are dead (404 site-wide since 2026). Do **not** try them. The fetcher scrapes each channel's `/videos` tab (Shorts excluded by construction), then calls the public `youtubei/v1/next` endpoint per video for the exact publish date and full description:
+
+```bash
+node scripts/fetch-youtube.mjs --category "${1:-tech}" --out "$TMPDIR/youtube-candidates.json"
+```
+
+It reads the roster and limits from `lib/sources.ts` itself and prints a one-line stats summary on stderr. It already drops: videos outside the window, videos over `hardMaxMinutes`, live streams / premieres with no duration, and Shorts. Output shape:
+
+```json
+{
+  "window": { "lookbackDays": 14, "cutoff": "2026-09-13", "hardMaxMinutes": 30 },
+  "stats": { "channels": 70, "channelsOk": 69, "candidates": 180, "skipped": { … } },
+  "failures": [{ "channel": "…", "stage": "channel|video", "error": "…" }],
+  "candidates": [{
+    "videoId": "…", "url": "https://www.youtube.com/watch?v=…",
+    "channel": "Cole Medin", "channelId": "UC…", "group": "ai", "lang": "en",
+    "title": "original title", "description": "first 1500 chars of the description",
+    "durationMinutes": 14.2, "publishedDate": "2026-09-23",
+    "views": 19000, "channelMedianViews": 27000
+  }]
+}
+```
+
+- Script exits non-zero (layout change, total outage) → report it loudly, emit `youtube: []`, carry on with the rest of the refresh. Never hand-invent videos.
+- Individual `failures[]` → list them in the run summary. `stage: "channel"` means the channel was skipped (a "0 videos parsed" error usually means a wrong `channelId` — flag it so the roster can be fixed); `stage: "video"` means that one video was skipped; `stage: "date"` means the exact date was missing and the relative age was used (video still judged if in window).
+- Read the whole candidates file (use `jq`/`python3` to page through it — expect 300–500 candidates). Judge every candidate — do not sample.
+- With more than ~150 candidates, split the judging across parallel subagents (one per `group`), each given the file slice plus E.2 and E.3 verbatim, and returning finished `YouTubeVideo` objects. Then merge, run the cross-channel near-duplicate pass (E.2) over the merged list, and order (E.4).
+
+## E.2 Judge each candidate — the only thing that matters
+
+Keep a video **only if it clearly teaches something or is an important update a practitioner should know about**. Decide from title + description + channel + duration + views vs. `channelMedianViews`. Be ruthless — when unsure, drop it.
+
+**Keep**:
+- Tutorials and walkthroughs with concrete takeaways (building with agents, a new tool's workflow, a technique demonstrated end-to-end)
+- Explainers and deep dives (how X works, architecture, system design, trade-offs, postmortems)
+- Substantive analysis of a notable release, paper, benchmark or industry move
+- Important product updates from official channels (a major model / API / framework release) — *learning material or news a practitioner must know*
+- Thoughtful opinion from an experienced practitioner with a real argument
+
+**Drop**:
+- Clickbait whose description reveals no substance ("You won't BELIEVE…", "X is DEAD", "this changes everything" with nothing behind it)
+- Hype / reaction / "AI news roundup" with no analysis; rumour-mill videos
+- Money-making, "make $10k/month with AI", course or community funnels, sponsor-dominated videos where the description is mostly links and promo codes
+- Pure marketing, event promos, trailers, livestream reruns, podcasts clipped to nothing, member-only / giveaway / channel-update videos
+- Anything matching the category's `negativeFilters` (crypto, gadgets, phone rumours, politics, layoffs gossip, generic AI hype)
+- Near-duplicates: several channels covering the same release → keep the one or two most substantive, drop the rest
+- Longer than `maxMinutes` **unless** it is exceptional (a genuinely outstanding deep dive) — and never over `hardMaxMinutes`
+- Turkish (`lang: "tr"`) videos that would not meet the same bar in English
+
+Signals, not rules: views far below `channelMedianViews` on a normally-strong channel is a weak negative; far above is a weak positive. A thin description is not by itself a reason to drop a strong channel's video, but you must still be able to say concretely what the viewer learns — if you cannot, drop it.
+
+## E.3 Write each kept `YouTubeVideo` (shape in `lib/types.ts`)
+
+```json
+{
+  "title": "Rewritten title",
+  "url": "https://www.youtube.com/watch?v=…",
+  "summary": "Rewritten description.",
+  "group": "ai",
+  "channel": "Cole Medin"
+}
+```
+
+- `title` — **rewrite it**. Plain, specific, informative; says what the video actually covers. No clickbait, no ALL CAPS, no emoji, no "you won't believe", no trailing "…". 4–12 words. Turkish videos: English title, append ` (Turkish)`.
+- `summary` — **rewrite it**. 1–2 sentences, 20–45 words, plain English: what the video covers and what you walk away with. Built from the description, never copied from it; ignore sponsor lines, links, timestamps and promo codes. No hype words, no "must watch".
+- `url` — the candidate's `url`, unchanged.
+- `group` — the channel's `group` by default. Re-home a single video only when it clearly belongs elsewhere (e.g. an `industry` channel's video about Kubernetes → `devops`). Must be one of `ai | engineering | devops | industry`.
+- `channel` — the candidate's `channel`, unchanged. Not rendered; kept for provenance.
+
+## E.4 Order
+
+Group by `group` in `YOUTUBE_GROUP_ORDER` (`ai`, `engineering`, `devops`, `industry`). Within a group, **most worth watching first** (learning value, then recency). The page renders the array order as-is.
+
 ---
 
 # Output
@@ -347,6 +433,16 @@ Schema (must match `lib/types.ts` exactly):
       "url": "https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct"
     }
   ],
+  "voices": [ { "author": "…", "url": "…", "posts": [ … ] } ],
+  "youtube": [
+    {
+      "title": "How Claude Code skills compose into a full dev workflow",
+      "url": "https://www.youtube.com/watch?v=…",
+      "summary": "…",
+      "group": "ai",
+      "channel": "Cole Medin"
+    }
+  ],
   "sections": [
     { "name": "Hacker News",         "items": [...] },
     { "name": "Reddit",              "items": [...] },
@@ -363,11 +459,14 @@ Pre-write checks (abort and fix if any fails):
 - every `tools[].url` starts with `https://github.com/`
 - every `tools[].group` is one of `agents | infra | data | backend | devex`
 - no `trending[]` entry has `category: "tool"`
+- every `youtube[].url` starts with `https://www.youtube.com/watch?v=` and came from the candidates file
+- every `youtube[].group` is one of `ai | engineering | devops | industry`
+- no duplicate `youtube[].url`
 
 # Commit & push
 
 ```bash
-cd /Users/cihangirbozdogan/Documents/Projects/cihangirbozdogan.com
+cd /Users/cihangirbozdogan/Documents/cihangirbozdogan.com
 git add content/news.json
 git commit -m "refresh: $(date -u +%Y-%m-%dT%H:%MZ)"
 git push origin main
@@ -378,6 +477,7 @@ Then report:
 - tools total + count per group, and how many candidates the maintenance gate rejected
 - trending counts per sub-section
 - news counts per section
+- YouTube: channels fetched ok / total, candidates judged, videos kept per group, and any channel failures
 - 1-line summary of the day's biggest story
 - "GitHub Pages will redeploy in ~1min"
 
@@ -388,6 +488,6 @@ Then report:
 - **Fetch in parallel**: multiple `curl`/WebFetch calls in one tool block.
 - **Do not hallucinate** URLs, scores, comment quotes, or stats. Every number must come from a real fetch.
 - **Do not invent items** when a source fails. Empty section + report the failure to the user.
-- **Do not write to any file other than `content/news.json`.**
+- **Do not write to any file other than `content/news.json`** (the YouTube candidates file in `$TMPDIR` is scratch and is not committed).
 - **Do not run `git push --force`** or any destructive git operations.
 - If the working tree has unrelated changes, stop and ask before committing.

@@ -181,6 +181,30 @@ export type VoicesConfig = {
   authors: VoiceAuthor[];
 };
 
+export type YouTubeChannel = {
+  /** Display name — for our reference and the refresh report, not shown in UI */
+  name: string;
+  /** Canonical channel ID (UC…, 24 chars). Handles can be squatted; IDs can't. */
+  channelId: string;
+  /** Channel URL, for humans */
+  url: string;
+  /** Default /youtube section. The refresh may re-home a single video. */
+  group: "ai" | "engineering" | "devops" | "industry";
+  /** Content language — omitted means English */
+  lang?: "tr";
+};
+
+export type YouTubeConfig = {
+  /** Only videos published within this many days (exact date) are considered */
+  lookbackDays: number;
+  /** Target length — anything longer needs to be exceptional to make the cut */
+  maxMinutes: number;
+  /** Hard ceiling — never list a video longer than this */
+  hardMaxMinutes: number;
+  /** One channel per line — `scripts/fetch-youtube.mjs` parses this array. */
+  channels: YouTubeChannel[];
+};
+
 export type CategoryConfig = {
   id: string;
   label: string;
@@ -190,6 +214,7 @@ export type CategoryConfig = {
   trending: TrendingConfig;
   tools: ToolsConfig;
   voices: VoicesConfig;
+  youtube: YouTubeConfig;
 };
 
 export const TECH_AI: CategoryConfig = {
@@ -581,6 +606,91 @@ export const TECH_AI: CategoryConfig = {
       { name: "Discord Engineering",  homepage: "https://discord.com/category/engineering", feed: "https://discord.com/blog/rss.xml",   focus: "infra" },
       { name: "Oxide",                homepage: "https://oxide.computer/blog",     feed: "https://oxide.computer/blog/feed",            focus: "infra" },
       { name: "Jane Street Tech",     homepage: "https://blog.janestreet.com",     feed: "https://blog.janestreet.com/feed.xml",        focus: "backend" },
+    ],
+  },
+  youtube: {
+    lookbackDays: 14,
+    maxMinutes: 20,
+    hardMaxMinutes: 30,
+    channels: [
+      // ── ai ──
+      { name: "Fireship",                     channelId: "UCsBjURrPoezykLs9EqgamOA", url: "https://www.youtube.com/@fireship",                    group: "ai" },
+      { name: "Ben AI",                       channelId: "UC3KK7ENB_ierAXvrxVNnbZQ", url: "https://www.youtube.com/@BenAI92",                     group: "ai" },
+      { name: "Cole Medin",                   channelId: "UCMwVTLZIRRUyyVrkjDpn4pA", url: "https://www.youtube.com/@ColeMedin",                   group: "ai" },
+      { name: "AI Engineer",                  channelId: "UCLKPca3kwwd-B59HNr-_lvA", url: "https://www.youtube.com/@aiDotEngineer",               group: "ai" },
+      { name: "Prompt Engineering",           channelId: "UCDq7SjbgRKty5TgGafW8Clg", url: "https://www.youtube.com/@engineerprompt",              group: "ai" },
+      { name: "Austin Marchese",              channelId: "UCFeFVytEkT8kaqPCJZGFswg", url: "https://www.youtube.com/@austin.marchese",             group: "ai" },
+      { name: "Squintist",                    channelId: "UCV269T352IlIFMot1Sqx1BA", url: "https://www.youtube.com/@Squintist",                   group: "ai" },
+      { name: "Caleb Writes Code",            channelId: "UCuU9jE4MHHEIyYMbDfUPSew", url: "https://www.youtube.com/@CalebWritesCode",             group: "ai" },
+      { name: "Data Science Basics",          channelId: "UCHGw1uT1XmqaRm-6W15-KlQ", url: "https://www.youtube.com/@datasciencebasics",           group: "ai" },
+      { name: "Ram Vegiraju",                 channelId: "UCQsEUzW9hMNCKTnR-f4W6xA", url: "https://www.youtube.com/@RamVegiraju",                 group: "ai" },
+      { name: "Ray Amjad",                    channelId: "UCLA7cJBnqr0nLF2bQBD9uUg", url: "https://www.youtube.com/@ramjad",                      group: "ai" },
+      { name: "Leon van Zyl",                 channelId: "UCtevzRsHEKhs-RK8pAqwSyQ", url: "https://www.youtube.com/@leonvanzyl",                  group: "ai" },
+      { name: "AI Jason",                     channelId: "UCrXSVX9a1mj8l0CMLwKgMVw", url: "https://www.youtube.com/@AIJasonZ",                    group: "ai" },
+      { name: "AI LABS",                      channelId: "UCelfWQr9sXVMTvBzviPGlFw", url: "https://www.youtube.com/@AILABS-393",                  group: "ai" },
+      { name: "Developers Digest",            channelId: "UCuE6iwZKgGz8s6kznBRI9LQ", url: "https://www.youtube.com/@DevelopersDigest",            group: "ai" },
+      { name: "Matt Pocock",                  channelId: "UCswG6FSbgZjbWtdf_hMLaow", url: "https://www.youtube.com/@mattpocockuk",                group: "ai" },
+      { name: "Cloud Codes",                  channelId: "UC0DZj1PNa_Fp0MU6uPSKv5w", url: "https://www.youtube.com/@Cloud-Codes",                 group: "ai" },
+      { name: "Two Minute Papers",            channelId: "UCbfYPyITQ-7l4upoX8nvctg", url: "https://www.youtube.com/@TwoMinutePapers",             group: "ai" },
+      { name: "Sam Witteveen",                channelId: "UC55ODQSvARtgSyc8ThfiepQ", url: "https://www.youtube.com/@samwitteveenai",              group: "ai" },
+      { name: "LangChain",                    channelId: "UCC-lyoTfSrcJzA1ab3APAgw", url: "https://www.youtube.com/@LangChain",                   group: "ai" },
+      { name: "bycloud",                      channelId: "UCgfe2ooZD3VJPB6aJAnuQng", url: "https://www.youtube.com/@bycloudAI",                   group: "ai" },
+      { name: "Discover AI",                  channelId: "UCfOvNb3xj28SNqPQ_JIbumg", url: "https://www.youtube.com/@code4AI",                     group: "ai" },
+      { name: "All About AI",                 channelId: "UCR9j1jqqB5Rse69wjUnbYwA", url: "https://www.youtube.com/@AllAboutAI",                  group: "ai" },
+      { name: "Google DeepMind",              channelId: "UCP7jMXSY2xbc3KCAE0MHQ-A", url: "https://www.youtube.com/@GoogleDeepMind",              group: "ai" },
+      { name: "OpenAI",                       channelId: "UCXZCJLdBC09xxGZ6gcdrc6A", url: "https://www.youtube.com/@OpenAI",                      group: "ai" },
+      { name: "Riley Brown",                  channelId: "UCMcoud_ZW7cfxeIugBflSBw", url: "https://www.youtube.com/@rileybrownai",                group: "ai" },
+      { name: "Nate Herk",                    channelId: "UC2ojq-nuP8ceeHqiroeKhBA", url: "https://www.youtube.com/@nateherk",                    group: "ai" },
+      { name: "AI Daily Brief",               channelId: "UCKelCK4ZaO6HeEI1KQjqzWA", url: "https://www.youtube.com/@AIDailyBrief",                group: "ai" },
+      { name: "Matt Wolfe",                   channelId: "UChpleBmo18P08aKCIgti38g", url: "https://www.youtube.com/@mreflow",                     group: "ai" },
+
+      // ── engineering ──
+      { name: "ByteMonk",                     channelId: "UCzCsyvyrq38R6TnztEzOmgg", url: "https://www.youtube.com/@ByteMonk",                    group: "engineering" },
+      { name: "Modern Software Engineering",  channelId: "UCCfqyGl3nq_V0bo64CjZh8g", url: "https://www.youtube.com/@ModernSoftwareEngineeringYT", group: "engineering" },
+      { name: "ByteByteGo",                   channelId: "UCZgt6AzoyjslHTC9dz0UoTw", url: "https://www.youtube.com/@ByteByteGo",                  group: "engineering" },
+      { name: "Computerphile",                channelId: "UC9-y-6csu5WGm29I7JiwpnA", url: "https://www.youtube.com/@Computerphile",               group: "engineering" },
+      { name: "CodeOpinion",                  channelId: "UC3RKA4vunFAfrfxiJhPEplw", url: "https://www.youtube.com/@codeopinion",                 group: "engineering" },
+      { name: "Better Stack",                 channelId: "UCkVfrGwV-iG9bSsgCbrNPxQ", url: "https://www.youtube.com/@betterstack",                 group: "engineering" },
+      { name: "ArjanCodes",                   channelId: "UCVhQ2NnY5Rskt6UjCUkJ_DA", url: "https://www.youtube.com/@ArjanCodes",                  group: "engineering" },
+      { name: "Asli Engineering",             channelId: "UC_b1GUJv_2QiMP4BxC9-Dxg", url: "https://www.youtube.com/@AsliEngineering",             group: "engineering" },
+      { name: "Gaurav Sen",                   channelId: "UCRPMAqdtSgd0Ipeef7iFsKw", url: "https://www.youtube.com/@gkcs",                        group: "engineering" },
+      { name: "Ardan Labs",                   channelId: "UCCgGRKeRM1b0LTDqqb4NqjA", url: "https://www.youtube.com/@ArdanLabs",                   group: "engineering" },
+      { name: "PlanetScale",                  channelId: "UCdxd6zr7fODcJTpnUYYWz5g", url: "https://www.youtube.com/@planetscale",                 group: "engineering" },
+      { name: "Day Cyberwox",                 channelId: "UCY-UlEymdA23eo09U9a0FLA", url: "https://www.youtube.com/@DayCyberwox",                 group: "engineering" },
+      { name: "Hussein Nasser",               channelId: "UC_ML5xP23TOWKUcc-oAE_Eg", url: "https://www.youtube.com/@hnasr",                       group: "engineering" },
+      { name: "Software Architecture Monday", channelId: "UC-Z7T0lAq_xECevIz8E5R5w", url: "https://www.youtube.com/@markrichards5014",            group: "engineering" },
+      { name: "Milan Jovanović",              channelId: "UCC_dVe-RI-vgCZfls06mDZQ", url: "https://www.youtube.com/@MilanJovanovicTech",          group: "engineering" },
+      { name: "Dreams of Code",               channelId: "UCWQaM7SpSECp9FELz-cHzuQ", url: "https://www.youtube.com/@dreamsofcode",                group: "engineering" },
+      { name: "Web Dev Cody",                 channelId: "UCsrVDPJBYeXItETFHG0qzyw", url: "https://www.youtube.com/@WebDevCody",                  group: "engineering" },
+      { name: "Kevin Powell",                 channelId: "UCJZv4d5rbIKd4QHMPkcABCw", url: "https://www.youtube.com/@KevinPowell",                 group: "engineering" },
+      { name: "ByteGrad",                     channelId: "UCf6AGqO98eGk11nfazociVQ", url: "https://www.youtube.com/@ByteGrad",                    group: "engineering" },
+      { name: "Let's Get Rusty",              channelId: "UCSp-OaMpsO8K0KkOqyBl7_w", url: "https://www.youtube.com/@letsgetrusty",                group: "engineering" },
+      { name: "No Boilerplate",               channelId: "UCUMwY9iS8oMyWDYIe6_RmoA", url: "https://www.youtube.com/@NoBoilerplate",               group: "engineering" },
+      { name: "Alex The Analyst",             channelId: "UC7cs8q-gJRlGwj4A8OmCmXg", url: "https://www.youtube.com/@AlexTheAnalyst",              group: "engineering" },
+      { name: "ThePrimeTime",                 channelId: "UCUyeluBRhGPCW4rPe_UvBZQ", url: "https://www.youtube.com/@ThePrimeTimeagen",            group: "engineering" },
+
+      // ── devops ──
+      { name: "DevOps Toolbox",               channelId: "UCYeiozh-4QwuC1sjgCmB92w", url: "https://www.youtube.com/@devopstoolbox",               group: "devops" },
+      { name: "CNCF",                         channelId: "UCvqbFHwN-nwalWPjPUKpvTA", url: "https://www.youtube.com/@cncf",                        group: "devops" },
+      { name: "Google Cloud Tech",            channelId: "UCJS9pqu9BzkAMNTmzNMNhvg", url: "https://www.youtube.com/@googlecloudtech",             group: "devops" },
+      { name: "TechWorld with Nana",          channelId: "UCdngmbVKX1Tgre699-XLlUA", url: "https://www.youtube.com/@TechWorldwithNana",           group: "devops" },
+      { name: "DevOps Toolkit",               channelId: "UCfz8x0lVzJpb_dgWm9kPVrw", url: "https://www.youtube.com/@DevOpsToolkit",               group: "devops" },
+      { name: "Cloud With Raj",               channelId: "UCBdfli20jrAscmR9COL35qg", url: "https://www.youtube.com/@CloudWithRaj",                group: "devops" },
+      { name: "Grafana",                      channelId: "UCYCwgQAMm9sTJv0rgwQLCxw", url: "https://www.youtube.com/@grafana",                     group: "devops" },
+      { name: "That DevOps Guy",              channelId: "UCFe9-V_rN9nLqVNiI8Yof3w", url: "https://www.youtube.com/@MarcelDempers",               group: "devops" },
+
+      // ── industry ──
+      { name: "TechLinked",                   channelId: "UCeeFfhMcJa1kjtfZAGskOCA", url: "https://www.youtube.com/@TechLinked",                  group: "industry" },
+      { name: "Bloomberg Originals",          channelId: "UCUMZ7gohGI9HcU9VNsr2FJQ", url: "https://www.youtube.com/@business",                    group: "industry" },
+      { name: "Lex Clips",                    channelId: "UCJIfeSCssxSC_Dhc5s7woww", url: "https://www.youtube.com/@lexclips",                    group: "industry" },
+      { name: "ColdFusion",                   channelId: "UC4QZ_LsYcvcq7qOsOhpAX4A", url: "https://www.youtube.com/@ColdFusion",                  group: "industry" },
+      { name: "Asianometry",                  channelId: "UC1LpsuAUaKoMzzJSEt5WImw", url: "https://www.youtube.com/@Asianometry",                 group: "industry" },
+      { name: "Y Combinator",                 channelId: "UCcefcZRL2oaA_uBNeo5UOWg", url: "https://www.youtube.com/@ycombinator",                 group: "industry" },
+      { name: "Starter Story",                channelId: "UChhw6DlKKTQ9mYSpTfXUYqA", url: "https://www.youtube.com/@StarterStory",                group: "industry" },
+      { name: "This Week in Startups Clips",  channelId: "UCS7tJlcUA6PzVHEMo-X7ddg", url: "https://www.youtube.com/@TWiSTClips",                  group: "industry" },
+      { name: "Simon Høiberg",                channelId: "UCMo28ATCDU0Kn9dpilAF79Q", url: "https://www.youtube.com/@SimonHoiberg",                group: "industry" },
+      { name: "ShiftDelete.Net",              channelId: "UCzNu79N8Lq1wUY52MkhWKSA", url: "https://www.youtube.com/@ShiftDeleteNet",              group: "industry", lang: "tr" },
+      { name: "Barış Özcan",                  channelId: "UCv6jcPwFujuTIwFQ11jt1Yw", url: "https://www.youtube.com/@BarisOzcan",                  group: "industry", lang: "tr" },
     ],
   },
 };
