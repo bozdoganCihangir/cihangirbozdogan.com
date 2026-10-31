@@ -205,6 +205,58 @@ export type YouTubeConfig = {
   channels: YouTubeChannel[];
 };
 
+export type CryptoFeed = {
+  /** Display name — rendered as the story's source label */
+  name: string;
+  /** RSS / Atom feed URL, or a JSON endpoint when `format` says so */
+  url: string;
+  /**
+   * - `primary` — the original source (regulator, protocol, security firm). Longer
+   *   window; wins every dedupe.
+   * - `outlet`  — a news site rewriting events. Short window.
+   * - `signal`  — never shipped; used only to rank importance / cross-check
+   *   (e.g. DeFiLlama's hack ledger, which has no article links).
+   */
+  kind: "primary" | "outlet" | "signal";
+  /** Mostly off-topic feed (regulators, general news): keep only items that match
+      `cryptoKeywords`; the rest go to `gatedOut`. Crypto-native outlets must NOT
+      set this — their stories often name only a protocol, never "crypto". */
+  cryptoOnly?: true;
+  /** Regex (string) on the item URL — matches are dropped (podcast clips, opinion…) */
+  dropUrl?: string;
+  /** Non-RSS sources. `google-news` = RSS whose titles end in " - Publisher". */
+  format?: "defillama-hacks" | "google-news";
+};
+
+export type CryptoConfig = {
+  /** Window for `kind: "outlet"` feeds */
+  outletLookbackHours: number;
+  /** Window for `kind: "primary"` and `"signal"` feeds — they post rarely */
+  primaryLookbackDays: number;
+  /** Target total stories on the page — a target, not a floor. Quality first. */
+  maxItems: number;
+  /** One outlet may not dominate the page */
+  maxPerOutlet: number;
+  /** One mega-story (e.g. a record hack) may not fill the page */
+  maxPerStory: number;
+  /** DeFiLlama hacks below this USD amount are not "major" */
+  minHackUsd: number;
+  /** What counts as important crypto news */
+  positiveTopics: string[];
+  /** Hard editorial drops — the page never shows prices or markets */
+  negativeFilters: string[];
+  /** Case-insensitive regexes. Gate for `cryptoOnly` feeds; on other feeds a miss
+      only flags the item `noCryptoKeyword` for the judge. */
+  cryptoKeywords: string[];
+  /** Case-insensitive regexes on titles — dropped before judging (roundups, live blogs) */
+  dropTitlePatterns: string[];
+  /** Case-insensitive regexes on titles — flagged `priceHeadline` for the judge */
+  priceTitlePatterns: string[];
+  /** One feed per line — `scripts/fetch-crypto.mjs` parses this array.
+      Array order is dedupe priority: earlier wins when two cover one story. */
+  feeds: CryptoFeed[];
+};
+
 export type CategoryConfig = {
   id: string;
   label: string;
@@ -215,6 +267,7 @@ export type CategoryConfig = {
   tools: ToolsConfig;
   voices: VoicesConfig;
   youtube: YouTubeConfig;
+  crypto: CryptoConfig;
 };
 
 export const TECH_AI: CategoryConfig = {
@@ -691,6 +744,88 @@ export const TECH_AI: CategoryConfig = {
       { name: "Simon Høiberg",                channelId: "UCMo28ATCDU0Kn9dpilAF79Q", url: "https://www.youtube.com/@SimonHoiberg",                group: "industry" },
       { name: "ShiftDelete.Net",              channelId: "UCzNu79N8Lq1wUY52MkhWKSA", url: "https://www.youtube.com/@ShiftDeleteNet",              group: "industry", lang: "tr" },
       { name: "Barış Özcan",                  channelId: "UCv6jcPwFujuTIwFQ11jt1Yw", url: "https://www.youtube.com/@BarisOzcan",                  group: "industry", lang: "tr" },
+    ],
+  },
+  crypto: {
+    outletLookbackHours: 72,
+    primaryLookbackDays: 14,
+    maxItems: 30,
+    maxPerOutlet: 8,
+    maxPerStory: 6,
+    minHackUsd: 1_000_000,
+    positiveTopics: [
+      "regulation, legislation, enforcement actions, court rulings, central-bank / CBDC and stablecoin policy",
+      "institutional adoption — banks, payment networks, asset managers, exchanges (NYSE/ICE, Nasdaq), governments launching or ending crypto products; tokenization of real-world assets",
+      "major exchange, custodian or company news — launches, shutdowns, bankruptcies, acquisitions, licences, leadership exits at systemic firms",
+      "protocol upgrades and hard forks (Bitcoin, Ethereum, L2s, major chains), important BIPs/EIPs, client releases and vulnerability disclosures",
+      "notable research and engineering — scaling, privacy, post-quantum, cryptography, wallets / account abstraction",
+      "major hacks, exploits, supply-chain attacks, data leaks, fraud cases, arrests, sanctions, sentencing",
+    ],
+    negativeFilters: [
+      "price moves, price predictions, price targets, 'BTC hits $X', rallies, crashes, liquidations, 'bottom is in'",
+      "market analysis, technical analysis, charts, on-chain trading signals, whale / exploiter wallet-movement updates",
+      "ETF inflow/outflow tallies, options expiries, funding rates, open interest, DEX volume, fees, active addresses",
+      "quarterly earnings framed around stock moves; analyst 'buy the dip' calls; treasury-company share-price stories",
+      "memecoins, airdrops, token launches, minor listings, 'top coins to buy'",
+      "sponsored posts and press releases ('X unveils patent-pending…'), small-project partnerships and fundraises",
+      "off-topic stories that crypto outlets carry (AI stocks, chipmakers, big-tech product news)",
+      "opinion, podcast clips and roundups with no new fact",
+    ],
+    cryptoKeywords: [
+      "crypto", "bitcoin", "\\bbtc\\b", "ethereum", "\\beth\\b", "ether\\b", "stablecoin", "\\busdc\\b", "\\busdt\\b", "tether",
+      "blockchain", "on-?chain", "\\btokeni[sz]", "\\btoken", "digital[- ]asset", "virtual[- ]asset", "\\bcbdc\\b", "digital euro",
+      "\\bdefi\\b", "\\bweb3\\b", "\\bmica\\b", "wallet", "\\bnft", "solana", "\\bxrp\\b", "binance", "coinbase", "kraken",
+      "lightning network", "\\beip-?\\d", "\\bbip-?\\d", "mining", "miner", "\\bdao\\b", "smart contract", "polymarket", "kalshi",
+      "prediction market", "hyperliquid", "chainalysis", "lazarus", "satoshi",
+    ],
+    dropTitlePatterns: [
+      "^morning minute", "here.s what happened in crypto", "^crypto biz", "^as it happened", "^recap:", "^live:", "^live updates",
+      "weekly recap", "this week in", "price prediction", "price analysis", "\\bpodcast\\b", "earnings call", "newsletter #\\d+ recap",
+    ],
+    priceTitlePatterns: [
+      "\\d+(\\.\\d+)?%", "\\$\\d[\\d,.]*\\s*(k|m|b|bn|million|billion)?\\b.*\\b(price|level|mark|below|above)\\b",
+      "\\b(surges?|soars?|slides?|slumps?|plunges?|tumbles?|rall(y|ies)|rebounds?|dips?|jumps?|sinks?|crash(es)?)\\b",
+      "liquidation", "price target", "all-time high", "\\bbottom\\b", "\\bbull(ish)?\\b", "\\bbear(ish)?\\b", "selloff|sell-off",
+      "\\b(inflows?|outflows?)\\b", "\\bvolume\\b", "options expir",
+    ],
+    feeds: [
+      // ── primary: regulators (cryptoOnly — most of their output is not crypto) ──
+      { name: "SEC",                 url: "https://www.sec.gov/news/pressreleases.rss",              kind: "primary", cryptoOnly: true },
+      { name: "SEC Statements",      url: "https://www.sec.gov/news/speeches-statements.rss",        kind: "primary", cryptoOnly: true },
+      { name: "CFTC",                url: "https://www.cftc.gov/RSS/RSSGP/rssgp.xml",                kind: "primary", cryptoOnly: true },
+      { name: "CFTC Enforcement",    url: "https://www.cftc.gov/RSS/RSSENF/rssenf.xml",              kind: "primary", cryptoOnly: true },
+      { name: "UK FCA",              url: "https://www.fca.org.uk/news/rss.xml",                     kind: "primary", cryptoOnly: true },
+      { name: "ESMA",                url: "https://www.esma.europa.eu/rss.xml",                      kind: "primary", cryptoOnly: true },
+      { name: "ECB",                 url: "https://www.ecb.europa.eu/rss/press.html",                kind: "primary", cryptoOnly: true },
+      { name: "Hong Kong SFC",       url: "https://www.sfc.hk/en/RSS-feeds/Press-releases",          kind: "primary", cryptoOnly: true },
+      { name: "FSB",                 url: "https://www.fsb.org/feed/",                               kind: "primary", cryptoOnly: true },
+      // ── primary: protocols & research ──
+      { name: "Bitcoin Core",        url: "https://bitcoincore.org/en/rss.xml",                      kind: "primary" },
+      { name: "Bitcoin Optech",      url: "https://bitcoinops.org/feed.xml",                         kind: "primary", dropUrl: "/podcast/" },
+      { name: "Ethereum Foundation", url: "https://blog.ethereum.org/feed.xml",                      kind: "primary" },
+      { name: "Vitalik Buterin",     url: "https://vitalik.eth.limo/feed.xml",                       kind: "primary" },
+      { name: "a16z crypto",         url: "https://a16zcrypto.com/feed/",                            kind: "primary" },
+      { name: "Coin Center",         url: "https://www.coincenter.org/feed/",                        kind: "primary" },
+      // ── primary: security & investigations ──
+      { name: "Chainalysis",         url: "https://blog.chainalysis.com/feed/",                      kind: "primary" },
+      { name: "TRM Labs",            url: "https://www.trmlabs.com/blog/rss.xml",                    kind: "primary" },
+      { name: "SlowMist",            url: "https://slowmist.medium.com/feed",                        kind: "primary" },
+      { name: "Web3 Is Going Great", url: "https://www.web3isgoinggreat.com/feed.xml",               kind: "primary" },
+      // ── outlets, best first ──
+      { name: "Financial Times",     url: "https://www.ft.com/cryptocurrencies?format=rss",          kind: "outlet" },
+      { name: "Bloomberg",           url: "https://feeds.bloomberg.com/crypto/news.rss",             kind: "outlet" },
+      { name: "Reuters",             url: "https://news.google.com/rss/search?q=site:reuters.com+(crypto+OR+bitcoin+OR+stablecoin)+when:3d&hl=en-US&gl=US&ceid=US:en", kind: "outlet", format: "google-news", cryptoOnly: true },
+      { name: "CoinDesk",            url: "https://www.coindesk.com/arc/outboundfeeds/rss/",         kind: "outlet", dropUrl: "/opinion/|/sponsored" },
+      { name: "The Block",           url: "https://www.theblock.co/rss.xml",                         kind: "outlet", dropUrl: "/sponsored|/post/" },
+      { name: "Citation Needed",     url: "https://www.citationneeded.news/rss/",                    kind: "outlet" },
+      { name: "The Defiant",         url: "https://thedefiant.io/api/feed",                          kind: "outlet" },
+      { name: "Unchained",           url: "https://unchainedcrypto.com/feed/",                       kind: "outlet", dropUrl: "/podcast" },
+      { name: "Decrypt",             url: "https://decrypt.co/feed",                                 kind: "outlet" },
+      { name: "Cointelegraph",       url: "https://cointelegraph.com/rss",                           kind: "outlet", dropUrl: "/magazine/|/explained/|/learn/" },
+      { name: "Protos",              url: "https://protos.com/feed/",                                kind: "outlet" },
+      // ── signal only: never shipped ──
+      { name: "DeFiLlama Hacks",     url: "https://api.llama.fi/hacks",                              kind: "signal", format: "defillama-hacks" },
+      { name: "Google News Policy",  url: "https://news.google.com/rss/search?q=crypto+(regulation+OR+SEC+OR+CFTC+OR+MiCA+OR+stablecoin+law)+when:3d&hl=en-US&gl=US&ceid=US:en", kind: "signal", format: "google-news" },
     ],
   },
 };

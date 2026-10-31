@@ -24,6 +24,7 @@ There is no history. Each refresh is a snapshot.
 | `/youtube` | Short (≤20 min) videos from the last 14 days, from a curated channel roster, kept only if they have learning value; AI-rewritten title + summary | Anchor TOC (groups) |
 | `/trending` | Full-detail view of trending models / APIs / resources | Anchor TOC (categories) |
 | `/tools` | 50+ actively maintained GitHub repos gaining traction, grouped (agents, infra, data, backend, devex) | Anchor TOC (groups) |
+| `/crypto` | Important crypto news from the last ~3 days (14 for regulators/protocols/security firms) — regulation, adoption, protocol upgrades, security incidents. **No prices or market commentary.** | Anchor TOC (groups) |
 
 Top nav (`components/nav.tsx`) is sticky on every page. Layout shell is `components/page-shell.tsx`.
 
@@ -46,6 +47,7 @@ app/
   trending/page.tsx   # /trending
   tools/page.tsx      # /tools
   youtube/page.tsx    # /youtube
+  crypto/page.tsx     # /crypto
   globals.css         # Tailwind + theme tokens
   icon.png            # favicon — static PNG
   apple-icon.png      # Apple touch icon — static PNG
@@ -63,6 +65,7 @@ components/
   voice-card.tsx      # one author + their posts
   voices-list.tsx     # the /voices page main
   youtube-list.tsx    # the /youtube page main (grouped video list)
+  crypto-list.tsx     # the /crypto page main (grouped story list)
 content/
   news.json           # the entire site's data, overwritten by /refresh
 lib/
@@ -71,6 +74,7 @@ lib/
   seo.ts              # site URL, name, tagline, description, keywords — SEO source of truth
 scripts/
   fetch-youtube.mjs   # zero-dep YouTube candidate fetcher, run by /refresh (PART E)
+  fetch-crypto.mjs    # zero-dep crypto candidate fetcher + dedupe clustering, run by /refresh (PART F)
 .claude/
   commands/refresh.md # the slash command that does all the work
 public/
@@ -99,6 +103,7 @@ pnpm lint             # ESLint
 - **Tuning the Tools page** → `tools` in `lib/sources.ts`: `minTotal` (hard floor, 50), `maintenance` (the gate every repo must pass: pushed within N days, star thresholds, not archived/fork, junk-name patterns), per-group `target`s, and the GitHub search queries. Adding a group means also adding it to `ToolGroup` / `TOOL_GROUP_LABELS` / `TOOL_GROUP_ORDER` in `lib/types.ts`.
 - **Adding/removing a Voices author** → edit the `voices.authors[]` array in `lib/sources.ts`. The display order in the array is the display order on the page — keep it intentional.
 - **Adding/removing a YouTube channel** → edit `youtube.channels[]` in `lib/sources.ts` — **one channel per line**, `channelId` (UC…) is required (handles get squatted; verify the ID). `scripts/fetch-youtube.mjs` parses that array directly. YouTube RSS is dead (404 since 2026); the script scrapes `/channel/<id>/videos` + the public `youtubei/v1/next` endpoint instead. Window and length limits (`lookbackDays`, `maxMinutes`, `hardMaxMinutes`) live there too.
+- **Tuning the Crypto page** → `crypto` in `lib/sources.ts` — **one feed per line** (`scripts/fetch-crypto.mjs` parses it; array order = dedupe priority). `kind` is `primary` / `outlet` / `signal` (signal = ranking only, never shipped). Regulators and general-news feeds need `cryptoOnly: true`; crypto-native outlets must not have it. Windows, caps, `cryptoKeywords`, `dropTitlePatterns`, `priceTitlePatterns` and the `negativeFilters` that keep prices/markets out live there too. Dead/blocked crypto sources (don't retry): DL News (stale since May 2026), Blockworks (frozen Jan 2026), rekt.news, Week in Ethereum News, Reuters direct RSS, IMF/FATF/Treasury/OFAC/FinCEN feeds, CryptoPanic (needs key). Groups live in `CryptoGroup` / `CRYPTO_GROUP_LABELS` / `CRYPTO_GROUP_ORDER` in `lib/types.ts`.
 - **Changing display layout** → components only. The data shape lives in `lib/types.ts`; if you change the shape, update `/refresh` to match.
 - **Adding a category** (currently only `tech`) → add a new `CategoryConfig` in `lib/sources.ts`, then call `/refresh <category>`.
 

@@ -63,6 +63,19 @@ export type YouTubeVideo = {
   channel: string; // provenance only — not rendered
 };
 
+export type CryptoGroup = "policy" | "industry" | "tech" | "security";
+
+/** A story on /crypto. General, important crypto news only — never prices,
+    market moves, trading or token promotion. Title and summary are written by
+    /refresh from the source article. */
+export type CryptoStory = {
+  title: string;
+  url: string; // canonical article URL from the feed
+  summary: string;
+  group: CryptoGroup;
+  source: string; // feed name from lib/sources.ts, shown as a small label
+};
+
 export type NewsPayload = {
   fetched_at: string;
   category: string;
@@ -70,6 +83,7 @@ export type NewsPayload = {
   tools?: ToolItem[];
   voices?: Voice[];
   youtube?: YouTubeVideo[];
+  crypto?: CryptoStory[];
   sections: NewsSection[];
 };
 
@@ -113,4 +127,18 @@ export const YOUTUBE_GROUP_ORDER: YouTubeGroup[] = [
   "engineering",
   "devops",
   "industry",
+];
+
+export const CRYPTO_GROUP_LABELS: Record<CryptoGroup, string> = {
+  policy: "Regulation & Policy",
+  industry: "Industry & Adoption",
+  tech: "Protocols & Technology",
+  security: "Security & Incidents",
+};
+
+export const CRYPTO_GROUP_ORDER: CryptoGroup[] = [
+  "policy",
+  "industry",
+  "tech",
+  "security",
 ];

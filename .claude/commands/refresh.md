@@ -1,5 +1,5 @@
 ---
-description: Refresh the cihangirbozdogan.com site — fetch 50+ trending GitHub tools, trending models/APIs/resources, today's tech & AI news, Voices and YouTube, then commit & push.
+description: Refresh the cihangirbozdogan.com site — fetch 50+ trending GitHub tools, trending models/APIs/resources, today's tech & AI news, Voices, YouTube and important crypto news, then commit & push.
 allowed-tools: Bash, Read, Write, Edit, WebFetch, WebSearch, Agent
 argument-hint: "[category] (optional, default: tech)"
 ---
@@ -14,6 +14,7 @@ Fully overwrite `content/news.json` with:
 3. **News sections** — Hacker News, Reddit, GitHub Trending, Blogs & Newsletters
 4. **Voices** — latest posts (last 30 days, max 5 each) from a curated roster of practitioner blogs
 5. **YouTube** — short (≤20 min) videos from the last 14 days from a curated channel roster, kept only if they have real learning value (`/youtube` page)
+6. **Crypto** — the latest *important* crypto news (regulation, adoption, protocol upgrades, security incidents). **No prices, no markets** (`/crypto` page)
 
 Then commit and push to `main` so GitHub Actions redeploys GitHub Pages.
 
@@ -399,6 +400,81 @@ Signals, not rules: views far below `channelMedianViews` on a normally-strong ch
 
 Group by `group` in `YOUTUBE_GROUP_ORDER` (`ai`, `engineering`, `devops`, `industry`). Within a group, **most worth watching first** (learning value, then recency). The page renders the array order as-is.
 
+# PART F — Crypto
+
+General, important crypto news for the `/crypto` page. The reader wants to know **what happened** in crypto — not what the price did. If a story's news value is a number on a chart, it does not belong here. An empty group beats a padded one.
+
+Read `crypto` from `lib/sources.ts` (`CategoryConfig.crypto`): windows (`outletLookbackHours` 72, `primaryLookbackDays` 14), `maxItems` (30, a target), `maxPerOutlet` (8), `maxPerStory` (6), `minHackUsd`, `positiveTopics`, `negativeFilters`, and `feeds[]`. Feed **array order is dedupe priority**: regulators and protocols first, then security firms, then outlets best-first (FT, Bloomberg, Reuters, CoinDesk, The Block, … Cointelegraph, Protos).
+
+## F.1 Fetch candidates — run the script, don't fetch by hand
+
+```bash
+node scripts/fetch-crypto.mjs --category "${1:-tech}" --out "$TMPDIR/crypto-candidates.json"
+```
+
+It does every mechanical step and prints a one-line summary on stderr:
+- windows each feed by its `kind`
+- drops `dropUrl` matches (podcasts, opinion, magazine) and `dropTitlePatterns` (live blogs, "Morning Minute", "Here's what happened", recaps)
+- keyword-gates `cryptoOnly` feeds (regulators, Reuters via Google News) — misses go to `gatedOut`
+- flags `priceHeadline` and `noCryptoKeyword` (flags, never drops)
+- clusters near-duplicate coverage into `clusters[]`, ranked by **how many distinct sources covered the story** — the main importance signal. `kind: "signal"` feeds (Google News policy query) add to a story's source count but are never candidates.
+- `hacks[]` — DeFiLlama's hack ledger, every incident ≥ `minHackUsd` in the window, largest first. Signal only: it has no article links.
+
+Output: `{ stats.perFeed, failures[], hacks[], clusters[{id, sourceCount, sources, primarySources, items, sampleTitle}], candidates[{source, kind, publisher?, title, url, published, priceHeadline, noCryptoKeyword?, cluster, description}], gatedOut[{source, title, url, reason}] }`. Candidates come sorted by cluster rank, then recency.
+
+- Script exits non-zero → report it loudly, emit `crypto: []`, carry on with the rest of the refresh. Never hand-invent stories.
+- `failures[]` → list them in the run summary.
+- Read **every** candidate (page through with `python3`/`jq`; expect 250–350). Clustering is a heuristic: it splits some stories (different wording) and can merge sub-angles of a mega-story — re-cluster by reading.
+- Scan `gatedOut` for regulator items: a regulator release that never says "crypto" (e.g. an SEC fraud case against a crypto exchange) is rescued when outlets covered it — ship the regulator's own URL.
+
+## F.2 Judge
+
+**Importance first.** Rank stories by: sources covering it (cluster `sourceCount`), whether a regulator / protocol / security firm is involved, the size of the impact (users, money, precedent), and whether it changes something going forward (a rule, an upgrade, a shutdown). A one-outlet story needs a strong reason to make the page.
+
+**Keep** — stories a reasonably informed person should know this week:
+- **policy**: laws passed or advancing, regulator rules and guidance, enforcement actions, court rulings, sanctions, stablecoin / CBDC / tokenization policy, tax rules, an exchange forced out of a country
+- **industry**: banks, payment networks, stock exchanges, asset managers, big companies or governments launching / ending crypto products; major exchange or custodian licences, shutdowns, acquisitions, leadership exits at systemic firms
+- **tech**: network upgrades and hard forks (incl. delays), important BIPs/EIPs, Bitcoin Core / client releases and vulnerability disclosures, notable research (scaling, privacy, post-quantum, wallets)
+- **security**: hacks/exploits from `hacks[]` or with ≥ `minHackUsd` impact, supply-chain attacks on wallets, data leaks at major exchanges, attribution (e.g. North Korea), arrests, extraditions, sentencing
+
+**Drop** everything in `negativeFilters`. Concretely:
+- `noCryptoKeyword` items that are not about crypto (AI stocks, chipmakers, Gmail features, ECB rate moves)
+- price/market items: "% moves", "hits $X", liquidations, price targets, "bottom is in", ETF flows, options expiry, volume / fees / active-address stats
+- `priceHeadline` items **unless** a real event sits under the price (then prefer a cleaner duplicate from the same cluster)
+- earnings framed around stock moves; analysts telling people to buy stocks
+- wallet-watching ("exploiter moves 14,040 ETH", "bitcoin sits unspent in 19 addresses")
+- small-protocol operations (a lending market's LTV tweak, a pool's volume) unless caused by and explaining a major story
+- sponsored / press-release posts ("X unveils patent-pending…", token launch dates in the description)
+- opinion, explainers with no new fact, personal essays (a Vitalik post counts only if it is about crypto)
+
+**Mega-stories.** A record event produces 50+ items. Keep at most `maxPerStory` entries for it, each a **distinct angle with a new fact** (how it happened, attribution, recovery / freezes, regulatory reaction, knock-on effects) — never two items saying the same thing.
+
+**Dedupe.** One entry per story. Pick the URL from the earliest feed in `feeds[]` order that covered it (primary source beats an outlet's rewrite), unless a later one is clearly more complete. Respect `maxPerOutlet`.
+
+When unsure, drop it.
+
+## F.3 Write each `CryptoStory` (shape in `lib/types.ts`)
+
+```json
+{
+  "title": "Binance traces $6.3B theft to a compromised engineer laptop",
+  "url": "https://…",
+  "summary": "…",
+  "group": "security",
+  "source": "Cointelegraph"
+}
+```
+
+- `title` — rewrite in plain, factual English, 6–14 words. No clickbait, no ALL CAPS, no emoji, **no price levels or % moves**. Loss / fine / settlement amounts are facts and are fine ("$6.3B hack").
+- `summary` — 1–2 sentences, 25–50 words: what happened and why it matters. Built from the candidate's description (and other items in its cluster), never copied verbatim; never invent facts beyond them. No price talk.
+- `url` — the candidate's `url`, unchanged. Validate every URL against the candidates/gatedOut file before writing — never retype one. Google News (`news.google.com/rss/articles/…`) links are allowed only for Reuters stories nobody else carried.
+- `group` — one of `policy | industry | tech | security`.
+- `source` — the candidate's `source` (for Reuters: `"Reuters"`).
+
+## F.4 Order
+
+Group by `CRYPTO_GROUP_ORDER` (`policy`, `industry`, `tech`, `security`). Within a group, **most important first**, then most recent. The page renders the array order as-is.
+
 ---
 
 # Output
@@ -443,6 +519,15 @@ Schema (must match `lib/types.ts` exactly):
       "channel": "Cole Medin"
     }
   ],
+  "crypto": [
+    {
+      "title": "…",
+      "url": "https://…",
+      "summary": "…",
+      "group": "policy",
+      "source": "CoinDesk"
+    }
+  ],
   "sections": [
     { "name": "Hacker News",         "items": [...] },
     { "name": "Reddit",              "items": [...] },
@@ -462,6 +547,10 @@ Pre-write checks (abort and fix if any fails):
 - every `youtube[].url` starts with `https://www.youtube.com/watch?v=` and came from the candidates file
 - every `youtube[].group` is one of `ai | engineering | devops | industry`
 - no duplicate `youtube[].url`
+- every `crypto[].url` came from the fetched crypto feeds; no duplicate `crypto[].url`
+- every `crypto[].group` is one of `policy | industry | tech | security`
+- every `crypto[].source` matches a `crypto.feeds[].name`
+- no `crypto[].title` contains a `$` price or a `%` move
 
 # Commit & push
 
@@ -478,6 +567,7 @@ Then report:
 - trending counts per sub-section
 - news counts per section
 - YouTube: channels fetched ok / total, candidates judged, videos kept per group, and any channel failures
+- Crypto: feeds ok / total, candidates judged, stories kept per group, top story, and any feed failures
 - 1-line summary of the day's biggest story
 - "GitHub Pages will redeploy in ~1min"
 
@@ -488,6 +578,6 @@ Then report:
 - **Fetch in parallel**: multiple `curl`/WebFetch calls in one tool block.
 - **Do not hallucinate** URLs, scores, comment quotes, or stats. Every number must come from a real fetch.
 - **Do not invent items** when a source fails. Empty section + report the failure to the user.
-- **Do not write to any file other than `content/news.json`** (the YouTube candidates file in `$TMPDIR` is scratch and is not committed).
+- **Do not write to any file other than `content/news.json`** (the YouTube and crypto candidates files in `$TMPDIR` are scratch and are not committed).
 - **Do not run `git push --force`** or any destructive git operations.
 - If the working tree has unrelated changes, stop and ask before committing.

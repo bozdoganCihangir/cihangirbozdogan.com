@@ -2831,5 +2831,217 @@
         }
       ]
     }
+  ],
+  "crypto": [
+    {
+      "title": "Trump says White House is looking into the Binance hack",
+      "url": "https://www.theblock.co/news/regulation/2026-10-30-trump-looking-into-binance-hack-calls-grow-for-crypto-rules-432236",
+      "summary": "President Trump said his administration is examining the $6.3 billion Binance breach, while CFTC chair Michael Selig argued offshore exchanges should register in the US and meet US cybersecurity standards. Calls for new crypto legislation are growing.",
+      "group": "policy",
+      "source": "The Block"
+    },
+    {
+      "title": "UK FCA forces HTX to stop promoting crypto to British users",
+      "url": "https://www.fca.org.uk/news/press-releases/fca-stops-htxs-crypto-promotions",
+      "summary": "The FCA secured High Court undertakings that HTX, formerly Huobi, will not unlawfully promote crypto services to UK consumers, a year after suing it over promotion rules. The Justin Sun–linked exchange has agreed to exit the UK.",
+      "group": "policy",
+      "source": "UK FCA"
+    },
+    {
+      "title": "Utah files criminal charges against Kalshi and its co-founders",
+      "url": "https://www.theblock.co/news/business/2026-10-29-utah-criminal-charges-kalshi-432104",
+      "summary": "Utah's attorney general charged prediction market Kalshi and co-founders Tarek Mansour and Luana Lopes Lara with promoting illegal online gambling. The CFTC chair called it blatant overreach, setting up a state-versus-federal fight over who regulates prediction markets.",
+      "group": "policy",
+      "source": "The Block"
+    },
+    {
+      "title": "Senators Warren and Curtis question Kalshi and Polymarket on election betting",
+      "url": "https://thedefiant.io/news/regulation/warren-curtis-press-kalshi-and-polymarket-on-election-trading-safeguards",
+      "summary": "A bipartisan pair of senators demanded answers by November 3 on how the two prediction markets detect and stop suspected election-trading violations, days after Polymarket began probing suspicious bets on Israel's election.",
+      "group": "policy",
+      "source": "The Defiant"
+    },
+    {
+      "title": "Treasury sanctions network behind North Korea's IT-worker crypto scheme",
+      "url": "https://www.chainalysis.com/blog/ofac-sanctions-dprk-it-worker-fraud/",
+      "summary": "OFAC sanctioned Russian and North Korean nationals who placed fake IT workers inside US businesses and turned the wages into cryptocurrency to fund Pyongyang — a parallel track to the hacking that North Korea is blamed for this week.",
+      "group": "policy",
+      "source": "Chainalysis"
+    },
+    {
+      "title": "SEC charges two firms over $130M fraud dressed up as SEC-registered",
+      "url": "https://www.sec.gov/newsroom/press-releases/2026-110-two-entities-charged-130-million-fraud-scheme-used-false-sec-filings-boost-investor-confidence",
+      "summary": "The SEC sued BG Wealth and DSJ Exchange, which allegedly promised risk-free crypto trading returns, pointed investors to their own SEC filings and fake certificates, then blocked withdrawals and demanded a 'tax' to release funds.",
+      "group": "policy",
+      "source": "SEC"
+    },
+    {
+      "title": "Bank of England proposes rules for tokenized collateral at clearinghouses",
+      "url": "https://thedefiant.io/converge/regulation/bank-of-england-proposes-tokenized-collateral-safeguards-for-clearinghouses",
+      "summary": "Draft guidance sets safeguards for clearinghouses accepting tokenized assets such as government bonds as collateral, with tokenized money market funds left open for feedback. Responses are due February 12, 2027.",
+      "group": "policy",
+      "source": "The Defiant"
+    },
+    {
+      "title": "Hong Kong approves first secondary trading of tokenised public funds",
+      "url": "https://apps.sfc.hk/edistributionWeb/gateway/EN/news-and-announcements/news/doc?refNo=26PR174",
+      "summary": "Hong Kong's Securities and Futures Commission has approved secondary trading of tokenised public funds for the first time, moving tokenised fund units beyond issuance and redemption toward an actual trading market.",
+      "group": "policy",
+      "source": "Hong Kong SFC"
+    },
+    {
+      "title": "Crypto industry spends $176M on US midterms despite low voter interest",
+      "url": "https://decrypt.co/382179/crypto-spends-176-million-midterms-only-13-percent-voters-priority",
+      "summary": "Crypto-backed groups have spent $176 million ahead of next week's elections, yet an Ipsos survey for the DeFi Education Fund found only 13% of Americans call a candidate's support for crypto very important.",
+      "group": "policy",
+      "source": "Decrypt"
+    },
+    {
+      "title": "NYSE owner ICE takes stake in TradeXYZ to offer Hyperliquid perps in the US",
+      "url": "https://thedefiant.io/news/defi/ice-plans-us-regulated-hyperliquid-perps-with-tradexyz",
+      "summary": "Intercontinental Exchange is taking a minority stake in TradeXYZ and plans US-regulated access to Hyperliquid-style perpetual futures through regulated brokers, including its OKX joint venture — a major exchange operator moving onto on-chain derivatives.",
+      "group": "industry",
+      "source": "The Defiant"
+    },
+    {
+      "title": "38 big companies refuse tokenized trading of their shares on OKX-ICE venue",
+      "url": "https://decrypt.co/382145/walmart-blocks-stock-okx-ice-tokenized-trading-venue",
+      "summary": "Walmart, Eli Lilly, Cigna, Carnival and Arcos Dorados joined the issuers objecting to their stock being traded on the planned OKX-ICE tokenized venue, bringing objections to 38 — a real obstacle for tokenized equities.",
+      "group": "industry",
+      "source": "Decrypt"
+    },
+    {
+      "title": "Tether's Q3 attestation shows $8B excess reserves and $1.5B profit",
+      "url": "https://thedefiant.io/converge/cefi/tether-reports-1-5-billion-q3-operating-profit-7-95-billion-reserve-buffer",
+      "summary": "The largest stablecoin issuer reported a $7.95 billion reserve buffer, driven by Treasury bill income. BDO's attestation covers the end-of-September snapshot, not activity across the whole quarter.",
+      "group": "industry",
+      "source": "The Defiant"
+    },
+    {
+      "title": "Strategy's CFO resigns after insiders sold $29.7M of stock this year",
+      "url": "https://www.coindesk.com/markets/2026/10/30/strategy-cfo-resigns-as-company-posts-record-quarterly-profit-mstr-stock-falls-6",
+      "summary": "CFO Andrew Kang is leaving the largest corporate bitcoin holder, which now holds 848,517 BTC, in the same week it reported record quarterly operating income. Protos reports insiders sold $29.7 million of shares earlier this year.",
+      "group": "industry",
+      "source": "CoinDesk"
+    },
+    {
+      "title": "KuCoin cuts off all users in Russia and Belarus",
+      "url": "https://unchainedcrypto.com/kucoin-pulls-all-products-from-users-in-russia-and-belarus-effective-immediately/",
+      "summary": "KuCoin withdrew every product from Russian and Belarusian users with immediate effect, citing no specific rule. The same day, Russia's central bank gave registered crypto exchanges 90 days to join a newly approved self-regulatory body.",
+      "group": "industry",
+      "source": "Unchained"
+    },
+    {
+      "title": "Ethereum's Glamsterdam upgrade on Hoodi testnet postponed indefinitely",
+      "url": "https://blog.ethereum.org/en/2026/10/22/glamsterdam-hoodi-delay",
+      "summary": "The Ethereum Foundation pulled the October 26 activation of Glamsterdam on the Hoodi testnet and has not set a new date, pushing back the next step toward the upgrade reaching mainnet.",
+      "group": "tech",
+      "source": "Ethereum Foundation"
+    },
+    {
+      "title": "Ethereum draft would let wallets permanently switch off EIP-7702 delegation",
+      "url": "https://thedefiant.io/news/infrastructure/ethereum-draft-would-let-wallets-permanently-disable-eip-7702-delegation",
+      "summary": "After EIP-7702 was used in the Binance theft, a new proposal lets accounts opt out of delegation for good while keeping their address. It would not protect funds if a private key is stolen.",
+      "group": "tech",
+      "source": "The Defiant"
+    },
+    {
+      "title": "Bitcoin Core patches three node bugs across four release lines",
+      "url": "https://bitcoincore.org/en/2026/10/27/release-32.1/",
+      "summary": "Versions 32.1, 31.2, 30.4 and 29.5 fix disclosed bugs that let peers exhaust a node's memory or, under rare reorgs, corrupt undo data. 32-bit and FAT32 nodes stay exposed to the last one. Node operators should upgrade.",
+      "group": "tech",
+      "source": "Bitcoin Core"
+    },
+    {
+      "title": "Bitcoin Optech: silent payments for multisig and a Core Lightning DoS",
+      "url": "https://bitcoinops.org/en/newsletters/2026/10/30/",
+      "summary": "This week's newsletter covers a protocol for sending silent payments from multiparty wallets, the disclosure of a denial-of-service bug in older Core Lightning versions, and Bitcoin Core's new policy for easily discoverable vulnerabilities.",
+      "group": "tech",
+      "source": "Bitcoin Optech"
+    },
+    {
+      "title": "Base sets November 5 for 200ms blocks, breaking some integrations",
+      "url": "https://thedefiant.io/news/blockchains/base-sets-november-5-for-denim-s-200ms-mainnet-blocks",
+      "summary": "Coinbase's Base network will move to 200-millisecond blocks with its Denim upgrade. Flashblocks subscriptions and pending-state access go away, so developers and indexers need to update their integrations before the switch.",
+      "group": "tech",
+      "source": "The Defiant"
+    },
+    {
+      "title": "Zcash founders back plan to end the grants fund's share of block rewards",
+      "url": "https://unchainedcrypto.com/zooko-and-sean-bowe-back-plan-to-pull-50000-zec-from-zcashs-grants-treasury/",
+      "summary": "Zooko Wilcox and Sean Bowe proposed ending Zcash Community Grants' 8% cut of block rewards and moving 50,000 ZEC to a miner reserve, escalating a governance fight a day after the committee offered a slower taper.",
+      "group": "tech",
+      "source": "Unchained"
+    },
+    {
+      "title": "Binance traces $6.3B theft to a compromised engineer's laptop",
+      "url": "https://cointelegraph.com/news/binance-hack-may-involve-private-key-misuse-not-theft-blockaid-ceo?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+      "summary": "Binance said attackers likely reached its internal infrastructure through a DevOps engineer's hacked laptop and drained hot wallets across several chains — the largest crypto theft on record, with no evidence that wallet private keys leaked.",
+      "group": "security",
+      "source": "Cointelegraph"
+    },
+    {
+      "title": "Chainalysis and TRM attribute the Binance hack to North Korea",
+      "url": "https://www.chainalysis.com/blog/binance-exploit-latest-findings-and-response/",
+      "summary": "Blockchain analysts tied the October 29 theft to North Korea's TraderTraitor group, tracing how funds left Binance hot wallets across multiple chains and how the attackers began laundering them.",
+      "group": "security",
+      "source": "Chainalysis"
+    },
+    {
+      "title": "How an Ethereum wallet upgrade helped drain $2.5B from Binance",
+      "url": "https://www.coindesk.com/tech/2026/10/30/here-s-how-one-ethereum-permission-let-an-attacker-drain-usd2-5-billion-from-binance",
+      "summary": "On Ethereum, the attacker abused EIP-7702 — the 2025 upgrade that lets ordinary wallets delegate to smart contracts — using 50 signatures obtained from Binance's own wallet to move funds.",
+      "group": "security",
+      "source": "CoinDesk"
+    },
+    {
+      "title": "Binance finds wider breach, plans to restart withdrawals and publish reserves",
+      "url": "https://www.coindesk.com/tech/2026/10/30/binance-uncovers-wider-breach-in-usd6-3-billion-exploit-targets-sunday-withdrawal-restart",
+      "summary": "CEO Richard Teng said the hackers erased evidence and bypassed security checks at more points than first thought. Binance has set aside $6.34 billion to cover losses, targets a Sunday withdrawal restart and will publish proof of reserves on Monday.",
+      "group": "security",
+      "source": "CoinDesk"
+    },
+    {
+      "title": "Tether and Circle froze billions within hours — experts split on fairness",
+      "url": "https://www.coindesk.com/business/2026/10/30/experts-divided-over-binance-hack-asset-freezes-warn-recovery-is-another-matter",
+      "summary": "Stablecoin issuers moved quickly to block stolen Binance funds, but legal experts question whether smaller hack victims would get the same treatment, and warn that freezing funds is not the same as recovering them.",
+      "group": "security",
+      "source": "CoinDesk"
+    },
+    {
+      "title": "Chainalysis itself breached; customer names and emails exposed",
+      "url": "https://www.theblock.co/news/business/2026-10-31-chainalysis-says-hacker-using-offensive-agentic-techniques-accessed-its-customers-names-and-emails-432244",
+      "summary": "The leading blockchain-forensics firm disclosed that an attacker using what it called 'offensive agentic techniques' accessed customer names and emails. It says the incident is separate from the Binance hack it is tracing.",
+      "group": "security",
+      "source": "The Block"
+    },
+    {
+      "title": "Trezor warns of a hardware implant in a Safe 5 sold by a reseller",
+      "url": "https://www.theblock.co/news/ecosystems/2026-10-30-trezor-reports-suspected-hardware-implant-432196",
+      "summary": "Trezor urged buyers from Malaysian reseller CryptoBilis to move their funds after a credible report of a hardware implant inside a Safe 5. Singapore police separately reported $2.7 million lost to tampered Ledger devices.",
+      "group": "security",
+      "source": "The Block"
+    },
+    {
+      "title": "Polymarket loses $2.65M through a compromised third-party provider",
+      "url": "https://www.theblock.co/news/defi/2026-10-29-polymarket-exploit-2-5-million-cancel-only-mode-432158",
+      "summary": "Malicious code injected via a compromised monitoring service hijacked trading sessions on Polymarket. The platform went cancel-only, removed the integration, resumed trading and says affected users will be made whole.",
+      "group": "security",
+      "source": "The Block"
+    },
+    {
+      "title": "Coinbase and Bithumb users hit by data leaks",
+      "url": "https://protos.com/coinbase-and-bithumb-users-hit-by-data-leaks/",
+      "summary": "A breach at analytics provider Amplitude exposed data for a small subset of Coinbase users, and Bithumb users were also affected. Coinbase says customer funds were not touched.",
+      "group": "security",
+      "source": "Protos"
+    },
+    {
+      "title": "Israel extradites Nomad bridge hack suspect to the US",
+      "url": "https://unchainedcrypto.com/israel-extradites-nomad-suspect-after-supreme-court-rejected-his-code-bug-defense/",
+      "summary": "Alexander Block faces an eight-count federal indictment over the 2022 Nomad hack after Israel's Supreme Court ruled that exploiting a code flaw can count as computer intrusion even when the software allowed the transaction.",
+      "group": "security",
+      "source": "Unchained"
+    }
   ]
 }
